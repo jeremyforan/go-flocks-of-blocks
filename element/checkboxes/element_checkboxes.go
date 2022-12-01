@@ -29,7 +29,7 @@ type checkboxOptional struct {
 // NewCheckboxes creates a new checkboxes element.
 func NewCheckboxes(actionId string) Checkboxes {
 	return Checkboxes{
-		slackType: element.ElementTypeCheckboxes,
+		slackType: element.Checkboxes,
 		actionId:  actionId,
 		options:   []option.Option{},
 		optional: checkboxOptional{

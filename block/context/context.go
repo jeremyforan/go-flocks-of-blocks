@@ -28,14 +28,14 @@ func NewContext() Context {
 	}
 }
 
-// SetBlockId sets the block id for the block.
+// setBlockId sets the block id for the block.
 func (c *Context) setBlockId(blockId string) {
 	c.blockId = blockId
 	c.optional.BlockId = true
 }
 
+// removeBlockId removes the block id from the context.
 func (c *Context) removeBlockId() {
-	c.blockId = ""
 	c.optional.BlockId = false
 }
 

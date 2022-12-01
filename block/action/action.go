@@ -6,11 +6,6 @@ import (
 	"go-flocks-of-blocks/element"
 )
 
-const (
-	actionsElementArrayLimit = 25
-	actionIDLimit            = 255
-)
-
 type Action struct {
 	slackType block.BlockType
 	elements  []element.Element
