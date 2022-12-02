@@ -49,3 +49,5 @@ func (e *EmailInput) setInitialEmail(initialEmail string) {
 func (e *EmailInput) removeInitialEmail() {
 	e.options.InitialEmail = false
 }
+
+// todo: email input not implemented yet

@@ -1,6 +1,8 @@
 package multiselectmenu
 
 import (
+	"go-flocks-of-blocks/block/section"
+	"go-flocks-of-blocks/common"
 	"go-flocks-of-blocks/composition/compositiontext"
 	"go-flocks-of-blocks/composition/confirmationdialog"
 	"go-flocks-of-blocks/composition/option"
@@ -10,7 +12,7 @@ import (
 
 // InputElement
 
-type MultiSelectMenuWithStaticOptions struct {
+type MultiSelectMenuWithStaticOption struct {
 	slackType element.ElementType
 	actionID  string
 	options   []option.Option
@@ -22,10 +24,10 @@ type MultiSelectMenuWithStaticOptions struct {
 	focusOnLoad      bool
 	placeholder      compositiontext.CompositionText
 
-	optionals multiSelectMenuWithStaticOptionsOptions
+	optionals multiSelectMenuWithStaticOptionOptions
 }
 
-type multiSelectMenuWithStaticOptionsOptions struct {
+type multiSelectMenuWithStaticOptionOptions struct {
 	OptionGroups     bool
 	InitialOptions   bool
 	Confirm          bool
@@ -34,27 +36,23 @@ type multiSelectMenuWithStaticOptionsOptions struct {
 	Placeholder      bool
 }
 
-// abstracted type
-type multiSelectMenuWithStaticOptionsAbstraction struct {
-	Type             string
-	ActionId         string
-	Options          []option.Option
-	OptionGroups     []optiongroup.OptionGroup
-	InitialOptions   []option.Option
-	Confirm          confirmationdialog.ConfirmationDialog
-	MaxSelectedItems int
-	FocusOnLoad      bool
-	Placeholder      compositiontext.CompositionText
-
-	Optionals multiSelectMenuWithStaticOptionsOptions
+func (m MultiSelectMenuWithStaticOption) emptyAllFalseOptions() multiSelectMenuWithStaticOptionOptions {
+	return multiSelectMenuWithStaticOptionOptions{
+		OptionGroups:     false,
+		InitialOptions:   false,
+		Confirm:          false,
+		MaxSelectedItems: false,
+		FocusOnLoad:      false,
+		Placeholder:      false,
+	}
 }
 
-func NewMultiSelectMenuWithStaticOptions(actionId string) MultiSelectMenuWithStaticOptions {
-	return MultiSelectMenuWithStaticOptions{
+func NewMultiSelectMenuWithStaticOptions(actionId string) MultiSelectMenuWithStaticOption {
+	return MultiSelectMenuWithStaticOption{
 		slackType: element.MultiSelectMenuWithStaticOptions,
 		actionID:  actionId,
 		options:   []option.Option{},
-		optionals: multiSelectMenuWithStaticOptionsOptions{
+		optionals: multiSelectMenuWithStaticOptionOptions{
 			OptionGroups:     false,
 			InitialOptions:   false,
 			Confirm:          false,
@@ -65,196 +63,228 @@ func NewMultiSelectMenuWithStaticOptions(actionId string) MultiSelectMenuWithSta
 	}
 }
 
-// action_id methods
+//////////////////////////////////////////////////
+// actionID
 
-func (m *MultiSelectMenuWithStaticOptions) setActionId(actionId string) {
+func (m *MultiSelectMenuWithStaticOption) setActionId(actionId string) {
 	m.actionID = actionId
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeActionId() {
+func (m *MultiSelectMenuWithStaticOption) removeActionId() {
 	m.actionID = ""
 }
 
-// private options methods
-
-func (m *MultiSelectMenuWithStaticOptions) setOptions(options []option.Option) {
-	m.options = options
-}
-
-func (m *MultiSelectMenuWithStaticOptions) addOption(option option.Option) {
-	// todo: check if option is already in the list
-	m.options = append(m.options, option)
-}
-
-func (m *MultiSelectMenuWithStaticOptions) removeOptions() {
-	m.options = []option.Option{}
-}
-
-// ClearOptions clear options
-func (m MultiSelectMenuWithStaticOptions) ClearOptions() MultiSelectMenuWithStaticOptions {
-	m.removeOptions()
+// UpdateActionId public update action id
+func (m MultiSelectMenuWithStaticOption) UpdateActionId(actionId string) MultiSelectMenuWithStaticOption {
+	m.setActionId(actionId)
 	return m
 }
 
+//////////////////////////////////////////////////
+// options
+
+func (m *MultiSelectMenuWithStaticOption) setOptions(options []option.Option) {
+	m.options = options
+}
+
+func (m *MultiSelectMenuWithStaticOption) addOption(option option.Option) {
+	m.options = append(m.options, option)
+}
+
+func (m *MultiSelectMenuWithStaticOption) removeOptions() {
+	m.options = []option.Option{}
+}
+
 // AddOption public add option
-func (m MultiSelectMenuWithStaticOptions) AddOption(option option.Option) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) AddOption(option option.Option) MultiSelectMenuWithStaticOption {
 	m.addOption(option)
 	return m
 }
 
-// private options group methods
-func (m *MultiSelectMenuWithStaticOptions) setOptionGroups(optionGroups []optiongroup.OptionGroup) {
+// ClearOptions clear options
+func (m MultiSelectMenuWithStaticOption) ClearOptions() MultiSelectMenuWithStaticOption {
+	m.removeOptions()
+	return m
+}
+
+func (m *MultiSelectMenuWithStaticOption) setOptionGroups(optionGroups []optiongroup.OptionGroup) {
 	m.optionGroups = optionGroups
 	m.optionals.OptionGroups = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeOptionGroups() {
+func (m *MultiSelectMenuWithStaticOption) removeOptionGroups() {
 	m.optionals.OptionGroups = false
 }
 
-func (m MultiSelectMenuWithStaticOptions) ClearOptionGroups() MultiSelectMenuWithStaticOptions {
+// ClearOptionGroups clear option groups
+func (m MultiSelectMenuWithStaticOption) ClearOptionGroups() MultiSelectMenuWithStaticOption {
 	m.removeOptionGroups()
 	return m
 }
 
 // AddOptionGroup public add option group
-func (m MultiSelectMenuWithStaticOptions) AddOptionGroup(optionGroup optiongroup.OptionGroup) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) AddOptionGroup(optionGroup optiongroup.OptionGroup) MultiSelectMenuWithStaticOption {
 	m.setOptionGroups(append(m.optionGroups, optionGroup))
 	return m
 }
 
-// private initial options methods
+//////////////////////////////////////////////////
+// all options
 
-func (m *MultiSelectMenuWithStaticOptions) addInitialOption(initialOption option.Option) {
+// ClearAllOptions clear all options
+func (m MultiSelectMenuWithStaticOption) ClearAllOptions() MultiSelectMenuWithStaticOption {
+	m.removeOptions()
+	m.removeInitialOptions()
+	return m
+}
+
+//////////////////////////////////////////////////
+// initialOptions
+
+func (m *MultiSelectMenuWithStaticOption) addInitialOption(initialOption option.Option) {
 	m.addOption(initialOption)
 	m.initialOptions = append(m.initialOptions, initialOption)
 	m.optionals.InitialOptions = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeInitialOptions() {
+func (m *MultiSelectMenuWithStaticOption) removeInitialOptions() {
 	m.optionals.InitialOptions = false
 }
 
-func (m *MultiSelectMenuWithStaticOptions) setInitialOptions(initialOptions []option.Option) {
+func (m *MultiSelectMenuWithStaticOption) setInitialOptions(initialOptions []option.Option) {
 	m.initialOptions = initialOptions
 	m.optionals.InitialOptions = true
 }
 
 // ClearInitialOptions clear initial options
-func (m MultiSelectMenuWithStaticOptions) ClearInitialOptions() MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) ClearInitialOptions() MultiSelectMenuWithStaticOption {
 	m.removeInitialOptions()
 	return m
 }
 
 // AddInitialOption public add initial option
-func (m MultiSelectMenuWithStaticOptions) AddInitialOption(initialOption option.Option) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) AddInitialOption(initialOption option.Option) MultiSelectMenuWithStaticOption {
 	m.addInitialOption(initialOption)
 	return m
 }
 
-// private confirm methods
+//////////////////////////////////////////////////
+// confirm
 
-func (m *MultiSelectMenuWithStaticOptions) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
+func (m *MultiSelectMenuWithStaticOption) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeConfirm() {
+func (m *MultiSelectMenuWithStaticOption) removeConfirm() {
 	m.optionals.Confirm = false
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithStaticOptions) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithStaticOption {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithStaticOptions) RemoveConfirmDialog() {
+func (m *MultiSelectMenuWithStaticOption) RemoveConfirmDialog() {
 	m.optionals.Confirm = false
 }
 
-// private max selected items methods
+//////////////////////////////////////////////////
+// maxSelectedItems
 
-func (m *MultiSelectMenuWithStaticOptions) setMaxSelectedItems(maxSelectedItems int) {
+func (m *MultiSelectMenuWithStaticOption) setMaxSelectedItems(maxSelectedItems int) {
 	m.maxSelectedItems = maxSelectedItems
 	m.optionals.MaxSelectedItems = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeMaxSelectedItems() {
+func (m *MultiSelectMenuWithStaticOption) removeMaxSelectedItems() {
 	m.optionals.MaxSelectedItems = false
 }
 
 // MaxSelectedItems public set max selected items
-func (m MultiSelectMenuWithStaticOptions) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithStaticOption {
 	m.setMaxSelectedItems(maxSelectedItems)
 	m.optionals.MaxSelectedItems = true
 	return m
 }
 
 // UnsetMaxSelectedItems public remove max selected items
-func (m MultiSelectMenuWithStaticOptions) UnsetMaxSelectedItems() MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) UnsetMaxSelectedItems() MultiSelectMenuWithStaticOption {
 	m.optionals.MaxSelectedItems = false
 	return m
 }
 
-// private max selected items methods
+//////////////////////////////////////////////////
+// focusOnLoad
 
-func (m *MultiSelectMenuWithStaticOptions) setFocusOnLoad(focusOnLoad bool) {
+func (m *MultiSelectMenuWithStaticOption) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
 	m.optionals.FocusOnLoad = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removeFocusOnLoad() {
+func (m *MultiSelectMenuWithStaticOption) removeFocusOnLoad() {
 	m.optionals.FocusOnLoad = false
 }
 
 // FocusOnLoad public set focus on load
-func (m MultiSelectMenuWithStaticOptions) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithStaticOption {
 	m.setFocusOnLoad(focusOnLoad)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
-func (m MultiSelectMenuWithStaticOptions) UnsetFocusOnLoad() MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) UnsetFocusOnLoad() MultiSelectMenuWithStaticOption {
 	m.removeFocusOnLoad()
 	return m
 }
 
-// private placeholder methods
+//////////////////////////////////////////////////
+// placeholder
 
-func (m *MultiSelectMenuWithStaticOptions) setPlaceholder(placeholder string) {
+func (m *MultiSelectMenuWithStaticOption) setPlaceholder(placeholder string) {
 	m.placeholder = compositiontext.NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
-func (m *MultiSelectMenuWithStaticOptions) removePlaceholder() {
+func (m *MultiSelectMenuWithStaticOption) removePlaceholder() {
 	m.optionals.Placeholder = false
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithStaticOptions) SetPlaceholder(placeholder string) MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) SetPlaceholder(placeholder string) MultiSelectMenuWithStaticOption {
 	m.setPlaceholder(placeholder)
 	return m
 }
 
 // RemovePlaceholder public remove placeholder
-func (m MultiSelectMenuWithStaticOptions) RemovePlaceholder() MultiSelectMenuWithStaticOptions {
+func (m MultiSelectMenuWithStaticOption) RemovePlaceholder() MultiSelectMenuWithStaticOption {
 	m.optionals.Placeholder = false
 	return m
 }
 
-// ClearAllOptions clear all options
-func (m MultiSelectMenuWithStaticOptions) ClearAllOptions() MultiSelectMenuWithStaticOptions {
-	m.removeOptions()
-	m.removeInitialOptions()
-	return m
+//////////////////////////////////////////////////
+// abstract
+
+// abstracted type
+type multiSelectMenuWithStaticOptionAbstraction struct {
+	Type             string
+	ActionId         string
+	Options          []option.Option
+	OptionGroups     []optiongroup.OptionGroup
+	InitialOptions   []option.Option
+	Confirm          confirmationdialog.ConfirmationDialog
+	MaxSelectedItems int
+	FocusOnLoad      bool
+	Placeholder      compositiontext.CompositionText
+
+	Optionals multiSelectMenuWithStaticOptionOptions
 }
 
-// create abstract
-func (m MultiSelectMenuWithStaticOptions) abstraction() multiSelectMenuWithStaticOptionsAbstraction {
-	return multiSelectMenuWithStaticOptionsAbstraction{
+func (m MultiSelectMenuWithStaticOption) abstraction() multiSelectMenuWithStaticOptionAbstraction {
+	return multiSelectMenuWithStaticOptionAbstraction{
 		Type:             m.slackType.String(),
 		ActionId:         m.actionID,
 		Options:          m.options,
@@ -264,14 +294,79 @@ func (m MultiSelectMenuWithStaticOptions) abstraction() multiSelectMenuWithStati
 		MaxSelectedItems: m.maxSelectedItems,
 		FocusOnLoad:      m.focusOnLoad,
 		Placeholder:      m.placeholder,
-		Optionals:        m.optionals,
+
+		Optionals: m.optionals,
 	}
 }
 
 // Template returns template string
-func (m MultiSelectMenuWithStaticOptions) Template() string {
-	return `"action_id": "{{ .ActionId }}",
-"type": "{{ .Type }}"{{if 
+func (m multiSelectMenuWithStaticOptionAbstraction) Template() string {
+	if m.Optionals.OptionGroups {
+		return `{"action_id": "{{ .ActionId }}",
+	
+	"type": "{{ .Type }}",	
+	"option_groups": [{{range $index, $option := .OptionGroups}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
 
-	}`
+{{if .Optionals.InitialOptions}},
+	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
+{{end}}
+
+{{if .Optionals.Placeholder }},
+	"placeholder": {{ .Placeholder.Render }}
+{{end}}
+
+{{if .Optionals.Confirm }},
+	"confirm": {{ .Confirm.Render }}
+{{end}}
+
+{{if .Optionals.MaxSelectedItems }},
+	"max_selected_items": {{ .MaxSelectedItems }}
+{{end}}
+
+{{if .Optionals.FocusOnLoad }},
+	"focus_on_load": {{ .FocusOnLoad }}
+{{end}}
+}`
+	}
+
+	return `{"action_id": "{{ .ActionId }}",
+	
+	"type": "{{ .Type }}",	
+	"options": [{{range $index, $option := .Options}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
+
+{{if .Optionals.InitialOptions}},
+	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
+{{end}}
+
+{{if .Optionals.Placeholder }},
+	"placeholder": {{ .Placeholder.Render }}
+{{end}}
+
+{{if .Optionals.Confirm }},
+	"confirm": {{ .Confirm.Render }}
+{{end}}
+
+{{if .Optionals.MaxSelectedItems }},
+	"max_selected_items": {{ .MaxSelectedItems }}
+{{end}}
+
+{{if .Optionals.FocusOnLoad }},
+	"focus_on_load": {{ .FocusOnLoad }}
+{{end}}
+}`
+}
+
+// Render returns json string
+func (m MultiSelectMenuWithStaticOption) Render() string {
+	raw := common.Render(m.abstraction())
+	return common.Pretty(raw)
+}
+
+// ElementRender
+func (m MultiSelectMenuWithStaticOption) ElementRender() {}
+
+// SectionBlock public section block
+func (m MultiSelectMenuWithStaticOption) Section() section.Section {
+	s := section.NewSection("newSection").AddAccessory(m)
+	return s
 }

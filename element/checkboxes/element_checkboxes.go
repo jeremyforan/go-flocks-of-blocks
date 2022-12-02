@@ -103,9 +103,7 @@ func (c abstractCheckboxes) Template() string {
 		"options": [
 			{{range $index, $option := .Options}}{{if $index}},{{end}}{{ $option.Render}}{{end}}
 		]{{if .Optional.InitialOptions}},
-		"initial_options": [
-			{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}
-		]{{end}}{{if .Optional.ConfirmationDialog}},
+		"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]{{end}}{{if .Optional.ConfirmationDialog}},
 		"confirmation_dialog": {{.ConfirmationDialog.Render}}{{end}}{{if .Optional.FocusOnLoad}},
 		"focus_on_load": "{{.FocusOnLoad}}"{{end}}
 	}`

@@ -48,6 +48,12 @@ func (s *Section) removeAccessory() {
 	s.optional.Accessory = false
 }
 
+// addAccessory adds an accessory to the section.
+func (s Section) AddAccessory(accessory element.Element) Section {
+	s.setAccessory(accessory)
+	return s
+}
+
 // setBlockId sets the block id for the section.
 func (s *Section) setBlockId(blockId string) {
 	s.blockId = blockId
@@ -105,9 +111,16 @@ func (s Section) abstraction() sectionAbstraction {
 func (s sectionAbstraction) Template() string {
 	return `{
 		"type": "{{.Type}}",
-		"text": "{{.Type.Render}}"{{if .Optional.Accessory}},
-		"accessory": {{.Accessory.Render}}{{end}}{{if .Optional.BlockId}},
-		"block_id": "{{.BlockId}}"{{end}}{{if .Optional.Field}},
+		"text": {{.Text.Render}}
+{{if .Optional.Accessory}},
+		"accessory": {{.Accessory.Render}}
+{{end}}
+
+{{if .Optional.BlockId}},
+		"block_id": "{{.BlockId}}"
+{{end}}
+
+{{if .Optional.Field}},
 		"fields": [
 			{{range $index, $field := .Fields}}{{if $index}},{{end}}{{ $field.Render}}{{end}}
 		]{{end}}
@@ -116,9 +129,14 @@ func (s sectionAbstraction) Template() string {
 
 // Render renders the section to a string
 func (s Section) Render() string {
-	return common.Render(s.abstraction())
+	output := common.Render(s.abstraction())
+	return common.Pretty(output)
 }
 
 type SectionType interface {
 	Section()
+}
+
+func (s Section) String() string {
+	return s.Render()
 }
