@@ -1,6 +1,8 @@
 package multiselectmenu
 
 import (
+	"go-flocks-of-blocks/block/section"
+	"go-flocks-of-blocks/common"
 	"go-flocks-of-blocks/composition/compositiontext"
 	"go-flocks-of-blocks/composition/confirmationdialog"
 	"go-flocks-of-blocks/composition/filter"
@@ -92,14 +94,6 @@ type multiSelectMenuAbstraction struct {
 	Optionals multiSelectMenuOptions
 }
 
-func NewMultiSelectMenuWithUserList(actionId string) MultiSelectMenu {
-	return MultiSelectMenu{
-		slackType: element.MultiSelectMenuWithStaticOptions,
-		actionID:  actionId,
-		options:   []option.Option{},
-		optionals: multiSelectMenuOptions{},
-	}
-}
 func NewMultiSelectMenuWithConversationsList(actionId string) MultiSelectMenu {
 	return MultiSelectMenu{
 		slackType: element.MultiSelectMenuWithConversationsList,
@@ -308,7 +302,7 @@ func (m *MultiSelectMenu) removePlaceholder() {
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenu) SetPlaceholder(placeholder string) MultiSelectMenu {
+func (m MultiSelectMenu) AddPlaceholder(placeholder string) MultiSelectMenu {
 	m.setPlaceholder(placeholder)
 	return m
 }
@@ -481,9 +475,21 @@ func (m MultiSelectMenu) abstraction() multiSelectMenuAbstraction {
 }
 
 // Template returns template string
-func (m MultiSelectMenu) Template() string {
+func (m multiSelectMenuAbstraction) Template() string {
 	return `"action_id": "{{ .ActionId }}",
 "type": "{{ .Type }}"{{if 
 
 	}`
+}
+
+func (m MultiSelectMenu) ElementRender() {}
+
+func (m MultiSelectMenu) Render() string {
+	raw := common.Render(m.abstraction())
+	return common.Pretty(raw)
+}
+
+func (m MultiSelectMenu) Section() section.Section {
+	s := section.NewSection("newSection").AddAccessory(m)
+	return s
 }

@@ -186,7 +186,7 @@ func (m *MultiSelectMenuWithExternalDataSource) removePlaceholder() {
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithExternalDataSource) SetPlaceholder(placeholder string) MultiSelectMenuWithExternalDataSource {
+func (m MultiSelectMenuWithExternalDataSource) AddPlaceholder(placeholder string) MultiSelectMenuWithExternalDataSource {
 	m.setPlaceholder(placeholder)
 	return m
 }
@@ -259,7 +259,7 @@ func (m multiSelectMenuWithExternalDataSourceAbstraction) Template() string {
 	return `{
 "action_id": "{{ .ActionId }}",
 		
-"type": "{{ .Type }}",	
+"type": "{{ .Type }}"	
 
 {{if .Optionals.InitialOptions}},
 	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
