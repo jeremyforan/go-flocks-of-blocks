@@ -5,14 +5,8 @@ import (
 	"go-flocks-of-blocks/composition/compositiontext"
 )
 
-const (
-	confirmationDialogTitleLimit   = 100
-	confirmationDialogTextLimit    = 30
-	confirmationDialogConfirmLimit = 30
-	confirmationDialogDenyLimit    = 30
-)
-
 // todo make abstraction for this
+
 type ConfirmationDialog struct {
 	title compositiontext.CompositionText
 
@@ -21,37 +15,41 @@ type ConfirmationDialog struct {
 	confirm compositiontext.CompositionText
 	deny    compositiontext.CompositionText
 
-	// todo: make a generic style type
 	style common.ColorSchema
+
+	optionals ConfirmationDialogOptions
+}
+
+// ConfirmationDialogOptions struct
+type ConfirmationDialogOptions struct {
+	Style bool
 }
 
 // NewConfirmationDialog creates a new confirmation dialog
 // todo: might consider making better input names
 func NewConfirmationDialog(title string, text string, confirm string, deny string) ConfirmationDialog {
 
-	//// todo: should I truncate the compositiontext if it is too long?
-	//if len(title) > confirmationDialogTitleLimit {
-	//	title = title[:confirmationDialogTitleLimit]
-	//}
-	//
-	//if len(confirm) > confirmationDialogConfirmLimit {
-	//	confirm = confirm[:confirmationDialogConfirmLimit]
-	//}
-	//
-	//if len(deny) > confirmationDialogDenyLimit {
-	//	deny = deny[:confirmationDialogDenyLimit]
-	//}
-	//
-	//if len(compositiontext.compositiontext) > confirmationDialogTextLimit {
-	//	compositiontext.compositiontext = compositiontext.compositiontext[:confirmationDialogTextLimit]
-	//}
-
 	return ConfirmationDialog{
 		title:   compositiontext.NewPlainText(title),
 		text:    compositiontext.NewPlainText(text),
 		confirm: compositiontext.NewPlainText(confirm),
 		deny:    compositiontext.NewPlainText(deny),
+		optionals: ConfirmationDialogOptions{
+			Style: false,
+		},
 	}
+}
+
+// set the style
+func (c *ConfirmationDialog) setStyle(style common.ColorSchema) {
+	c.style = style
+	c.optionals.Style = true
+}
+
+// set the style public
+func (c ConfirmationDialog) SetStyle(style common.ColorSchema) ConfirmationDialog {
+	c.setStyle(style)
+	return c
 }
 
 // confirmationDialogAbstraction is used to render the confirmation dialog
@@ -60,32 +58,38 @@ type confirmationDialogAbstraction struct {
 	Text    compositiontext.CompositionText
 	Confirm compositiontext.CompositionText
 	Deny    compositiontext.CompositionText
-	Style   common.ColorSchema
+	Style   string
+
+	Optional ConfirmationDialogOptions
 }
 
 // create an abstraction for the template
 func (c ConfirmationDialog) abstraction() confirmationDialogAbstraction {
 	return confirmationDialogAbstraction{
-		Title:   c.title,
-		Text:    c.text,
-		Confirm: c.confirm,
-		Deny:    c.deny,
-		Style:   c.style,
+		Title:    c.title,
+		Text:     c.text,
+		Confirm:  c.confirm,
+		Deny:     c.deny,
+		Style:    c.style.String(),
+		Optional: c.optionals,
 	}
 }
 
 // create the template
 func (c confirmationDialogAbstraction) Template() string {
 	return `{
-	"title": {{.title.Render}},
-	"compositiontext": {{.compositiontext.Render}},
-	"confirm": {{.confirm.Render}},
-	"deny": {{.deny.Render}},
-	"style": {{.style}}
+	"title": {{.Title.Render}},
+	"text": {{.Text.Render}},
+	"confirm": {{.Confirm.Render}},
+	"deny": {{.Deny.Render}}
+{{if .Optional.Style}},	
+	"style": "{{.Style}}"
+{{end}}
 }`
 }
 
 // Render the template
 func (c ConfirmationDialog) Render() string {
-	return common.Render(c.abstraction())
+	raw := common.Render(c.abstraction())
+	return common.Pretty(raw)
 }

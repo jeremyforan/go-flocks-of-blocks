@@ -1,17 +1,15 @@
 package compositiontext
 
-import "go-flocks-of-blocks/common"
+import (
+	"go-flocks-of-blocks/common"
+	"go-flocks-of-blocks/composition"
+)
 
 type CompositionText struct {
-	slackType string
+	slackType composition.CompositionType
 	text      string
 	emoji     bool
 	verbatim  bool
-}
-
-// fucnt to return type
-func (m CompositionText) Type() string {
-	return m.slackType
 }
 
 // NewPlainText Create a new markdown object
@@ -24,7 +22,7 @@ func NewMrkdwnText(text string) CompositionText {
 	return newText("mrkdwn", text)
 }
 
-func newText(slackType string, text string) CompositionText {
+func newText(slackType composition.CompositionType, text string) CompositionText {
 	return CompositionText{
 		slackType: slackType,
 		text:      text,
@@ -63,7 +61,7 @@ type compositionTextAbstraction struct {
 // abstraction for the text
 func (m CompositionText) abstraction() compositionTextAbstraction {
 	return compositionTextAbstraction{
-		Type:     m.slackType,
+		Type:     m.slackType.String(),
 		Text:     m.text,
 		Emoji:    m.emoji,
 		Verbatim: m.verbatim,

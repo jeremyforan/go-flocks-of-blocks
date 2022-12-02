@@ -94,14 +94,6 @@ type multiSelectMenuAbstraction struct {
 	Optionals multiSelectMenuOptions
 }
 
-func NewMultiSelectMenuWithConversationsList(actionId string) MultiSelectMenu {
-	return MultiSelectMenu{
-		slackType: element.MultiSelectMenuWithConversationsList,
-		actionID:  actionId,
-		options:   []option.Option{},
-		optionals: multiSelectMenuOptions{},
-	}
-}
 func NewMultiSelectMenuWithPublicChannelsSelect(actionId string) MultiSelectMenu {
 	return MultiSelectMenu{
 		slackType: element.MultiSelectMenuWithPublicChannelsSelect,

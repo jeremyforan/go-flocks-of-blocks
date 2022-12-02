@@ -5,6 +5,11 @@ type optionalSetStates map[string]bool
 // ButtonStyle these relate to the three
 type ColorSchema string
 
+// stringer
+func (c ColorSchema) String() string {
+	return string(c)
+}
+
 const (
 	StyleDefault ColorSchema = "default"
 	StylePrimary ColorSchema = "primary"
