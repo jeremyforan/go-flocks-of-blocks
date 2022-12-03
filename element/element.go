@@ -22,7 +22,11 @@ const (
 	Overflow                                ElementType = "overflow"
 	PlainTextInput                          ElementType = "plain_text_input"
 	Radio                                   ElementType = "radio_buttons"
-	SelectMenus                             ElementType = "static_select"
+	SelectMenuWithStaticOptions             ElementType = "static_select"
+	SelectMenuWithExternalDataSource        ElementType = "external_select"
+	SelectMenuWithUserList                  ElementType = "users_select"
+	SelectMenuWithConversationsList         ElementType = "conversations_select"
+	SelectMenuWithPublicChannelsSelect      ElementType = "channels_select"
 	TimePicker                              ElementType = "timepicker"
 	UrlInput                                ElementType = "url_text_input"
 )
