@@ -339,10 +339,10 @@ func (m MultiSelectMenuWithStaticOption) Render() string {
 	return common.Pretty(raw)
 }
 
-// ElementRender
+// ElementRender interface implementation
 func (m MultiSelectMenuWithStaticOption) ElementRender() {}
 
-// SectionBlock public section block
+// Section public section block
 func (m MultiSelectMenuWithStaticOption) Section() section.Section {
 	s := section.NewSection("newSection").AddAccessory(m)
 	return s

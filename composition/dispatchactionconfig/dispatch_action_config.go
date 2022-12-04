@@ -51,9 +51,9 @@ func (d DispatchActionConfig) RemoveTriggerActions() DispatchActionConfig {
 
 // Template generates the template for the block
 func (d abstractionDispatchActionConfig) Template() string {
-	return `"dispatch_action_config": {
-		"trigger_actions_on": [{{range $index, $element := .TriggerActionsOn}}{{if $index}}, {{end}}"{{$element}}"{{end}}]
-	}`
+	return `{
+"trigger_actions_on": [{{range $index, $element := .TriggerActionsOn}}{{if $index}}, {{end}}"{{$element}}"{{end}}]
+}`
 }
 
 // abstraction
@@ -65,7 +65,8 @@ func (d DispatchActionConfig) abstraction() abstractionDispatchActionConfig {
 
 // Render the block
 func (d DispatchActionConfig) Render() string {
-	return common.Render(d.abstraction())
+	output := common.Render(d.abstraction())
+	return common.Pretty(output)
 }
 
 func removeDuplicateStr(strSlice []DispatchActionTypes) []string {

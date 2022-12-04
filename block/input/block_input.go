@@ -107,19 +107,33 @@ func (i Input) abstraction() abstractionInput {
 // Template for input
 func (i abstractionInput) Template() string {
 	return `{
-		"type": "{{.Type}}",
-		"label": {{.Label.Render}},
-		"element": {{.Element.Render}}{{if .Optionals.DispatchAction}},
-		"dispatch_action": "{{.DispatchAction}}"{{end}}{{if .Optionals.BlockID}},
-		"block_id": "{{.BlockID}}"{{end}}{{if .Optionals.Hint}},
-		"hint": {{.Hint.Render}}{{end}}{{if .Optionals.SlackOptional}},
-		"optional": "{{.SlackOptional}}"{{end}}
+"type": "{{.Type}}",
+"label": {{.Label.Render}},
+	
+"element": {{.Element.Render}}
+
+{{if .Optionals.DispatchAction}},
+		"dispatch_action": "{{.DispatchAction}}"
+{{end}}
+
+{{if .Optionals.BlockID}},
+	"block_id": "{{.BlockID}}"
+{{end}}
+
+{{if .Optionals.Hint}},
+	"hint": {{.Hint.Render}}
+{{end}}
+
+{{if .Optionals.SlackOptional}},
+	"optional": "{{.SlackOptional}}"
+{{end}}
 	}`
 }
 
 // Render render input
 func (i Input) Render() string {
-	return common.Render(i.abstraction())
+	raw := common.Render(i.abstraction())
+	return common.Pretty(raw)
 }
 
 type InputType interface {
