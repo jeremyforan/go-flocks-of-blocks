@@ -301,38 +301,15 @@ func (m MultiSelectMenuWithStaticOption) abstraction() multiSelectMenuWithStatic
 
 // Template returns template string
 func (m multiSelectMenuWithStaticOptionAbstraction) Template() string {
-	if m.Optionals.OptionGroups {
-		return `{"action_id": "{{ .ActionId }}",
+	return `{
+"type": "{{ .Type }}",
+"action_id": "{{ .ActionId }}",
 	
-	"type": "{{ .Type }}",	
+{{if .Optionals.OptionGroups }}	
 	"option_groups": [{{range $index, $option := .OptionGroups}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
-
-{{if .Optionals.InitialOptions}},
-	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
-{{end}}
-
-{{if .Optionals.Placeholder }},
-	"placeholder": {{ .Placeholder.Render }}
-{{end}}
-
-{{if .Optionals.Confirm }},
-	"confirm": {{ .Confirm.Render }}
-{{end}}
-
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
-{{end}}
-
-{{if .Optionals.FocusOnLoad }},
-	"focus_on_load": {{ .FocusOnLoad }}
-{{end}}
-}`
-	}
-
-	return `{"action_id": "{{ .ActionId }}",
-	
-	"type": "{{ .Type }}",	
+{{else}}
 	"options": [{{range $index, $option := .Options}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
+{{end}}
 
 {{if .Optionals.InitialOptions}},
 	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]

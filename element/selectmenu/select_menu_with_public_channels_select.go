@@ -10,58 +10,58 @@ import (
 
 // InputElement
 
-type MultiSelectMenuWithPublicChannelsSelect struct {
+type SelectMenuWithPublicChannelsSelect struct {
 	slackType element.ElementType
 	actionID  string
 
-	confirm          confirmationdialog.ConfirmationDialog
-	maxSelectedItems int
-	focusOnLoad      bool
-	placeholder      compositiontext.CompositionText
+	confirm            confirmationdialog.ConfirmationDialog
+	responseUrlEnabled bool
+	focusOnLoad        bool
+	placeholder        compositiontext.CompositionText
 
 	// Public Channel
-	initialChannels []string
+	initialChannel string
 
-	optionals multiSelectMenuWithPublicChannelsSelectOptions
+	optionals SelectMenuWithPublicChannelsSelectOptions
 }
 
-type multiSelectMenuWithPublicChannelsSelectOptions struct {
-	Confirm          bool
-	MaxSelectedItems bool
-	FocusOnLoad      bool
-	Placeholder      bool
+type SelectMenuWithPublicChannelsSelectOptions struct {
+	Confirm            bool
+	ResponseUrlEnabled bool
+	FocusOnLoad        bool
+	Placeholder        bool
 
 	// Public Channel
-	InitialChannels bool
+	InitialChannel bool
 }
 
 // abstracted type
-type multiSelectMenuWithPublicChannelsSelectAbstraction struct {
+type SelectMenuWithPublicChannelsSelectAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          confirmationdialog.ConfirmationDialog
-	MaxSelectedItems int
-	FocusOnLoad      bool
-	Placeholder      compositiontext.CompositionText
+	Confirm            confirmationdialog.ConfirmationDialog
+	ResponseUrlEnabled bool
+	FocusOnLoad        bool
+	Placeholder        compositiontext.CompositionText
 
 	// Public Channel
-	InitialChannels []string
+	InitialChannel string
 
-	Optionals multiSelectMenuWithPublicChannelsSelectOptions
+	Optionals SelectMenuWithPublicChannelsSelectOptions
 }
 
-func NewMultiSelectMenuWithPublicChannelsSelect(actionId string) MultiSelectMenuWithPublicChannelsSelect {
-	return MultiSelectMenuWithPublicChannelsSelect{
-		slackType: element.MultiSelectMenuWithPublicChannelsSelect,
+func NewSelectMenuWithPublicChannelsSelect(actionId string) SelectMenuWithPublicChannelsSelect {
+	return SelectMenuWithPublicChannelsSelect{
+		slackType: element.SelectMenuWithPublicChannelsSelect,
 		actionID:  actionId,
 
-		optionals: multiSelectMenuWithPublicChannelsSelectOptions{
-			Confirm:          false,
-			MaxSelectedItems: false,
-			FocusOnLoad:      false,
-			Placeholder:      false,
-			InitialChannels:  false,
+		optionals: SelectMenuWithPublicChannelsSelectOptions{
+			Confirm:            false,
+			ResponseUrlEnabled: false,
+			FocusOnLoad:        false,
+			Placeholder:        false,
+			InitialChannel:     false,
 		},
 	}
 }
@@ -69,16 +69,16 @@ func NewMultiSelectMenuWithPublicChannelsSelect(actionId string) MultiSelectMenu
 //////////////////////////////////////////////////
 // actionID
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setActionId(actionId string) {
+func (m *SelectMenuWithPublicChannelsSelect) setActionId(actionId string) {
 	m.actionID = actionId
 }
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeActionId() {
+func (m *SelectMenuWithPublicChannelsSelect) removeActionId() {
 	m.actionID = ""
 }
 
 // UpdateActionId public update action id
-func (m MultiSelectMenuWithPublicChannelsSelect) UpdateActionId(actionId string) MultiSelectMenuWithPublicChannelsSelect {
+func (m SelectMenuWithPublicChannelsSelect) UpdateActionId(actionId string) SelectMenuWithPublicChannelsSelect {
 	m.setActionId(actionId)
 	return m
 }
@@ -86,174 +86,157 @@ func (m MultiSelectMenuWithPublicChannelsSelect) UpdateActionId(actionId string)
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
+func (m *SelectMenuWithPublicChannelsSelect) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeConfirm() {
+func (m *SelectMenuWithPublicChannelsSelect) removeConfirm() {
 	m.optionals.Confirm = false
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithPublicChannelsSelect {
+func (m SelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) SelectMenuWithPublicChannelsSelect {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() {
+func (m *SelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() {
 	m.optionals.Confirm = false
 }
 
 //////////////////////////////////////////////////
-// maxSelectedItems
+// responseUrlEnabled
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setMaxSelectedItems(maxSelectedItems int) {
-	m.maxSelectedItems = maxSelectedItems
-	m.optionals.MaxSelectedItems = true
+func (m *SelectMenuWithPublicChannelsSelect) setResponseUrlEnabled(responseUrlEnabled bool) {
+	m.responseUrlEnabled = responseUrlEnabled
+	m.optionals.ResponseUrlEnabled = responseUrlEnabled
 }
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeMaxSelectedItems() {
-	m.optionals.MaxSelectedItems = false
+func (m *SelectMenuWithPublicChannelsSelect) unsetResponseUrlEnabled() {
+	m.optionals.ResponseUrlEnabled = false
 }
 
-// MaxSelectedItems public set max selected items
-func (m MultiSelectMenuWithPublicChannelsSelect) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithPublicChannelsSelect {
-	m.setMaxSelectedItems(maxSelectedItems)
-	m.optionals.MaxSelectedItems = true
+func (m SelectMenuWithPublicChannelsSelect) EnableResponseUrlEnabled() SelectMenuWithPublicChannelsSelect {
+	m.setResponseUrlEnabled(true)
 	return m
 }
 
-// UnsetMaxSelectedItems public remove max selected items
-func (m MultiSelectMenuWithPublicChannelsSelect) UnsetMaxSelectedItems() MultiSelectMenuWithPublicChannelsSelect {
-	m.optionals.MaxSelectedItems = false
+func (m SelectMenuWithPublicChannelsSelect) DisableResponseUrlEnabled() SelectMenuWithPublicChannelsSelect {
+	m.setResponseUrlEnabled(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // focusOnLoad
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setFocusOnLoad(focusOnLoad bool) {
+func (m *SelectMenuWithPublicChannelsSelect) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
-	m.optionals.FocusOnLoad = true
-}
-
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeFocusOnLoad() {
-	m.optionals.FocusOnLoad = false
+	m.optionals.FocusOnLoad = focusOnLoad
 }
 
 // FocusOnLoad public set focus on load
-func (m MultiSelectMenuWithPublicChannelsSelect) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithPublicChannelsSelect {
-	m.setFocusOnLoad(focusOnLoad)
+func (m SelectMenuWithPublicChannelsSelect) FocusOnLoad() SelectMenuWithPublicChannelsSelect {
+	m.setFocusOnLoad(true)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
-func (m MultiSelectMenuWithPublicChannelsSelect) UnsetFocusOnLoad() MultiSelectMenuWithPublicChannelsSelect {
-	m.removeFocusOnLoad()
+func (m SelectMenuWithPublicChannelsSelect) UnsetFocusOnLoad() SelectMenuWithPublicChannelsSelect {
+	m.setFocusOnLoad(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setPlaceholder(placeholder string) {
+func (m *SelectMenuWithPublicChannelsSelect) setPlaceholder(placeholder string) {
 	m.placeholder = compositiontext.NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) removePlaceholder() {
+func (m *SelectMenuWithPublicChannelsSelect) removePlaceholder() {
 	m.optionals.Placeholder = false
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithPublicChannelsSelect) AddPlaceholder(placeholder string) MultiSelectMenuWithPublicChannelsSelect {
+func (m SelectMenuWithPublicChannelsSelect) AddPlaceholder(placeholder string) SelectMenuWithPublicChannelsSelect {
 	m.setPlaceholder(placeholder)
 	return m
 }
 
 // RemovePlaceholder public remove placeholder
-func (m MultiSelectMenuWithPublicChannelsSelect) RemovePlaceholder() MultiSelectMenuWithPublicChannelsSelect {
+func (m SelectMenuWithPublicChannelsSelect) RemovePlaceholder() SelectMenuWithPublicChannelsSelect {
 	m.optionals.Placeholder = false
 	return m
 }
 
 //////////////////////////////////////////////////
-// initialChannels
+// initialChannel
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setInitialChannels(initialChannels []string) {
-	m.initialChannels = initialChannels
-	m.optionals.InitialChannels = true
+func (m *SelectMenuWithPublicChannelsSelect) setInitialChannel(initialChannel string) {
+	m.initialChannel = initialChannel
+	m.optionals.InitialChannel = true
 }
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeInitialChannels() {
-	m.initialChannels = []string{}
-	m.optionals.InitialChannels = false
+func (m *SelectMenuWithPublicChannelsSelect) removeInitialChannel() {
+	m.optionals.InitialChannel = false
 }
 
 // addInitialChannel private set initial channels
-func (m *MultiSelectMenuWithPublicChannelsSelect) addInitialChannel(initialChannel string) {
-	m.initialChannels = append(m.initialChannels, initialChannel)
-	m.optionals.InitialChannels = true
+func (m *SelectMenuWithPublicChannelsSelect) addInitialChannel(initialChannel string) {
+	m.initialChannel = initialChannel
+	m.optionals.InitialChannel = true
 }
 
-// removeInitialChannel private remove initial channels
-func (m *MultiSelectMenuWithPublicChannelsSelect) removeInitialChannel(initialChannel string) {
-	for i, v := range m.initialChannels {
-		if v == initialChannel {
-			m.initialChannels = append(m.initialChannels[:i], m.initialChannels[i+1:]...)
-		}
-	}
-}
-
-// AddInitialChannels public set initial channels
-func (m MultiSelectMenuWithPublicChannelsSelect) AddInitialChannels(initialChannel string) MultiSelectMenuWithPublicChannelsSelect {
+// SetInitialChannel public set initial channels
+func (m SelectMenuWithPublicChannelsSelect) SetInitialChannel(initialChannel string) SelectMenuWithPublicChannelsSelect {
 	m.addInitialChannel(initialChannel)
 	return m
 }
 
-// RemoveInitialChannels public remove initial channels
-func (m MultiSelectMenuWithPublicChannelsSelect) RemoveInitialChannels(initialChannel string) MultiSelectMenuWithPublicChannelsSelect {
-	m.removeInitialChannel(initialChannel)
+// UnsetInitialChannel public remove initial channels
+func (m SelectMenuWithPublicChannelsSelect) UnsetInitialChannel() SelectMenuWithPublicChannelsSelect {
+	m.removeInitialChannel()
 	return m
 }
 
 // create abstract
-func (m MultiSelectMenuWithPublicChannelsSelect) abstraction() multiSelectMenuWithPublicChannelsSelectAbstraction {
-	return multiSelectMenuWithPublicChannelsSelectAbstraction{
+func (m SelectMenuWithPublicChannelsSelect) abstraction() SelectMenuWithPublicChannelsSelectAbstraction {
+	return SelectMenuWithPublicChannelsSelectAbstraction{
 		Type:     m.slackType.String(),
 		ActionId: m.actionID,
 
-		Confirm:          m.confirm,
-		MaxSelectedItems: m.maxSelectedItems,
-		FocusOnLoad:      m.focusOnLoad,
-		Placeholder:      m.placeholder,
+		Confirm: m.confirm,
+
+		FocusOnLoad: m.focusOnLoad,
+		Placeholder: m.placeholder,
 
 		// Public Channel
-		InitialChannels: common.RemoveDuplicateString(m.initialChannels),
+		InitialChannel: m.initialChannel,
 
 		Optionals: m.optionals,
 	}
 }
 
 // Template returns template string
-func (m multiSelectMenuWithPublicChannelsSelectAbstraction) Template() string {
+func (m SelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 	return `{
-	"action_id": "{{ .ActionId }}",
-	"type": "{{ .Type }}"
+"type": "{{ .Type }}",
+"action_id": "{{ .ActionId }}"
 
-{{if .Optionals.InitialChannels}},
-	"initial_channels": [{{range $index, $channel := .InitialChannels}}{{if $index}},{{end}}"{{ $channel}}"{{end}}]
+{{if .Optionals.InitialChannel}},
+	"initial_channel": "{{ .InitialChannel }}"
 {{end}}
 
 {{if .Optionals.Confirm }},
 	"confirm": {{ .Confirm.Render }}
 {{end}}
 
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
+{{ if .Optionals.ResponseUrlEnabled }},
+	"response_url_enabled": {{ .ResponseUrlEnabled }}
 {{end}}
 
 {{if .Optionals.FocusOnLoad }},
@@ -267,14 +250,14 @@ func (m multiSelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 }`
 }
 
-func (m MultiSelectMenuWithPublicChannelsSelect) ElementRender() {}
+func (m SelectMenuWithPublicChannelsSelect) ElementRender() {}
 
-func (m MultiSelectMenuWithPublicChannelsSelect) Render() string {
+func (m SelectMenuWithPublicChannelsSelect) Render() string {
 	raw := common.Render(m.abstraction())
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithPublicChannelsSelect) Section() section.Section {
+func (m SelectMenuWithPublicChannelsSelect) Section() section.Section {
 	s := section.NewSection("newSection").AddAccessory(m)
 	return s
 }

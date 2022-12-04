@@ -252,9 +252,6 @@ func (m multiSelectMenuWithUserListAbstraction) Template() string {
 	"placeholder": {{ .Placeholder.Render }}
 {{end}}
 
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
-{{end}}
 }`
 }
 

@@ -8,12 +8,12 @@ import (
 
 // todo: add massive amount of validation
 
-func TestNewMultiSelectMenuWithExternalDataSource(t *testing.T) {
-	t.Run("NewMultiSelectMenuWithExternalDataSource", func(t *testing.T) {
-		menu := NewMultiSelectMenuWithExternalDataSource("actionId")
+func TestNewSelectMenuWithExternalDataSource(t *testing.T) {
+	t.Run("NewSelectMenuWithExternalDataSource", func(t *testing.T) {
+		menu := NewSelectMenuWithExternalDataSource("actionId")
 
 		opt := option.NewOption("initial", "value-1")
-		menu = menu.AddInitialOption(opt).MaxSelectedItems(3).AddPlaceholder("Select items")
+		menu = menu.AddInitialOption(opt).AddPlaceholder("placeholder").SetMinQueryLength(6)
 
 		fmt.Println(menu.Section())
 	})

@@ -6,12 +6,14 @@ import (
 )
 
 func TestNewMultiSelectMenuWithUserList(t *testing.T) {
-	menu := NewMultiSelectMenuWithUserList("actionId")
+	menu := NewSelectMenuWithUserList("actionId")
 
-	menu = menu.AddInitialUser("Sarah P").AddInitialUser("user2")
+	menu = menu.SetInitialUser("Sarah P")
 
 	menu = menu.AddPlaceholder("placeholder")
 
-	fmt.Println(menu.Section())
+	output := menu.Section().Render()
+
+	fmt.Println(output)
 
 }

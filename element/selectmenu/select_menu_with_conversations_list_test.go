@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestNewMultiSelectMenuWithConversationsList(t *testing.T) {
-	t.Run("NewMultiSelectMenuWithConversationsList", func(t *testing.T) {
-		menu := NewMultiSelectMenuWithConversationsList("actionID")
+func TestNewSelectMenuWithConversationsList(t *testing.T) {
+	t.Run("NewSelectMenuWithConversationsList", func(t *testing.T) {
+		menu := NewSelectMenuWithConversationsList("actionID")
 		confirm := confirmationdialog.NewConfirmationDialog("title", "text", "confirm", "deny")
 		menu = menu.AddPlaceholder("placeholder").AddConfirmDialog(confirm)
 		fmt.Println(menu.Section().Render())

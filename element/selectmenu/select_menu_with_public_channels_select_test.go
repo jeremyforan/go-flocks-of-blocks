@@ -6,8 +6,8 @@ import (
 )
 
 func TestNewMultiSelectMenuWithPublicChannelsSelect(t *testing.T) {
-	t.Run("NewMultiSelectMenuWithPublicChannelsSelect", func(t *testing.T) {
-		menu := NewMultiSelectMenuWithPublicChannelsSelect("actionID")
+	t.Run("NewSelectMenuWithPublicChannelsSelect", func(t *testing.T) {
+		menu := NewSelectMenuWithPublicChannelsSelect("actionID").EnableResponseUrlEnabled().FocusOnLoad()
 		fmt.Println(menu.Section().Render())
 	})
 }

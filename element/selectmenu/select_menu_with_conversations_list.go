@@ -11,65 +11,67 @@ import (
 
 // InputElement
 
-type MultiSelectMenuWithConversationsList struct {
+type SelectMenuWithConversationsList struct {
 	slackType element.ElementType
 	actionID  string
 
-	confirm          confirmationdialog.ConfirmationDialog
-	maxSelectedItems int
-	focusOnLoad      bool
-	placeholder      compositiontext.CompositionText
+	confirm            confirmationdialog.ConfirmationDialog
+	responseUrlEnabled bool
+	focusOnLoad        bool
+	placeholder        compositiontext.CompositionText
 
 	// Conversation
 	defaultToCurrentConversation bool
-	initialConversations         []string
+	initialConversation          string
 	filter                       filter.Filter
 
-	optionals multiSelectMenuWithConversationsListOptions
+	optionals selectMenuWithConversationsListOptions
 }
 
-type multiSelectMenuWithConversationsListOptions struct {
-	Confirm          bool
-	MaxSelectedItems bool
-	FocusOnLoad      bool
-	Placeholder      bool
+type selectMenuWithConversationsListOptions struct {
+	Confirm bool
+
+	FocusOnLoad bool
+	Placeholder bool
 
 	// Conversation
 	DefaultToCurrentConversation bool
-	InitialConversations         bool
+	InitialConversation          bool
 	Filter                       bool
+	ResponseUrlEnabled           bool
 }
 
 // abstracted type
-type multiSelectMenuWithConversationsListAbstraction struct {
+type selectMenuWithConversationsListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          confirmationdialog.ConfirmationDialog
-	MaxSelectedItems int
-	FocusOnLoad      bool
-	Placeholder      compositiontext.CompositionText
+	Confirm confirmationdialog.ConfirmationDialog
+
+	FocusOnLoad bool
+	Placeholder compositiontext.CompositionText
 
 	// Conversation
 	DefaultToCurrentConversation bool
-	InitialConversations         []string
+	InitialConversation          string
 	Filter                       filter.Filter
+	ResponseUrlEnabled           bool
 
-	Optionals multiSelectMenuWithConversationsListOptions
+	Optionals selectMenuWithConversationsListOptions
 }
 
-func NewMultiSelectMenuWithConversationsList(actionId string) MultiSelectMenuWithConversationsList {
-	return MultiSelectMenuWithConversationsList{
-		slackType: element.MultiSelectMenuWithConversationsList,
+func NewSelectMenuWithConversationsList(actionId string) SelectMenuWithConversationsList {
+	return SelectMenuWithConversationsList{
+		slackType: element.SelectMenuWithConversationsList,
 		actionID:  actionId,
-		optionals: multiSelectMenuWithConversationsListOptions{
+		optionals: selectMenuWithConversationsListOptions{
 			Confirm:                      false,
-			MaxSelectedItems:             false,
 			FocusOnLoad:                  false,
 			Placeholder:                  false,
 			DefaultToCurrentConversation: false,
-			InitialConversations:         false,
+			InitialConversation:          false,
 			Filter:                       false,
+			ResponseUrlEnabled:           false,
 		},
 	}
 }
@@ -77,16 +79,16 @@ func NewMultiSelectMenuWithConversationsList(actionId string) MultiSelectMenuWit
 //////////////////////////////////////////////////
 // actionID
 
-func (m *MultiSelectMenuWithConversationsList) setActionId(actionId string) {
+func (m *SelectMenuWithConversationsList) setActionId(actionId string) {
 	m.actionID = actionId
 }
 
-func (m *MultiSelectMenuWithConversationsList) removeActionId() {
+func (m *SelectMenuWithConversationsList) removeActionId() {
 	m.actionID = ""
 }
 
 // UpdateActionId public update action id
-func (m MultiSelectMenuWithConversationsList) UpdateActionId(actionId string) MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) UpdateActionId(actionId string) SelectMenuWithConversationsList {
 	m.setActionId(actionId)
 	return m
 }
@@ -94,96 +96,89 @@ func (m MultiSelectMenuWithConversationsList) UpdateActionId(actionId string) Mu
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithConversationsList) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
+func (m *SelectMenuWithConversationsList) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
 
-func (m *MultiSelectMenuWithConversationsList) removeConfirm() {
+func (m *SelectMenuWithConversationsList) removeConfirm() {
 	m.optionals.Confirm = false
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithConversationsList) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) SelectMenuWithConversationsList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithConversationsList) RemoveConfirmDialog() {
+func (m *SelectMenuWithConversationsList) RemoveConfirmDialog() {
 	m.optionals.Confirm = false
 }
 
 //////////////////////////////////////////////////
-// maxSelectedItems
+// responseUrlEnabled
 
-func (m *MultiSelectMenuWithConversationsList) setMaxSelectedItems(maxSelectedItems int) {
-	m.maxSelectedItems = maxSelectedItems
-	m.optionals.MaxSelectedItems = true
+func (m *SelectMenuWithConversationsList) setResponseUrlEnabled(responseUrlEnabled bool) {
+	m.responseUrlEnabled = responseUrlEnabled
+	m.optionals.ResponseUrlEnabled = responseUrlEnabled
 }
 
-func (m *MultiSelectMenuWithConversationsList) removeMaxSelectedItems() {
-	m.optionals.MaxSelectedItems = false
+func (m *SelectMenuWithConversationsList) unsetResponseUrlEnabled() {
+	m.optionals.ResponseUrlEnabled = false
 }
 
-// MaxSelectedItems public set max selected items
-func (m MultiSelectMenuWithConversationsList) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithConversationsList {
-	m.setMaxSelectedItems(maxSelectedItems)
-	m.optionals.MaxSelectedItems = true
+func (m SelectMenuWithConversationsList) EnableResponseUrlEnabled() SelectMenuWithConversationsList {
+	m.setResponseUrlEnabled(true)
 	return m
 }
 
-// UnsetMaxSelectedItems public remove max selected items
-func (m MultiSelectMenuWithConversationsList) UnsetMaxSelectedItems() MultiSelectMenuWithConversationsList {
-	m.optionals.MaxSelectedItems = false
+func (m SelectMenuWithConversationsList) DisableResponseUrlEnabled() SelectMenuWithConversationsList {
+	m.setResponseUrlEnabled(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // focusOnLoad
 
-func (m *MultiSelectMenuWithConversationsList) setFocusOnLoad(focusOnLoad bool) {
+func (m *SelectMenuWithConversationsList) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
-	m.optionals.FocusOnLoad = true
-}
-
-func (m *MultiSelectMenuWithConversationsList) removeFocusOnLoad() {
-	m.optionals.FocusOnLoad = false
+	m.optionals.FocusOnLoad = focusOnLoad
 }
 
 // FocusOnLoad public set focus on load
-func (m MultiSelectMenuWithConversationsList) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithConversationsList {
-	m.setFocusOnLoad(focusOnLoad)
+func (m SelectMenuWithConversationsList) FocusOnLoad() SelectMenuWithConversationsList {
+	m.setFocusOnLoad(true)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
-func (m MultiSelectMenuWithConversationsList) UnsetFocusOnLoad() MultiSelectMenuWithConversationsList {
-	m.removeFocusOnLoad()
+func (m SelectMenuWithConversationsList) UnsetFocusOnLoad() SelectMenuWithConversationsList {
+	m.setFocusOnLoad(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *MultiSelectMenuWithConversationsList) setPlaceholder(placeholder string) {
+func (m *SelectMenuWithConversationsList) setPlaceholder(placeholder string) {
 	m.placeholder = compositiontext.NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
-func (m *MultiSelectMenuWithConversationsList) removePlaceholder() {
+func (m *SelectMenuWithConversationsList) removePlaceholder() {
 	m.optionals.Placeholder = false
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithConversationsList) AddPlaceholder(placeholder string) MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) AddPlaceholder(placeholder string) SelectMenuWithConversationsList {
 	m.setPlaceholder(placeholder)
 	return m
 }
 
 // RemovePlaceholder public remove placeholder
-func (m MultiSelectMenuWithConversationsList) RemovePlaceholder() MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) RemovePlaceholder() SelectMenuWithConversationsList {
 	m.optionals.Placeholder = false
 	return m
 }
@@ -192,25 +187,25 @@ func (m MultiSelectMenuWithConversationsList) RemovePlaceholder() MultiSelectMen
 // defaultToCurrentConversation
 
 // setDefaultToCurrentConversation public set default to current conversation
-func (m *MultiSelectMenuWithConversationsList) setDefaultToCurrentConversation(defaultToCurrentConversation bool) {
+func (m *SelectMenuWithConversationsList) setDefaultToCurrentConversation(defaultToCurrentConversation bool) {
 	m.defaultToCurrentConversation = defaultToCurrentConversation
 	m.optionals.DefaultToCurrentConversation = defaultToCurrentConversation
 
 }
 
 // unsetDefaultToCurrentConversation public remove default to current conversation
-func (m *MultiSelectMenuWithConversationsList) unsetDefaultToCurrentConversation() {
+func (m *SelectMenuWithConversationsList) unsetDefaultToCurrentConversation() {
 	m.setDefaultToCurrentConversation(false)
 }
 
 // DefaultToCurrentConversation public set default to current conversation
-func (m MultiSelectMenuWithConversationsList) DefaultToCurrentConversation() MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) DefaultToCurrentConversation() SelectMenuWithConversationsList {
 	m.setDefaultToCurrentConversation(true)
 	return m
 }
 
 // UnsetDefaultToCurrentConversation public remove default to current conversation
-func (m MultiSelectMenuWithConversationsList) UnsetDefaultToCurrentConversation() MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) UnsetDefaultToCurrentConversation() SelectMenuWithConversationsList {
 	m.unsetDefaultToCurrentConversation()
 	return m
 }
@@ -219,67 +214,66 @@ func (m MultiSelectMenuWithConversationsList) UnsetDefaultToCurrentConversation(
 // initialConversations
 
 // addInitialConversation private add initial conversation
-func (m *MultiSelectMenuWithConversationsList) addInitialConversation(initialConversation string) {
-	m.initialConversations = append(m.initialConversations, initialConversation)
-	m.optionals.InitialConversations = true
+func (m *SelectMenuWithConversationsList) addInitialConversation(initialConversation string) {
+	m.initialConversation = initialConversation
+	m.optionals.InitialConversation = true
 }
 
 // removeInitialConversations private remove initial conversations
-func (m *MultiSelectMenuWithConversationsList) removeInitialConversations() {
-	m.initialConversations = []string{}
-	m.optionals.InitialConversations = false
+func (m *SelectMenuWithConversationsList) removeInitialConversation() {
+	m.optionals.InitialConversation = false
 }
 
-// AddInitialConversation public add initial conversation
-func (m MultiSelectMenuWithConversationsList) AddInitialConversation(initialConversation string) MultiSelectMenuWithConversationsList {
+// SetInitialConversation public add initial conversation
+func (m SelectMenuWithConversationsList) SetInitialConversation(initialConversation string) SelectMenuWithConversationsList {
 	m.addInitialConversation(initialConversation)
 	return m
 }
 
 // ClearInitialConversations clear initial conversations
-func (m MultiSelectMenuWithConversationsList) ClearInitialConversations() MultiSelectMenuWithConversationsList {
-	m.removeInitialConversations()
+func (m SelectMenuWithConversationsList) UnsetInitialConversation() SelectMenuWithConversationsList {
+	m.removeInitialConversation()
 	return m
 }
 
 //////////////////////////////////////////////////
 // filter
 
-func (m *MultiSelectMenuWithConversationsList) setFilter(filter filter.Filter) {
+func (m *SelectMenuWithConversationsList) setFilter(filter filter.Filter) {
 	m.filter = filter
 	m.optionals.Filter = true
 }
 
-func (m *MultiSelectMenuWithConversationsList) removeFilter() {
+func (m *SelectMenuWithConversationsList) removeFilter() {
 	m.optionals.Filter = false
 }
 
 // AddFilter public set filter
-func (m MultiSelectMenuWithConversationsList) AddFilter(filter filter.Filter) MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) AddFilter(filter filter.Filter) SelectMenuWithConversationsList {
 	m.setFilter(filter)
 	return m
 }
 
 // RemoveFilter public remove filter
-func (m MultiSelectMenuWithConversationsList) RemoveFilter() MultiSelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) RemoveFilter() SelectMenuWithConversationsList {
 	m.removeFilter()
 	return m
 }
 
 // create abstract
-func (m MultiSelectMenuWithConversationsList) abstraction() multiSelectMenuWithConversationsListAbstraction {
-	return multiSelectMenuWithConversationsListAbstraction{
+func (m SelectMenuWithConversationsList) abstraction() selectMenuWithConversationsListAbstraction {
+	return selectMenuWithConversationsListAbstraction{
 		Type:     m.slackType.String(),
 		ActionId: m.actionID,
 
-		Confirm:          m.confirm,
-		MaxSelectedItems: m.maxSelectedItems,
-		FocusOnLoad:      m.focusOnLoad,
-		Placeholder:      m.placeholder,
+		Confirm: m.confirm,
+
+		FocusOnLoad: m.focusOnLoad,
+		Placeholder: m.placeholder,
 
 		// Conversation
 		DefaultToCurrentConversation: m.defaultToCurrentConversation,
-		InitialConversations:         common.RemoveDuplicateString(m.initialConversations),
+		InitialConversation:          m.initialConversation,
 		Filter:                       m.filter,
 
 		Optionals: m.optionals,
@@ -287,14 +281,13 @@ func (m MultiSelectMenuWithConversationsList) abstraction() multiSelectMenuWithC
 }
 
 // Template returns template string
-func (m multiSelectMenuWithConversationsListAbstraction) Template() string {
-	return `{
-	"action_id": "{{ .ActionId }}",
+func (m selectMenuWithConversationsListAbstraction) Template() string {
+	return `{	
+"type": "{{ .Type }}",
+"action_id": "{{ .ActionId }}"
 
-	"type": "{{ .Type }}"
-
-{{if .Optionals.InitialConversations}},
-	"initial_conversations": [{{range $index, $conversations := .InitialConversations}}{{if $index}},{{end}}"{{ $conversations}}"{{end}}]
+{{if .Optionals.InitialConversation}},
+	"initial_conversation":  "{{ .InitialConversation }}"
 {{end}}
 
 {{if .Optionals.DefaultToCurrentConversation}},
@@ -305,8 +298,8 @@ func (m multiSelectMenuWithConversationsListAbstraction) Template() string {
 	"confirm": {{ .Confirm.Render }}
 {{end}}
 
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
+{{ if .Optionals.ResponseUrlEnabled }},
+	"response_url_enabled": {{ .ResponseUrlEnabled }}
 {{end}}
 
 {{if .Optionals.Filter }},
@@ -324,14 +317,14 @@ func (m multiSelectMenuWithConversationsListAbstraction) Template() string {
 }`
 }
 
-func (m MultiSelectMenuWithConversationsList) ElementRender() {}
+func (m SelectMenuWithConversationsList) ElementRender() {}
 
-func (m MultiSelectMenuWithConversationsList) Render() string {
+func (m SelectMenuWithConversationsList) Render() string {
 	raw := common.Render(m.abstraction())
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithConversationsList) Section() section.Section {
+func (m SelectMenuWithConversationsList) Section() section.Section {
 	s := section.NewSection("newSection").AddAccessory(m)
 	return s
 }

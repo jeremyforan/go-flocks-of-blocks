@@ -11,45 +11,42 @@ import (
 
 // InputElement
 
-type MultiSelectMenuWithExternalDataSource struct {
+type SelectMenuWithExternalDataSource struct {
 	slackType element.ElementType
 	actionID  string
 
-	initialOptions   []option.Option
-	confirm          confirmationdialog.ConfirmationDialog
-	maxSelectedItems int
-	focusOnLoad      bool
-	placeholder      compositiontext.CompositionText
+	initialOption option.Option
+	confirm       confirmationdialog.ConfirmationDialog
+	focusOnLoad   bool
+	placeholder   compositiontext.CompositionText
 
 	// External Options
 	minQueryLength int
 
-	optionals multiSelectMenuWithExternalDataSourceOptions
+	optionals selectMenuWithExternalDataSourceOptions
 }
 
-type multiSelectMenuWithExternalDataSourceOptions struct {
-	InitialOptions   bool
-	Confirm          bool
-	MaxSelectedItems bool
-	FocusOnLoad      bool
-	Placeholder      bool
+type selectMenuWithExternalDataSourceOptions struct {
+	InitialOption bool
+	Confirm       bool
+	FocusOnLoad   bool
+	Placeholder   bool
 
 	// External Options
 	MinQueryLength bool
 }
 
-func NewMultiSelectMenuWithExternalDataSource(actionId string) MultiSelectMenuWithExternalDataSource {
-	return MultiSelectMenuWithExternalDataSource{
-		slackType:      element.MultiSelectMenuWithExternalDataSource,
-		actionID:       actionId,
-		initialOptions: []option.Option{},
-		optionals: multiSelectMenuWithExternalDataSourceOptions{
-			InitialOptions:   false,
-			Confirm:          false,
-			MaxSelectedItems: false,
-			FocusOnLoad:      false,
-			Placeholder:      false,
-			MinQueryLength:   false,
+func NewSelectMenuWithExternalDataSource(actionId string) SelectMenuWithExternalDataSource {
+	return SelectMenuWithExternalDataSource{
+		slackType:     element.SelectMenuWithExternalDataSource,
+		actionID:      actionId,
+		initialOption: option.Option{},
+		optionals: selectMenuWithExternalDataSourceOptions{
+			InitialOption:  false,
+			Confirm:        false,
+			FocusOnLoad:    false,
+			Placeholder:    false,
+			MinQueryLength: false,
 		},
 	}
 }
@@ -57,16 +54,16 @@ func NewMultiSelectMenuWithExternalDataSource(actionId string) MultiSelectMenuWi
 //////////////////////////////////////////////////
 // actionID
 
-func (m *MultiSelectMenuWithExternalDataSource) setActionId(actionId string) {
+func (m *SelectMenuWithExternalDataSource) setActionId(actionId string) {
 	m.actionID = actionId
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) removeActionId() {
+func (m *SelectMenuWithExternalDataSource) removeActionId() {
 	m.actionID = ""
 }
 
 // UpdateActionId public update action id
-func (m MultiSelectMenuWithExternalDataSource) UpdateActionId(actionId string) MultiSelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) UpdateActionId(actionId string) SelectMenuWithExternalDataSource {
 	m.setActionId(actionId)
 	return m
 }
@@ -74,125 +71,91 @@ func (m MultiSelectMenuWithExternalDataSource) UpdateActionId(actionId string) M
 //////////////////////////////////////////////////
 // initialOptions
 
-func (m *MultiSelectMenuWithExternalDataSource) addInitialOption(initialOption option.Option) {
-	m.initialOptions = append(m.initialOptions, initialOption)
-	m.optionals.InitialOptions = true
+func (m *SelectMenuWithExternalDataSource) removeInitialOption() {
+	m.optionals.InitialOption = false
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) removeInitialOptions() {
-	m.optionals.InitialOptions = false
-}
-
-func (m *MultiSelectMenuWithExternalDataSource) setInitialOptions(initialOptions []option.Option) {
-	m.initialOptions = initialOptions
-	m.optionals.InitialOptions = true
+func (m *SelectMenuWithExternalDataSource) setInitialOption(initialOption option.Option) {
+	m.initialOption = initialOption
+	m.optionals.InitialOption = true
 }
 
 // ClearInitialOptions clear initial options
-func (m MultiSelectMenuWithExternalDataSource) ClearInitialOptions() MultiSelectMenuWithExternalDataSource {
-	m.removeInitialOptions()
+func (m SelectMenuWithExternalDataSource) ClearInitialOption() SelectMenuWithExternalDataSource {
+	m.removeInitialOption()
 	return m
 }
 
 // AddInitialOption public add initial option
-func (m MultiSelectMenuWithExternalDataSource) AddInitialOption(initialOption option.Option) MultiSelectMenuWithExternalDataSource {
-	m.addInitialOption(initialOption)
+func (m SelectMenuWithExternalDataSource) AddInitialOption(initialOption option.Option) SelectMenuWithExternalDataSource {
+	m.setInitialOption(initialOption)
 	return m
 }
 
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithExternalDataSource) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
+func (m *SelectMenuWithExternalDataSource) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) removeConfirm() {
+func (m *SelectMenuWithExternalDataSource) removeConfirm() {
 	m.optionals.Confirm = false
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithExternalDataSource) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) SelectMenuWithExternalDataSource {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithExternalDataSource) RemoveConfirmDialog() {
+func (m *SelectMenuWithExternalDataSource) RemoveConfirmDialog() {
 	m.optionals.Confirm = false
-}
-
-//////////////////////////////////////////////////
-// maxSelectedItems
-
-func (m *MultiSelectMenuWithExternalDataSource) setMaxSelectedItems(maxSelectedItems int) {
-	m.maxSelectedItems = maxSelectedItems
-	m.optionals.MaxSelectedItems = true
-}
-
-func (m *MultiSelectMenuWithExternalDataSource) removeMaxSelectedItems() {
-	m.optionals.MaxSelectedItems = false
-}
-
-// MaxSelectedItems public set max selected items
-func (m MultiSelectMenuWithExternalDataSource) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithExternalDataSource {
-	m.setMaxSelectedItems(maxSelectedItems)
-	m.optionals.MaxSelectedItems = true
-	return m
-}
-
-// UnsetMaxSelectedItems public remove max selected items
-func (m MultiSelectMenuWithExternalDataSource) UnsetMaxSelectedItems() MultiSelectMenuWithExternalDataSource {
-	m.optionals.MaxSelectedItems = false
-	return m
 }
 
 //////////////////////////////////////////////////
 // focusOnLoad
 
-func (m *MultiSelectMenuWithExternalDataSource) setFocusOnLoad(focusOnLoad bool) {
+func (m *SelectMenuWithExternalDataSource) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
-	m.optionals.FocusOnLoad = true
-}
-
-func (m *MultiSelectMenuWithExternalDataSource) removeFocusOnLoad() {
-	m.optionals.FocusOnLoad = false
+	m.optionals.FocusOnLoad = focusOnLoad
 }
 
 // FocusOnLoad public set focus on load
-func (m MultiSelectMenuWithExternalDataSource) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithExternalDataSource {
-	m.setFocusOnLoad(focusOnLoad)
+func (m SelectMenuWithExternalDataSource) FocusOnLoad() SelectMenuWithExternalDataSource {
+	m.setFocusOnLoad(true)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
-func (m MultiSelectMenuWithExternalDataSource) UnsetFocusOnLoad() MultiSelectMenuWithExternalDataSource {
-	m.removeFocusOnLoad()
+func (m SelectMenuWithExternalDataSource) UnsetFocusOnLoad() SelectMenuWithExternalDataSource {
+	m.setFocusOnLoad(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *MultiSelectMenuWithExternalDataSource) setPlaceholder(placeholder string) {
+func (m *SelectMenuWithExternalDataSource) setPlaceholder(placeholder string) {
 	m.placeholder = compositiontext.NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) removePlaceholder() {
+func (m *SelectMenuWithExternalDataSource) removePlaceholder() {
 	m.optionals.Placeholder = false
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithExternalDataSource) AddPlaceholder(placeholder string) MultiSelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) AddPlaceholder(placeholder string) SelectMenuWithExternalDataSource {
 	m.setPlaceholder(placeholder)
 	return m
 }
 
 // RemovePlaceholder public remove placeholder
-func (m MultiSelectMenuWithExternalDataSource) RemovePlaceholder() MultiSelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) RemovePlaceholder() SelectMenuWithExternalDataSource {
 	m.optionals.Placeholder = false
 	return m
 }
@@ -200,77 +163,74 @@ func (m MultiSelectMenuWithExternalDataSource) RemovePlaceholder() MultiSelectMe
 //////////////////////////////////////////////////
 // minQueryLength
 
-func (m *MultiSelectMenuWithExternalDataSource) setMinQueryLength(minQueryLength int) {
+func (m *SelectMenuWithExternalDataSource) setMinQueryLength(minQueryLength int) {
 	m.minQueryLength = minQueryLength
 	m.optionals.MinQueryLength = true
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) removeMinQueryLength() {
+func (m *SelectMenuWithExternalDataSource) removeMinQueryLength() {
 	m.optionals.MinQueryLength = false
 }
 
-// MinQueryLength public set min query length
-func (m MultiSelectMenuWithExternalDataSource) MinQueryLength(minQueryLength int) MultiSelectMenuWithExternalDataSource {
+// SetMinQueryLength public set min query length
+func (m SelectMenuWithExternalDataSource) SetMinQueryLength(minQueryLength int) SelectMenuWithExternalDataSource {
 	m.setMinQueryLength(minQueryLength)
 	return m
 }
 
 // UnsetMinQueryLength public remove min query length
-func (m MultiSelectMenuWithExternalDataSource) UnsetMinQueryLength() MultiSelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) UnsetMinQueryLength() SelectMenuWithExternalDataSource {
 	m.removeMinQueryLength()
 	return m
 }
 
 // ////////////////////////////////////////////////
 // abstract
-type multiSelectMenuWithExternalDataSourceAbstraction struct {
+type selectMenuWithExternalDataSourceAbstraction struct {
 	Type     string
 	ActionId string
 
-	InitialOptions   []option.Option
-	Confirm          confirmationdialog.ConfirmationDialog
-	MaxSelectedItems int
-	FocusOnLoad      bool
-	Placeholder      compositiontext.CompositionText
+	InitialOption option.Option
+	Confirm       confirmationdialog.ConfirmationDialog
+	FocusOnLoad   bool
+	Placeholder   compositiontext.CompositionText
 
 	// External Options
 	MinQueryLength int
 
-	Optionals multiSelectMenuWithExternalDataSourceOptions
+	Optionals selectMenuWithExternalDataSourceOptions
 }
 
 // abstraction
-func (m MultiSelectMenuWithExternalDataSource) abstraction() multiSelectMenuWithExternalDataSourceAbstraction {
-	return multiSelectMenuWithExternalDataSourceAbstraction{
-		Type:             m.slackType.String(),
-		ActionId:         m.actionID,
-		InitialOptions:   m.initialOptions,
-		Confirm:          m.confirm,
-		MaxSelectedItems: m.maxSelectedItems,
-		FocusOnLoad:      m.focusOnLoad,
-		Placeholder:      m.placeholder,
-		MinQueryLength:   m.minQueryLength,
-		Optionals:        m.optionals,
+func (m SelectMenuWithExternalDataSource) abstraction() selectMenuWithExternalDataSourceAbstraction {
+	return selectMenuWithExternalDataSourceAbstraction{
+		Type:           m.slackType.String(),
+		ActionId:       m.actionID,
+		InitialOption:  m.initialOption,
+		Confirm:        m.confirm,
+		FocusOnLoad:    m.focusOnLoad,
+		Placeholder:    m.placeholder,
+		MinQueryLength: m.minQueryLength,
+		Optionals:      m.optionals,
 	}
 }
 
 // template
-func (m multiSelectMenuWithExternalDataSourceAbstraction) Template() string {
+func (m selectMenuWithExternalDataSourceAbstraction) Template() string {
 	return `{
 "action_id": "{{ .ActionId }}",
-		
 "type": "{{ .Type }}"	
 
-{{if .Optionals.InitialOptions}},
-	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
+{{if .Optionals.InitialOption}},
+	"initial_option": {{.InitialOption.Render}}
+{{end}}
+
+{{if .Optionals.MinQueryLength }},
+	"min_query_length": {{ .MinQueryLength }}
 {{end}}
 
 {{if .Optionals.Confirm }},
 	"confirm": {{ .Confirm.Render }}
-{{end}}
-
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
 {{end}}
 
 {{if .Optionals.FocusOnLoad }},
@@ -281,20 +241,17 @@ func (m multiSelectMenuWithExternalDataSourceAbstraction) Template() string {
 	"placeholder": {{ .Placeholder.Render }}
 {{end}}
 
-{{if .Optionals.MinQueryLength }},
-	"min_query_length": {{ .MinQueryLength }}
-{{end}}
 }`
 }
 
-func (m MultiSelectMenuWithExternalDataSource) ElementRender() {}
+func (m SelectMenuWithExternalDataSource) ElementRender() {}
 
-func (m MultiSelectMenuWithExternalDataSource) Render() string {
+func (m SelectMenuWithExternalDataSource) Render() string {
 	raw := common.Render(m.abstraction())
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithExternalDataSource) Section() section.Section {
+func (m SelectMenuWithExternalDataSource) Section() section.Section {
 	s := section.NewSection("newSection").AddAccessory(m)
 	return s
 }

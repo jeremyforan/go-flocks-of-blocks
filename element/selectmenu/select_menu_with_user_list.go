@@ -10,41 +10,38 @@ import (
 
 // InputElement
 
-type MultiSelectMenuWithUserList struct {
+type SelectMenuWithUserList struct {
 	slackType element.ElementType
 	actionID  string
 
-	confirm          confirmationdialog.ConfirmationDialog
-	maxSelectedItems int
-	focusOnLoad      bool
-	placeholder      compositiontext.CompositionText
+	confirm     confirmationdialog.ConfirmationDialog
+	focusOnLoad bool
+	placeholder compositiontext.CompositionText
 
 	// User List
-	initialUsers []string
+	initialUser string
 
 	optionals multiSelectMenuWithUserListOptions
 }
 
 type multiSelectMenuWithUserListOptions struct {
-	Confirm          bool
-	MaxSelectedItems bool
-	FocusOnLoad      bool
-	Placeholder      bool
+	Confirm     bool
+	FocusOnLoad bool
+	Placeholder bool
 
 	// User List
-	InitialUsers bool
+	InitialUser bool
 }
 
-func NewMultiSelectMenuWithUserList(actionId string) MultiSelectMenuWithUserList {
-	return MultiSelectMenuWithUserList{
-		slackType: element.MultiSelectMenuWithUserList,
+func NewSelectMenuWithUserList(actionId string) SelectMenuWithUserList {
+	return SelectMenuWithUserList{
+		slackType: element.SelectMenuWithUserList,
 		actionID:  actionId,
 		optionals: multiSelectMenuWithUserListOptions{
-			Confirm:          false,
-			MaxSelectedItems: false,
-			FocusOnLoad:      false,
-			Placeholder:      false,
-			InitialUsers:     false,
+			Confirm:     false,
+			FocusOnLoad: false,
+			Placeholder: false,
+			InitialUser: false,
 		},
 	}
 }
@@ -52,16 +49,16 @@ func NewMultiSelectMenuWithUserList(actionId string) MultiSelectMenuWithUserList
 //////////////////////////////////////////////////
 // actionID
 
-func (m *MultiSelectMenuWithUserList) setActionId(actionId string) {
+func (m *SelectMenuWithUserList) setActionId(actionId string) {
 	m.actionID = actionId
 }
 
-func (m *MultiSelectMenuWithUserList) removeActionId() {
+func (m *SelectMenuWithUserList) removeActionId() {
 	m.actionID = ""
 }
 
 // UpdateActionId public update action id
-func (m MultiSelectMenuWithUserList) UpdateActionId(actionId string) MultiSelectMenuWithUserList {
+func (m SelectMenuWithUserList) UpdateActionId(actionId string) SelectMenuWithUserList {
 	m.setActionId(actionId)
 	return m
 }
@@ -69,96 +66,67 @@ func (m MultiSelectMenuWithUserList) UpdateActionId(actionId string) MultiSelect
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithUserList) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
+func (m *SelectMenuWithUserList) setConfirm(confirm confirmationdialog.ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
 
-func (m *MultiSelectMenuWithUserList) removeConfirm() {
+func (m *SelectMenuWithUserList) removeConfirm() {
 	m.optionals.Confirm = false
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithUserList) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) MultiSelectMenuWithUserList {
+func (m SelectMenuWithUserList) AddConfirmDialog(confirm confirmationdialog.ConfirmationDialog) SelectMenuWithUserList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithUserList) RemoveConfirmDialog() {
+func (m *SelectMenuWithUserList) RemoveConfirmDialog() {
 	m.optionals.Confirm = false
-}
-
-//////////////////////////////////////////////////
-// maxSelectedItems
-
-func (m *MultiSelectMenuWithUserList) setMaxSelectedItems(maxSelectedItems int) {
-	m.maxSelectedItems = maxSelectedItems
-	m.optionals.MaxSelectedItems = true
-}
-
-func (m *MultiSelectMenuWithUserList) removeMaxSelectedItems() {
-	m.optionals.MaxSelectedItems = false
-}
-
-// MaxSelectedItems public set max selected items
-func (m MultiSelectMenuWithUserList) MaxSelectedItems(maxSelectedItems int) MultiSelectMenuWithUserList {
-	m.setMaxSelectedItems(maxSelectedItems)
-	m.optionals.MaxSelectedItems = true
-	return m
-}
-
-// UnsetMaxSelectedItems public remove max selected items
-func (m MultiSelectMenuWithUserList) UnsetMaxSelectedItems() MultiSelectMenuWithUserList {
-	m.optionals.MaxSelectedItems = false
-	return m
 }
 
 //////////////////////////////////////////////////
 // focusOnLoad
 
-func (m *MultiSelectMenuWithUserList) setFocusOnLoad(focusOnLoad bool) {
+func (m *SelectMenuWithUserList) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
-	m.optionals.FocusOnLoad = true
-}
-
-func (m *MultiSelectMenuWithUserList) removeFocusOnLoad() {
-	m.optionals.FocusOnLoad = false
+	m.optionals.FocusOnLoad = focusOnLoad
 }
 
 // FocusOnLoad public set focus on load
-func (m MultiSelectMenuWithUserList) FocusOnLoad(focusOnLoad bool) MultiSelectMenuWithUserList {
-	m.setFocusOnLoad(focusOnLoad)
+func (m SelectMenuWithUserList) FocusOnLoad() SelectMenuWithUserList {
+	m.setFocusOnLoad(true)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
-func (m MultiSelectMenuWithUserList) UnsetFocusOnLoad() MultiSelectMenuWithUserList {
-	m.removeFocusOnLoad()
+func (m SelectMenuWithUserList) UnsetFocusOnLoad() SelectMenuWithUserList {
+	m.setFocusOnLoad(false)
 	return m
 }
 
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *MultiSelectMenuWithUserList) setPlaceholder(placeholder string) {
+func (m *SelectMenuWithUserList) setPlaceholder(placeholder string) {
 	m.placeholder = compositiontext.NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
-func (m *MultiSelectMenuWithUserList) removePlaceholder() {
+func (m *SelectMenuWithUserList) removePlaceholder() {
 	m.optionals.Placeholder = false
 }
 
 // SetPlaceholder public set placeholder
-func (m MultiSelectMenuWithUserList) AddPlaceholder(placeholder string) MultiSelectMenuWithUserList {
+func (m SelectMenuWithUserList) AddPlaceholder(placeholder string) SelectMenuWithUserList {
 	m.setPlaceholder(placeholder)
 	return m
 }
 
 // RemovePlaceholder public remove placeholder
-func (m MultiSelectMenuWithUserList) RemovePlaceholder() MultiSelectMenuWithUserList {
+func (m SelectMenuWithUserList) RemovePlaceholder() SelectMenuWithUserList {
 	m.optionals.Placeholder = false
 	return m
 }
@@ -166,25 +134,24 @@ func (m MultiSelectMenuWithUserList) RemovePlaceholder() MultiSelectMenuWithUser
 //////////////////////////////////////////////////
 // initialUsers
 
-func (m *MultiSelectMenuWithUserList) addInitialUser(initialUser string) {
-	m.initialUsers = append(m.initialUsers, initialUser)
-	m.optionals.InitialUsers = true
+func (m *SelectMenuWithUserList) setInitialUser(initialUser string) {
+	m.initialUser = initialUser
+	m.optionals.InitialUser = true
 }
 
-func (m *MultiSelectMenuWithUserList) removeInitialUsers() {
-	m.initialUsers = []string{}
-	m.optionals.InitialUsers = false
+func (m *SelectMenuWithUserList) removeInitialUser() {
+	m.optionals.InitialUser = false
 }
 
 // AddInitialUser public add initial user
-func (m MultiSelectMenuWithUserList) AddInitialUser(initialUser string) MultiSelectMenuWithUserList {
-	m.addInitialUser(initialUser)
+func (m SelectMenuWithUserList) SetInitialUser(initialUser string) SelectMenuWithUserList {
+	m.setInitialUser(initialUser)
 	return m
 }
 
 // ClearInitialUsers clear initial users
-func (m MultiSelectMenuWithUserList) ClearInitialUsers() MultiSelectMenuWithUserList {
-	m.removeInitialUsers()
+func (m SelectMenuWithUserList) ClearInitialUsers() SelectMenuWithUserList {
+	m.removeInitialUser()
 	return m
 }
 
@@ -192,56 +159,49 @@ func (m MultiSelectMenuWithUserList) ClearInitialUsers() MultiSelectMenuWithUser
 // abstract
 
 // abstracted type
-type multiSelectMenuWithUserListAbstraction struct {
+type selectMenuWithUserListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          confirmationdialog.ConfirmationDialog
-	MaxSelectedItems int
-	FocusOnLoad      bool
-	Placeholder      compositiontext.CompositionText
+	Confirm     confirmationdialog.ConfirmationDialog
+	FocusOnLoad bool
+	Placeholder compositiontext.CompositionText
 
 	// User List
-	InitialUsers []string
+	InitialUser string
 
 	Optionals multiSelectMenuWithUserListOptions
 }
 
 // create abstract
-func (m MultiSelectMenuWithUserList) abstraction() multiSelectMenuWithUserListAbstraction {
-	return multiSelectMenuWithUserListAbstraction{
+func (m SelectMenuWithUserList) abstraction() selectMenuWithUserListAbstraction {
+	return selectMenuWithUserListAbstraction{
 		Type:     m.slackType.String(),
 		ActionId: m.actionID,
 
-		Confirm:          m.confirm,
-		MaxSelectedItems: m.maxSelectedItems,
-		FocusOnLoad:      m.focusOnLoad,
-		Placeholder:      m.placeholder,
+		Confirm:     m.confirm,
+		FocusOnLoad: m.focusOnLoad,
+		Placeholder: m.placeholder,
 
 		// User List
-		InitialUsers: common.RemoveDuplicateString(m.initialUsers),
+		InitialUser: m.initialUser,
 
 		Optionals: m.optionals,
 	}
 }
 
 // Template returns template string
-func (m multiSelectMenuWithUserListAbstraction) Template() string {
+func (m selectMenuWithUserListAbstraction) Template() string {
 	return `{
-"action_id": "{{ .ActionId }}",
-		
-"type": "{{ .Type }}"	
+"type": "{{ .Type }}",
+"action_id": "{{ .ActionId }}"
 
-{{if .Optionals.InitialUsers}},
-	"initial_users": [{{range $index, $user := .InitialUsers}}{{if $index}},{{end}}"{{ $user}}"{{end}}]
+{{if .Optionals.InitialUser}},
+	"initial_user": "{{ .InitialUser}}"
 {{end}}
 
 {{if .Optionals.Confirm }},
 	"confirm": {{ .Confirm.Render }}
-{{end}}
-
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
 {{end}}
 
 {{if .Optionals.FocusOnLoad }},
@@ -252,20 +212,17 @@ func (m multiSelectMenuWithUserListAbstraction) Template() string {
 	"placeholder": {{ .Placeholder.Render }}
 {{end}}
 
-{{if .Optionals.MaxSelectedItems }},
-	"max_selected_items": {{ .MaxSelectedItems }}
-{{end}}
 }`
 }
 
-func (m MultiSelectMenuWithUserList) ElementRender() {}
+func (m SelectMenuWithUserList) ElementRender() {}
 
-func (m MultiSelectMenuWithUserList) Render() string {
+func (m SelectMenuWithUserList) Render() string {
 	raw := common.Render(m.abstraction())
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithUserList) Section() section.Section {
+func (m SelectMenuWithUserList) Section() section.Section {
 	s := section.NewSection("newSection").AddAccessory(m)
 	return s
 }

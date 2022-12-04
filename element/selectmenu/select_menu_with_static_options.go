@@ -197,22 +197,18 @@ func (m *SelectMenuWithStaticOption) RemoveConfirmDialog() {
 
 func (m *SelectMenuWithStaticOption) setFocusOnLoad(focusOnLoad bool) {
 	m.focusOnLoad = focusOnLoad
-	m.optionals.FocusOnLoad = true
-}
-
-func (m *SelectMenuWithStaticOption) removeFocusOnLoad() {
-	m.optionals.FocusOnLoad = false
+	m.optionals.FocusOnLoad = focusOnLoad
 }
 
 // FocusOnLoad public set focus on load
-func (m SelectMenuWithStaticOption) FocusOnLoad(focusOnLoad bool) SelectMenuWithStaticOption {
-	m.setFocusOnLoad(focusOnLoad)
+func (m SelectMenuWithStaticOption) FocusOnLoad() SelectMenuWithStaticOption {
+	m.setFocusOnLoad(true)
 	return m
 }
 
 // UnsetFocusOnLoad public remove focus on load
 func (m SelectMenuWithStaticOption) UnsetFocusOnLoad() SelectMenuWithStaticOption {
-	m.removeFocusOnLoad()
+	m.setFocusOnLoad(false)
 	return m
 }
 
