@@ -3,11 +3,12 @@ package selectmenu
 import (
 	"fmt"
 	"go-flocks-of-blocks/composition/option"
+	"go-flocks-of-blocks/composition/optiongroup"
 	"testing"
 )
 
 const (
-	validMenuWithInitialandPlaceholder = `{
+	validMenuWithInitialAndPlaceholder = `{
 	"action_id": "text1234",
 	"type": "multi_static_select",
 	"options": [
@@ -40,25 +41,22 @@ const (
 		"text": "Select items"
 	}
 }`
-	validMenuInSection = ``
 )
 
-func TestNewMultiSelectMenuWithStaticOptions(t *testing.T) {
+func TestNewSelectMenuWithStaticOptions(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithStaticOptions", func(t *testing.T) {
 		menu := NewSelectMenuWithStaticOptions("text1234")
 
 		opt := option.NewOption("Wait for it", "value-0")
 		opt2 := option.NewOption("Initial", "value-1")
-		menu = menu.AddOption(opt).AddInitialOption(opt2).SetPlaceholder("Select items")
 
-		output := menu.Render()
-		if output != validMenuWithInitialandPlaceholder {
-			t.Errorf("Rendered menu does not match expected JSON: %s", output)
-		}
+		optionGroup := optiongroup.NewOptionGroup("Group 1").AddOption(opt).AddOption(opt2)
+
+		menu = menu.AddOptionGroup(optionGroup)
 
 		// convert to section
 		section := menu.Section().Render()
-		if section == validMenuWithInitialandPlaceholder {
+		if section == validMenuWithInitialAndPlaceholder {
 			t.Errorf("Rendered section does not match expected JSON: %s", section)
 		}
 

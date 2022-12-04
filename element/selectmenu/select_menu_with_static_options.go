@@ -151,9 +151,9 @@ func (m *SelectMenuWithStaticOption) removeInitialOptions() {
 	m.optionals.InitialOption = false
 }
 
-func (m *SelectMenuWithStaticOption) setInitialOptions(initialOptions []option.Option) {
-	m.initialOptions = initialOptions
-	m.optionals.InitialOptions = true
+func (m *SelectMenuWithStaticOption) setInitialOptions(initialOption option.Option) {
+	m.initialOption = initialOption
+	m.optionals.InitialOption = true
 }
 
 // ClearInitialOptions clear initial options
@@ -249,7 +249,7 @@ type SelectMenuWithStaticOptionAbstraction struct {
 	ActionId         string
 	Options          []option.Option
 	OptionGroups     []optiongroup.OptionGroup
-	InitialOptions   []option.Option
+	InitialOption    option.Option
 	Confirm          confirmationdialog.ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
@@ -260,14 +260,14 @@ type SelectMenuWithStaticOptionAbstraction struct {
 
 func (m SelectMenuWithStaticOption) abstraction() SelectMenuWithStaticOptionAbstraction {
 	return SelectMenuWithStaticOptionAbstraction{
-		Type:           m.slackType.String(),
-		ActionId:       m.actionID,
-		Options:        m.options,
-		OptionGroups:   m.optionGroups,
-		InitialOptions: m.initialOptions,
-		Confirm:        m.confirm,
-		FocusOnLoad:    m.focusOnLoad,
-		Placeholder:    m.placeholder,
+		Type:          m.slackType.String(),
+		ActionId:      m.actionID,
+		Options:       m.options,
+		OptionGroups:  m.optionGroups,
+		InitialOption: m.initialOption,
+		Confirm:       m.confirm,
+		FocusOnLoad:   m.focusOnLoad,
+		Placeholder:   m.placeholder,
 
 		Optionals: m.optionals,
 	}
@@ -275,41 +275,19 @@ func (m SelectMenuWithStaticOption) abstraction() SelectMenuWithStaticOptionAbst
 
 // Template returns template string
 func (m SelectMenuWithStaticOptionAbstraction) Template() string {
-	if m.Optionals.OptionGroups {
-		return `{"action_id": "{{ .ActionId }}",
-	
-	"type": "{{ .Type }}",	
+	return `
+{
+"action_id": "{{ .ActionId }}",
+"type": "{{ .Type }}",	
+
+{{if .Optionals.OptionGroups }}	
 	"option_groups": [{{range $index, $option := .OptionGroups}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
-
-{{if .Optionals.InitialOptions}},
-	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
-{{end}}
-
-{{if .Optionals.Placeholder }},
-	"placeholder": {{ .Placeholder.Render }}
-{{end}}
-
-{{if .Optionals.Confirm }},
-	"confirm": {{ .Confirm.Render }}
-{{end}}
-
-{{if .Optionals.FocusOnLoad }},
-	"focus_on_load": {{ .FocusOnLoad }}
-{{end}}
-}`
-	}
-
-	return `{"action_id": "{{ .ActionId }}",
-	
-	"type": "{{ .Type }}",	
+{{else}}
 	"options": [{{range $index, $option := .Options}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
-
-{{if .Optionals.InitialOptions}},
-	"initial_options": [{{range $index, $option := .InitialOptions}}{{if $index}},{{end}}{{ $option.Render}}{{end}}]
 {{end}}
 
-{{if .Optionals.Placeholder }},
-	"placeholder": {{ .Placeholder.Render }}
+{{if .Optionals.InitialOption}},
+	"initial_option": {{ .InitialOption.Render }}
 {{end}}
 
 {{if .Optionals.Confirm }},
@@ -319,6 +297,11 @@ func (m SelectMenuWithStaticOptionAbstraction) Template() string {
 {{if .Optionals.FocusOnLoad }},
 	"focus_on_load": {{ .FocusOnLoad }}
 {{end}}
+
+{{if .Optionals.Placeholder }},
+	"placeholder": {{ .Placeholder.Render }}
+{{end}}
+
 }`
 }
 
