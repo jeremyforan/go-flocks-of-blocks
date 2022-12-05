@@ -170,24 +170,43 @@ func (v Video) abstraction() abstractionVideo {
 	}
 }
 
-// Render
+// Render the block
 func (v Video) Render() string {
 	return common.Render(v.abstraction())
 }
 
-// Template
+// Template for the block
 func (v abstractionVideo) Template() string {
 	return `{
-		"type": "{{.Type}}",
-		"title": {{.Title.Render}},
-		"thumbnail_url": "{{.ThumbnailUrl}}",
-		"video_url": "{{.VideoUrl}}",
-		"alt_text": "{{.AltText}}"{{if .Optional.AuthorName}},
-		"author_name": "{{.AuthorName}}"{{end}}{{if .Optional.ProviderName}},
-		"provider_name": "{{.ProviderName}}"{{end}}{{if .Optional.Description}},
-		"description": {{.Description.Render}}{{end}}{{if .Optional.ProviderIconUrl}},
-		"provider_icon_url": "{{.ProviderIconUrl}}"{{end}}{{if .Optional.TitleUrl}},
-		"title_url": "{{.TitleUrl}}"{{end}}{{if .Optional.BlockId}},
-		"block_id": "{{.BlockId}}"{{end}}
+	"type": "{{.Type}}",
+	"title": {{.Title.Render}},
+	
+	"thumbnail_url": "{{.ThumbnailUrl}}",
+	"video_url": "{{.VideoUrl}}",
+	"alt_text": "{{.AltText}}"
+
+{{if .Optional.AuthorName}},
+		"author_name": "{{.AuthorName}}"
+{{end}}
+
+{{if .Optional.ProviderName}},
+		"provider_name": "{{.ProviderName}}"
+{{end}}
+
+{{if .Optional.Description}},
+		"description": {{.Description.Render}}
+{{end}}
+
+{{if .Optional.ProviderIconUrl}},
+		"provider_icon_url": "{{.ProviderIconUrl}}"
+{{end}}
+
+{{if .Optional.TitleUrl}},
+		"title_url": "{{.TitleUrl}}"
+{{end}}
+
+{{if .Optional.BlockId}},
+		"block_id": "{{.BlockId}}"
+{{end}}
 	}`
 }

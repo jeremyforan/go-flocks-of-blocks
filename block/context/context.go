@@ -8,9 +8,10 @@ import (
 type Context struct {
 	slackType block.BlockType
 	elements  []element.Element
-	blockId   string
 
-	optional contextOptions
+	blockId string
+
+	optionals contextOptions
 }
 
 type contextOptions struct {
@@ -22,7 +23,7 @@ func NewContext() Context {
 	return Context{
 		slackType: block.Context,
 		elements:  []element.Element{},
-		optional: contextOptions{
+		optionals: contextOptions{
 			BlockId: false,
 		},
 	}
@@ -31,12 +32,12 @@ func NewContext() Context {
 // setBlockId sets the block id for the block.
 func (c *Context) setBlockId(blockId string) {
 	c.blockId = blockId
-	c.optional.BlockId = true
+	c.optionals.BlockId = true
 }
 
 // removeBlockId removes the block id from the context.
 func (c *Context) removeBlockId() {
-	c.optional.BlockId = false
+	c.optionals.BlockId = false
 }
 
 // AddBlockId chain function to add block id to an existing context
@@ -61,3 +62,36 @@ func (c Context) AddElement(element element.Element) Context {
 	c.addElement(element)
 	return c
 }
+
+// ContextAbstraction is the abstraction of the context block.
+type ContextAbstraction struct {
+	Type     string
+	BlockId  string
+	Elements []element.Element
+}
+
+// BlockRender is the implementation of the BlockRender interface.
+func (c Context) BlockRender() {}
+
+// BlockRenderAbstraction is the implementation of the BlockRenderAbstraction interface.
+func (c Context) abstraction() ContextAbstraction {
+	return ContextAbstraction{
+		Type:     c.slackType.String(),
+		BlockId:  c.blockId,
+		Elements: c.elements,
+	}
+}
+
+// Template is the template for the context block.
+func (c ContextAbstraction) Template() string {
+	return `{
+	"type": "{{.Type}}",
+	"elements": [{{range $index, $element := .Elements}}{{$element.Render}}{{if not $last}},{{end}}{{end}}]
+
+{{if .Optionals.BlockId}},
+	"block_id": "{{.BlockId}}"
+{{end}}
+	}`
+}
+
+// BlockRenderAbstraction is the implementation of the BlockRenderAbstraction interface.

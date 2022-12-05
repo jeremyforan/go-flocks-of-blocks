@@ -86,16 +86,19 @@ func (a Action) abstraction() actionAbstraction {
 func (a actionAbstraction) Template() string {
 	return `{
 	"type": "{{.Type}}",
-	"elements": [{{range $index, $element := .Elements}}{{if $index}},{{end}}{{$element.Render}}{{end}}
-	]{{if .BlockId}},
-	"block_id": "{{.BlockId}}"{{end}}
+	
+	"elements": [{{range $index, $element := .Elements}}{{if $index}},{{end}}{{$element.Render}}{{end}}]
+
+{{if .BlockId}},
+	"block_id": "{{.BlockId}}"
+{{end}}
 }`
 }
 
 // Render the block
 func (a Action) Render() string {
-
-	return common.Render(a.abstraction())
+	output := common.Render(a.abstraction())
+	return common.Pretty(output)
 }
 
 type ActionType interface {
