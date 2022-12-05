@@ -1,5 +1,9 @@
 # Flocks Of Blocks
 
+<a href="https://github.com/jeremyforan/go-flocks-of-blocks/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/jeremyforan/go-flocks-of-blocks">
+</a>
+
 Flocks of blocks is a Go library that helps build Slack messages using the block framework.
 
 
