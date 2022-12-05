@@ -25,7 +25,7 @@ func (b *Button) abstraction() buttonAbstraction {
 		ActionId:           b.actionId,
 		Url:                url,
 		Value:              b.value,
-		Style:              b.slackType.String(),
+		Style:              b.style.String(),
 		Confirm:            b.confirm,
 		AccessibilityLabel: b.accessibilityLabel,
 		Optionals:          b.optionals,

@@ -113,17 +113,35 @@ func (b *Button) setAccessibilityLabel(label string) {
 	b.optionals.AccessibilityLabel = true
 }
 
+// todo: make primary / default / danger
+
 // Template returns the template for the button.
 func (b buttonAbstraction) Template() string {
 	return `{
 	"type": "{{.Type}}",
 	"action_id": "{{.ActionId}}",
-	"text": {{.Text.Render}}{{if .Optionals.Url}},
-	"url": "{{.url}}"{{end}}{{if .Optionals.Value}},
-	"value": "{{.value}}"{{end}}{{if .Optionals.Style}},
-	"style": "{{.style}}"{{end}}{{if .Optionals.Confirm}},
-	"confirm": {{.confirm.Render}}{{end}}{{if .Optionals.AccessibilityLabel}},
-	"accessibility_label": "{{.AccessibilityLabel}}"{{end}}
+	"text": {{.Text.Render}}
+
+{{if .Optionals.Url}},
+	"url": "{{.Url}}"
+{{end}}
+
+{{if .Optionals.Value}},
+	"value": "{{.Value}}"
+{{end}}
+
+{{if .Optionals.Style}},
+	"style": "{{.Style}}"
+{{end}}
+
+{{if .Optionals.Confirm}},
+	"confirm": {{.Confirm.Render}}
+{{end}}
+
+{{if .Optionals.AccessibilityLabel}},
+	"accessibility_label": "{{.AccessibilityLabel}}"
+{{end}}
+
 }`
 }
 
