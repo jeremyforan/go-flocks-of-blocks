@@ -1,6 +1,6 @@
 package filter
 
-import "go-flocks-of-blocks/common"
+import "github.com/jeremyforan/go-flocks-of-blocks/common"
 
 type Filter struct {
 	include                       []string

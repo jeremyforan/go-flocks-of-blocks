@@ -2,7 +2,7 @@ package confirmationdialog
 
 import (
 	"fmt"
-	"go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"testing"
 )
 

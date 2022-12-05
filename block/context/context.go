@@ -1,8 +1,8 @@
 package context
 
 import (
-	"go-flocks-of-blocks/block"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Context struct {

@@ -1,9 +1,9 @@
 package video
 
 import (
-	"go-flocks-of-blocks/block"
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"net/url"
 )
 

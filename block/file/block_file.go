@@ -1,8 +1,8 @@
 package file
 
 import (
-	"go-flocks-of-blocks/block"
-	"go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
 )
 
 type File struct {

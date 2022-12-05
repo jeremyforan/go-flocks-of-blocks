@@ -2,7 +2,7 @@ package multiselectmenu
 
 import (
 	"fmt"
-	"go-flocks-of-blocks/composition/confirmationdialog"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
 	"testing"
 )
 

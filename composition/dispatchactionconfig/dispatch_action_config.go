@@ -1,6 +1,6 @@
 package dispatchactionconfig
 
-import "go-flocks-of-blocks/common"
+import "github.com/jeremyforan/go-flocks-of-blocks/common"
 
 type DispatchActionTypes string
 

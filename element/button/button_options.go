@@ -1,8 +1,8 @@
 package button
 
 import (
-	"go-flocks-of-blocks/common"
-	go_slack_blocks "go-flocks-of-blocks/composition/confirmationdialog"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	go_slack_blocks "github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
 	"net/url"
 )
 

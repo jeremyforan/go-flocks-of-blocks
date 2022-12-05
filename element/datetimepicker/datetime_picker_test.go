@@ -1,8 +1,8 @@
 package datetimepicker
 
 import (
-	"go-flocks-of-blocks/common"
 	"fmt"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"testing"
 )
 

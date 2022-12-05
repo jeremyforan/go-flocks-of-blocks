@@ -1,9 +1,9 @@
 package datetimepicker
 
 import (
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/confirmationdialog"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 	"strconv"
 	"time"
 )

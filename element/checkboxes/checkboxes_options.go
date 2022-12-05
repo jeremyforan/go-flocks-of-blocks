@@ -1,8 +1,8 @@
 package checkboxes
 
 import (
-	"go-flocks-of-blocks/composition/confirmationdialog"
-	"go-flocks-of-blocks/composition/option"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/option"
 )
 
 // AddOption add option to checkboxes

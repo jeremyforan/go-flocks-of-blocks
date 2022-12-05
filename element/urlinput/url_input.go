@@ -1,10 +1,10 @@
 package urlinput
 
 import (
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/compositiontext"
-	"go-flocks-of-blocks/composition/dispatchactionconfig"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/dispatchactionconfig"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 	"net/url"
 )
 

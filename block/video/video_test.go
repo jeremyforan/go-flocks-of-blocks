@@ -2,7 +2,7 @@ package video
 
 import (
 	"fmt"
-	"go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"net/url"
 	"testing"
 )

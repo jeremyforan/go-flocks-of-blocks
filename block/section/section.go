@@ -1,10 +1,10 @@
 package section
 
 import (
-	"go-flocks-of-blocks/block"
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/compositiontext"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Section struct {

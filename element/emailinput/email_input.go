@@ -1,8 +1,8 @@
 package emailinput
 
 import (
-	"go-flocks-of-blocks/composition/dispatchactionconfig"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/dispatchactionconfig"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type EmailInput struct {

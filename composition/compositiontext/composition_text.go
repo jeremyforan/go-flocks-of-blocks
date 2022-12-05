@@ -1,8 +1,8 @@
 package compositiontext
 
 import (
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 )
 
 type CompositionText struct {

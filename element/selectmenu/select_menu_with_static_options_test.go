@@ -2,8 +2,8 @@ package selectmenu
 
 import (
 	"fmt"
-	"go-flocks-of-blocks/composition/option"
-	"go-flocks-of-blocks/composition/optiongroup"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/option"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/optiongroup"
 	"testing"
 )
 

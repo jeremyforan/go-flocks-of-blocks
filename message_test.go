@@ -2,13 +2,13 @@ package flocksofblocks
 
 import (
 	"fmt"
-	"go-flocks-of-blocks/block/action"
-	"go-flocks-of-blocks/block/divider"
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/compositiontext"
-	"go-flocks-of-blocks/composition/option"
-	"go-flocks-of-blocks/composition/optiongroup"
-	"go-flocks-of-blocks/element/button"
+	"github.com/jeremyforan/go-flocks-of-blocks/block/action"
+	"github.com/jeremyforan/go-flocks-of-blocks/block/divider"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/option"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/optiongroup"
+	"github.com/jeremyforan/go-flocks-of-blocks/element/button"
 	"net/url"
 	"testing"
 )

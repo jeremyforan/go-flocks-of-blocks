@@ -1,13 +1,13 @@
 package multiselectmenu
 
 import (
-	"go-flocks-of-blocks/block/section"
-	"go-flocks-of-blocks/common"
-	"go-flocks-of-blocks/composition/compositiontext"
-	"go-flocks-of-blocks/composition/confirmationdialog"
-	"go-flocks-of-blocks/composition/option"
-	"go-flocks-of-blocks/composition/optiongroup"
-	"go-flocks-of-blocks/element"
+	"github.com/jeremyforan/go-flocks-of-blocks/block/section"
+	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/option"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition/optiongroup"
+	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 // InputElement
