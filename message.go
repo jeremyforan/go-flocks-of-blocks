@@ -26,7 +26,8 @@ func (m Message) Template() string {
 
 // Render the message
 func (m Message) Render() string {
-	return common.Pretty(common.Render(m))
+	raw := common.Render(m)
+	return common.Pretty(raw)
 }
 
 // AddBlock add a block to the message

@@ -18,3 +18,7 @@ const (
 func (b BlockType) String() string {
 	return string(b)
 }
+
+type Block interface {
+	BlockRender()
+}
