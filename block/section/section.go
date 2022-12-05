@@ -140,3 +140,6 @@ type SectionType interface {
 func (s Section) String() string {
 	return s.Render()
 }
+
+// BlockRender
+func (s Section) BlockRender() {}
