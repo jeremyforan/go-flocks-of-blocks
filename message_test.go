@@ -39,5 +39,10 @@ func TestMessage(t *testing.T) {
 
 		output := msg.Render()
 		fmt.Println("Message output: \n\n", output)
+
+		slackUrl := msg.GenerateKitBuilderUrl()
+
+		fmt.Println("Message url: \n\n", slackUrl)
+
 	})
 }
