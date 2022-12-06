@@ -1,16 +1,16 @@
 package block
 
 import (
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Section struct {
 	slackType BlockType
 	text      composition.CompositionText
 
-	accessory element.Element
+	accessory flocksofblocks.Element
 	blockId   string
 
 	fields []composition.CompositionText
@@ -38,7 +38,7 @@ func NewSection(text string) Section {
 }
 
 // SetAccessory sets the accessory for the section.
-func (s *Section) setAccessory(accessory element.Element) {
+func (s *Section) setAccessory(accessory flocksofblocks.Element) {
 	s.accessory = accessory
 	s.optional.Accessory = true
 }
@@ -48,7 +48,7 @@ func (s *Section) removeAccessory() {
 }
 
 // addAccessory adds an accessory to the section.
-func (s Section) AddAccessory(accessory element.Element) Section {
+func (s Section) AddAccessory(accessory flocksofblocks.Element) Section {
 	s.setAccessory(accessory)
 	return s
 }
@@ -83,7 +83,7 @@ type sectionAbstraction struct {
 	Type string
 	Text composition.CompositionText
 
-	Accessory element.Element
+	Accessory flocksofblocks.Element
 	BlockId   string
 
 	Fields []composition.CompositionText

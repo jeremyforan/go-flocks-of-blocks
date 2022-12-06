@@ -6,7 +6,6 @@ import (
 	"github.com/jeremyforan/go-flocks-of-blocks/block/divider"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-	"github.com/jeremyforan/go-flocks-of-blocks/element"
 	"net/url"
 	"testing"
 )
@@ -27,7 +26,7 @@ func TestMessage(t *testing.T) {
 		fmt.Println(oGroup.Render())
 		fmt.Println(common.Pretty(oGroup.Render()))
 
-		button := element.NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
+		button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
 
 		action := block.NewAction("Block").AddElement(button)
 

@@ -1,4 +1,4 @@
-package element
+package flocksofblocks
 
 type Element interface {
 	ElementRender()

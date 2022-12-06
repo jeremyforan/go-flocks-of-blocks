@@ -1,13 +1,13 @@
 package block
 
 import (
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Action struct {
 	slackType BlockType
-	elements  []element.Element
+	elements  []flocksofblocks.Element
 	blockId   string
 
 	optionals actionOptions
@@ -18,7 +18,7 @@ func (a Action) BlockRender() {}
 func NewAction(blockId string) Action {
 	return Action{
 		slackType: ActionsBlock,
-		elements:  []element.Element{},
+		elements:  []flocksofblocks.Element{},
 		blockId:   blockId,
 		optionals: actionOptions{
 			blockId: false,
@@ -37,7 +37,7 @@ func (a *Action) removeBlockId() {
 	a.optionals.blockId = false
 }
 
-func (a *Action) addElement(element element.Element) {
+func (a *Action) addElement(element flocksofblocks.Element) {
 	a.elements = append(a.elements, element)
 }
 
@@ -47,7 +47,7 @@ type actionOptions struct {
 
 type actionAbstraction struct {
 	Type     string
-	Elements []element.Element
+	Elements []flocksofblocks.Element
 	BlockId  string
 
 	Optional actionOptions
@@ -66,7 +66,7 @@ func (a Action) RemoveBlockId() Action {
 }
 
 // AddElement Add element to existing action block.
-func (a Action) AddElement(element element.Element) Action {
+func (a Action) AddElement(element flocksofblocks.Element) Action {
 	a.addElement(element)
 	return a
 }

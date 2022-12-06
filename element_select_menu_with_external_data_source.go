@@ -1,4 +1,4 @@
-package element
+package flocksofblocks
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/block"
