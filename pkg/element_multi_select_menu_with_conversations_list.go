@@ -270,7 +270,7 @@ func (m MultiSelectMenuWithConversationsList) abstraction() multiSelectMenuWithC
 
 		// Conversation
 		DefaultToCurrentConversation: m.defaultToCurrentConversation,
-		InitialConversations:         RemoveDuplicateString(m.initialConversations),
+		InitialConversations:         removeDuplicateString(m.initialConversations),
 		Filter:                       m.filter,
 
 		Optionals: m.optionals,

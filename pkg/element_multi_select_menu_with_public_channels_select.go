@@ -224,7 +224,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) abstraction() multiSelectMenuWi
 		Placeholder:      m.placeholder,
 
 		// Public Channel
-		InitialChannels: RemoveDuplicateString(m.initialChannels),
+		InitialChannels: removeDuplicateString(m.initialChannels),
 
 		Optionals: m.optionals,
 	}

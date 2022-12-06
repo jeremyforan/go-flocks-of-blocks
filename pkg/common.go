@@ -22,7 +22,7 @@ const (
 	StyleDanger  ColorSchema = "danger"
 )
 
-func RemoveDuplicateString(strSlice []string) []string {
+func removeDuplicateString(strSlice []string) []string {
 	allKeys := make(map[string]bool)
 	var list []string
 	for _, item := range strSlice {

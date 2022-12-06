@@ -211,7 +211,7 @@ func (m MultiSelectMenuWithUserList) abstraction() multiSelectMenuWithUserListAb
 		Placeholder:      m.placeholder,
 
 		// User List
-		InitialUsers: RemoveDuplicateString(m.initialUsers),
+		InitialUsers: removeDuplicateString(m.initialUsers),
 
 		Optionals: m.optionals,
 	}

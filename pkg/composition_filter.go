@@ -119,7 +119,7 @@ func (f Filter) UnsetExcludeBotUsers() Filter {
 // abstraction
 func (f Filter) abstraction() filterAbstraction {
 	return filterAbstraction{
-		Include:                       RemoveDuplicateString(f.include),
+		Include:                       removeDuplicateString(f.include),
 		ExcludeExternalSharedChannels: f.excludeExternalSharedChannels,
 		ExcludeBotUsers:               f.excludeBotUsers,
 		Optionals:                     f.optionals,
