@@ -1,4 +1,4 @@
-package block
+package flocksofblocks
 
 import "testing"
 

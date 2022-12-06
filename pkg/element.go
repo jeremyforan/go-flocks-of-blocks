@@ -12,7 +12,7 @@ const (
 	DatePickerElement                              ElementType = "datepicker"
 	DateTimePickerElement                          ElementType = "datetimepicker"
 	EmailInputElement                              ElementType = "email"
-	ImageElement                                   ElementType = "image"
+	ImageElementType                               ElementType = "image"
 	MultiSelectMenuWithStaticOptionsElement        ElementType = "multi_static_select"
 	MultiSelectMenuWithExternalDataSourceElement   ElementType = "multi_external_select"
 	MultiSelectMenuWithUserListElement             ElementType = "multi_users_select"

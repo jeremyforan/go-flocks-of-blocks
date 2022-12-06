@@ -2,7 +2,8 @@ package flocksofblocks
 
 type Divider struct {
 	slackType BlockType // required
-	blockId   string    // optional
+
+	blockId string // optional
 
 	optionals dividerOptionals
 }

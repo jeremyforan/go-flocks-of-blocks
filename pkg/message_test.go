@@ -2,7 +2,6 @@ package flocksofblocks
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/block/divider"
 	"net/url"
 	"testing"
 )
@@ -27,7 +26,7 @@ func TestMessage(t *testing.T) {
 
 		action := NewAction("Block").AddElement(button)
 
-		div := NewDividerBlock(divider.BlockId("divider1"))
+		div := NewDividerBlock()
 
 		msg = msg.AddBlock(action).AddBlock(div)
 

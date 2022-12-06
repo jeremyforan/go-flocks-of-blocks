@@ -4,27 +4,27 @@ import (
 	"net/url"
 )
 
-type Image struct {
+type ImageElement struct {
 	slackType ElementType
 	imageUrl  *url.URL
 	altText   string
 }
 
-func NewImage(imageUrl *url.URL, altText string) Image {
-	return Image{
-		slackType: ImageElement,
+func NewImageElement(imageUrl *url.URL, altText string) ImageElement {
+	return ImageElement{
+		slackType: ImageElementType,
 		imageUrl:  imageUrl,
 		altText:   altText,
 	}
 }
 
 // SetImageUrl sets the image url for the image.
-func (i *Image) setImageUrl(imageUrl *url.URL) {
+func (i *ImageElement) setImageUrl(imageUrl *url.URL) {
 	i.imageUrl = imageUrl
 }
 
 // SetAltText sets the alt text for the image.
-func (i *Image) setAltText(altText string) {
+func (i *ImageElement) setAltText(altText string) {
 	i.altText = altText
 }
 
@@ -36,7 +36,7 @@ type abstractImage struct {
 }
 
 // abstraction method
-func (i *Image) abstraction() abstractImage {
+func (i *ImageElement) abstraction() abstractImage {
 	return abstractImage{
 		Type:     i.slackType.String(),
 		ImageUrl: i.imageUrl.String(),
@@ -54,6 +54,6 @@ func (i abstractImage) Template() string {
 }
 
 // Render method
-func (i Image) Render() string {
+func (i ImageElement) Render() string {
 	return Render(i.abstraction())
 }
