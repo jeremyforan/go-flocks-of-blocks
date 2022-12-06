@@ -2,12 +2,12 @@ package block
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 )
 
 type Header struct {
 	slackType BlockType
-	text      compositiontext.CompositionText
+	text      composition.CompositionText
 
 	blockId string
 
@@ -22,7 +22,7 @@ type headerOptions struct {
 func NewHeader(text string) Header {
 	return Header{
 		slackType: HeaderBlock,
-		text:      compositiontext.NewPlainText(text),
+		text:      composition.NewPlainText(text),
 		optional: headerOptions{
 			BlockId: false,
 		},
@@ -55,7 +55,7 @@ func (h Header) RemoveBlockId() Header {
 // abstraction is a helper struct to generate the abstraction for the header.
 type headerAbstraction struct {
 	Type     string
-	Text     compositiontext.CompositionText
+	Text     composition.CompositionText
 	BlockId  string
 	Optional headerOptions
 }

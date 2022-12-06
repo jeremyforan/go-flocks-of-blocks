@@ -2,18 +2,18 @@ package block
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Section struct {
 	slackType BlockType
-	text      compositiontext.CompositionText
+	text      composition.CompositionText
 
 	accessory element.Element
 	blockId   string
 
-	fields []compositiontext.CompositionText
+	fields []composition.CompositionText
 
 	optional sectionOptions
 }
@@ -28,7 +28,7 @@ type sectionOptions struct {
 func NewSection(text string) Section {
 	return Section{
 		slackType: SectionBlock,
-		text:      compositiontext.NewPlainText(text),
+		text:      composition.NewPlainText(text),
 		optional: sectionOptions{
 			Accessory: false,
 			BlockId:   false,
@@ -65,12 +65,12 @@ func (s *Section) removeBlockId() {
 
 // AddField adds a field to the section.
 func (s *Section) addPlainField(field string) {
-	s.fields = append(s.fields, compositiontext.NewPlainText(field))
+	s.fields = append(s.fields, composition.NewPlainText(field))
 	s.optional.Field = true
 }
 
 func (s *Section) addMarkdownField(field string) {
-	s.fields = append(s.fields, compositiontext.NewMrkdwnText(field))
+	s.fields = append(s.fields, composition.NewMrkdwnText(field))
 	s.optional.Field = true
 }
 
@@ -81,12 +81,12 @@ func (s *Section) removeField() {
 // abstraction for the section block
 type sectionAbstraction struct {
 	Type string
-	Text compositiontext.CompositionText
+	Text composition.CompositionText
 
 	Accessory element.Element
 	BlockId   string
 
-	Fields []compositiontext.CompositionText
+	Fields []composition.CompositionText
 
 	Optional sectionOptions
 }

@@ -2,18 +2,18 @@ package block
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Input struct {
 	slackType BlockType
-	label     compositiontext.CompositionText
+	label     composition.CompositionText
 	element   element.InputElement
 
 	dispatchAction bool
 	blockID        string
-	hint           compositiontext.CompositionText
+	hint           composition.CompositionText
 	slackOptional  bool
 
 	optionals inputOptional
@@ -29,7 +29,7 @@ type inputOptional struct {
 func NewInput(label string, element element.InputElement) Input {
 	return Input{
 		slackType: InputBlock,
-		label:     compositiontext.NewPlainText(label),
+		label:     composition.NewPlainText(label),
 		element:   element,
 	}
 }
@@ -53,7 +53,7 @@ func (i *Input) removeBlockID() {
 
 // setHint
 func (i *Input) setHint(s string) {
-	i.hint = compositiontext.NewPlainText(s)
+	i.hint = composition.NewPlainText(s)
 	i.optionals.Hint = true
 }
 
@@ -64,7 +64,7 @@ func (i *Input) removeHint() {
 
 // set label
 func (i *Input) setLabel(label string) {
-	i.label = compositiontext.NewPlainText(label)
+	i.label = composition.NewPlainText(label)
 }
 
 // SetSlackOptional set slack optional
@@ -80,11 +80,11 @@ func (i *Input) removeSlackOptional() {
 
 type abstractionInput struct {
 	Type           string
-	Label          compositiontext.CompositionText
+	Label          composition.CompositionText
 	Element        element.InputElement
 	DispatchAction bool
 	BlockID        string
-	Hint           compositiontext.CompositionText
+	Hint           composition.CompositionText
 	SlackOptional  bool
 	Optionals      inputOptional
 }

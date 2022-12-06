@@ -2,7 +2,7 @@ package block
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
@@ -11,7 +11,7 @@ type Image struct {
 	imageUrl  *url.URL
 	altText   string
 
-	title   compositiontext.CompositionText
+	title   composition.CompositionText
 	blockId string
 
 	optional imageOptions
@@ -37,7 +37,7 @@ func NewImage(imageUrl *url.URL, altText string) Image {
 
 // SetTitle sets the title for the image.
 func (i *Image) setTitle(title string) {
-	i.title = compositiontext.NewPlainText(title)
+	i.title = composition.NewPlainText(title)
 	i.optional.Title = true
 }
 
@@ -84,7 +84,7 @@ type imageAbstraction struct {
 	Type     string
 	ImageUrl string
 	AltText  string
-	Title    compositiontext.CompositionText
+	Title    composition.CompositionText
 	BlockId  string
 	Optional imageOptions
 }

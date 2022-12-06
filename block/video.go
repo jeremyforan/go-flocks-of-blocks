@@ -2,13 +2,13 @@ package block
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
+	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
 type Video struct {
 	slackType    BlockType
-	title        compositiontext.CompositionText
+	title        composition.CompositionText
 	thumbnailUrl *url.URL
 	videoUrl     *url.URL
 	altText      string
@@ -17,7 +17,7 @@ type Video struct {
 	authorName   string
 	providerName string
 
-	description compositiontext.CompositionText
+	description composition.CompositionText
 
 	providerIconUrl *url.URL
 	titleUrl        *url.URL
@@ -39,7 +39,7 @@ type optionalVideo struct {
 func NewVideo(title string, thumbnailUrl *url.URL, videoUrl *url.URL, altText string) Video {
 	return Video{
 		slackType: VideoBlock,
-		title:     compositiontext.NewPlainText(title),
+		title:     composition.NewPlainText(title),
 
 		thumbnailUrl: thumbnailUrl,
 		videoUrl:     videoUrl,
@@ -80,7 +80,7 @@ func (v *Video) removeProviderName() {
 
 // setDescription
 func (v *Video) setDescription(description string) {
-	v.description = compositiontext.NewPlainText(description).EnableEmoji()
+	v.description = composition.NewPlainText(description).EnableEmoji()
 	v.optional.Description = true
 }
 
@@ -125,14 +125,14 @@ func (v *Video) removeBlockId() {
 // abstraction structure
 type abstractionVideo struct {
 	Type         string
-	Title        compositiontext.CompositionText
+	Title        composition.CompositionText
 	ThumbnailUrl string
 	VideoUrl     string
 	AltText      string
 
 	AuthorName      string
 	ProviderName    string
-	Description     compositiontext.CompositionText
+	Description     composition.CompositionText
 	ProviderIconUrl string
 	TitleUrl        string
 	BlockId         string
