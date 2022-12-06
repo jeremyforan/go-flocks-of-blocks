@@ -45,7 +45,7 @@ func (m SelectMenuWithStaticOption) emptyAllFalseOptions() SelectMenuWithStaticO
 
 func NewSelectMenuWithStaticOptions(actionId string) SelectMenuWithStaticOption {
 	return SelectMenuWithStaticOption{
-		slackType: SelectMenuWithStaticOptions,
+		slackType: SelectMenuWithStaticOptionsElement,
 		actionID:  actionId,
 		options:   []composition.Option{},
 		optionals: SelectMenuWithStaticOptionOptions{

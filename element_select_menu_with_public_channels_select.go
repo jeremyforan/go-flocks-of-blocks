@@ -51,7 +51,7 @@ type SelectMenuWithPublicChannelsSelectAbstraction struct {
 
 func NewSelectMenuWithPublicChannelsSelect(actionId string) SelectMenuWithPublicChannelsSelect {
 	return SelectMenuWithPublicChannelsSelect{
-		slackType: SelectMenuWithPublicChannelsSelect,
+		slackType: SelectMenuWithPublicChannelsSelectElement,
 		actionID:  actionId,
 
 		optionals: SelectMenuWithPublicChannelsSelectOptions{

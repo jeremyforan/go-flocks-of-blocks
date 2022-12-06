@@ -35,7 +35,7 @@ type selectMenuWithExternalDataSourceOptions struct {
 
 func NewSelectMenuWithExternalDataSource(actionId string) SelectMenuWithExternalDataSource {
 	return SelectMenuWithExternalDataSource{
-		slackType:     SelectMenuWithExternalDataSource,
+		slackType:     SelectMenuWithExternalDataSourceElement,
 		actionID:      actionId,
 		initialOption: composition.Option{},
 		optionals: selectMenuWithExternalDataSourceOptions{

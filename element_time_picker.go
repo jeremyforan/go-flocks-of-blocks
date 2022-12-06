@@ -27,7 +27,7 @@ type timePickerOptions struct {
 // NewTimePicker public constructor
 func NewTimePicker(actionId string) TimePicker {
 	return TimePicker{
-		slackType: TimePicker,
+		slackType: TimePickerElement,
 		actionID:  actionId,
 		optionals: timePickerOptions{
 			InitialTime: false,

@@ -38,7 +38,7 @@ type plainTextInputOptions struct {
 
 func NewPlainTextInput(actionId string) PlainTextInput {
 	return PlainTextInput{
-		slackType: PlainTextInput,
+		slackType: PlainTextInputElement,
 		actionID:  actionId,
 		optionals: plainTextInputOptions{
 			InitialValue:         false,

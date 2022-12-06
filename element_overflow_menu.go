@@ -22,7 +22,7 @@ type overflowMenuOptions struct {
 // NewOverflowMenu creates a new OverflowMenu
 func NewOverflowMenu(actionId string) OverflowMenu {
 	return OverflowMenu{
-		slackType: OverflowMenu,
+		slackType: OverflowMenuElement,
 		actionID:  actionId,
 		options:   []composition.Option{},
 		optionals: overflowMenuOptions{

@@ -19,7 +19,7 @@ type SelectMenuWithUserList struct {
 	// User List
 	initialUser string
 
-	optionals multiSelectMenuWithUserListOptions
+	optionals selectMenuWithUserListOptions
 }
 
 type selectMenuWithUserListOptions struct {
@@ -168,7 +168,7 @@ type selectMenuWithUserListAbstraction struct {
 	// User List
 	InitialUser string
 
-	Optionals multiSelectMenuWithUserListOptions
+	Optionals selectMenuWithUserListOptions
 }
 
 // create abstract

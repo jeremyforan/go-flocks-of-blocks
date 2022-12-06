@@ -59,7 +59,7 @@ type selectMenuWithConversationsListAbstraction struct {
 
 func NewSelectMenuWithConversationsList(actionId string) SelectMenuWithConversationsList {
 	return SelectMenuWithConversationsList{
-		slackType: SelectMenuWithConversationsList,
+		slackType: SelectMenuWithConversationsListElement,
 		actionID:  actionId,
 		optionals: selectMenuWithConversationsListOptions{
 			Confirm:                      false,

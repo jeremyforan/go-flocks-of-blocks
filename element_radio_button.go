@@ -26,7 +26,7 @@ type radioButtonOptions struct {
 // NewRadioButton public constructor
 func NewRadioButton(actionId string) RadioButton {
 	return RadioButton{
-		slackType: RadioButton,
+		slackType: RadioButtonElement,
 		actionID:  actionId,
 		options:   []composition.Option{},
 		optionals: radioButtonOptions{

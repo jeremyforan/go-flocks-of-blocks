@@ -27,7 +27,7 @@ type urlInputOptions struct {
 
 func NewURLInput(actionId string) URLInput {
 	return URLInput{
-		slackType: UrlInput,
+		slackType: UrlInputElement,
 		actionID:  actionId,
 		optionals: urlInputOptions{
 			InitialValue:         false,

@@ -35,7 +35,7 @@ type numberInputOptions struct {
 
 func NewNumberInput(actionId string) NumberInput {
 	return NumberInput{
-		slackType:        NumberInput,
+		slackType:        NumberInputElement,
 		actionID:         actionId,
 		isDecimalAllowed: false,
 
