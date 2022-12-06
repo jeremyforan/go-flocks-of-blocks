@@ -1,23 +1,18 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type MultiSelectMenuWithStaticOption struct {
 	slackType ElementType
 	actionID  string
-	options   []composition.Option
+	options   []Option
 
-	optionGroups     []composition.OptionGroup
-	initialOptions   []composition.Option
-	confirm          composition.ConfirmationDialog
+	optionGroups     []OptionGroup
+	initialOptions   []Option
+	confirm          ConfirmationDialog
 	maxSelectedItems int
 	focusOnLoad      bool
-	placeholder      composition.CompositionText
+	placeholder      CompositionText
 
 	optionals multiSelectMenuWithStaticOptionOptions
 }
@@ -46,7 +41,7 @@ func NewMultiSelectMenuWithStaticOptions(actionId string) MultiSelectMenuWithSta
 	return MultiSelectMenuWithStaticOption{
 		slackType: MultiSelectMenuWithStaticOptionsElement,
 		actionID:  actionId,
-		options:   []composition.Option{},
+		options:   []Option{},
 		optionals: multiSelectMenuWithStaticOptionOptions{
 			OptionGroups:     false,
 			InitialOptions:   false,
@@ -78,20 +73,20 @@ func (m MultiSelectMenuWithStaticOption) UpdateActionId(actionId string) MultiSe
 //////////////////////////////////////////////////
 // options
 
-func (m *MultiSelectMenuWithStaticOption) setOptions(options []composition.Option) {
+func (m *MultiSelectMenuWithStaticOption) setOptions(options []Option) {
 	m.options = options
 }
 
-func (m *MultiSelectMenuWithStaticOption) addOption(option composition.Option) {
+func (m *MultiSelectMenuWithStaticOption) addOption(option Option) {
 	m.options = append(m.options, option)
 }
 
 func (m *MultiSelectMenuWithStaticOption) removeOptions() {
-	m.options = []composition.Option{}
+	m.options = []Option{}
 }
 
 // AddOption public add option
-func (m MultiSelectMenuWithStaticOption) AddOption(option composition.Option) MultiSelectMenuWithStaticOption {
+func (m MultiSelectMenuWithStaticOption) AddOption(option Option) MultiSelectMenuWithStaticOption {
 	m.addOption(option)
 	return m
 }
@@ -102,7 +97,7 @@ func (m MultiSelectMenuWithStaticOption) ClearOptions() MultiSelectMenuWithStati
 	return m
 }
 
-func (m *MultiSelectMenuWithStaticOption) setOptionGroups(optionGroups []composition.OptionGroup) {
+func (m *MultiSelectMenuWithStaticOption) setOptionGroups(optionGroups []OptionGroup) {
 	m.optionGroups = optionGroups
 	m.optionals.OptionGroups = true
 }
@@ -118,7 +113,7 @@ func (m MultiSelectMenuWithStaticOption) ClearOptionGroups() MultiSelectMenuWith
 }
 
 // AddOptionGroup public add option group
-func (m MultiSelectMenuWithStaticOption) AddOptionGroup(optionGroup composition.OptionGroup) MultiSelectMenuWithStaticOption {
+func (m MultiSelectMenuWithStaticOption) AddOptionGroup(optionGroup OptionGroup) MultiSelectMenuWithStaticOption {
 	m.setOptionGroups(append(m.optionGroups, optionGroup))
 	return m
 }
@@ -136,7 +131,7 @@ func (m MultiSelectMenuWithStaticOption) ClearAllOptions() MultiSelectMenuWithSt
 //////////////////////////////////////////////////
 // initialOptions
 
-func (m *MultiSelectMenuWithStaticOption) addInitialOption(initialOption composition.Option) {
+func (m *MultiSelectMenuWithStaticOption) addInitialOption(initialOption Option) {
 	m.addOption(initialOption)
 	m.initialOptions = append(m.initialOptions, initialOption)
 	m.optionals.InitialOptions = true
@@ -146,7 +141,7 @@ func (m *MultiSelectMenuWithStaticOption) removeInitialOptions() {
 	m.optionals.InitialOptions = false
 }
 
-func (m *MultiSelectMenuWithStaticOption) setInitialOptions(initialOptions []composition.Option) {
+func (m *MultiSelectMenuWithStaticOption) setInitialOptions(initialOptions []Option) {
 	m.initialOptions = initialOptions
 	m.optionals.InitialOptions = true
 }
@@ -158,7 +153,7 @@ func (m MultiSelectMenuWithStaticOption) ClearInitialOptions() MultiSelectMenuWi
 }
 
 // AddInitialOption public add initial option
-func (m MultiSelectMenuWithStaticOption) AddInitialOption(initialOption composition.Option) MultiSelectMenuWithStaticOption {
+func (m MultiSelectMenuWithStaticOption) AddInitialOption(initialOption Option) MultiSelectMenuWithStaticOption {
 	m.addInitialOption(initialOption)
 	return m
 }
@@ -166,7 +161,7 @@ func (m MultiSelectMenuWithStaticOption) AddInitialOption(initialOption composit
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithStaticOption) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *MultiSelectMenuWithStaticOption) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -176,7 +171,7 @@ func (m *MultiSelectMenuWithStaticOption) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithStaticOption) AddConfirmDialog(confirm composition.ConfirmationDialog) MultiSelectMenuWithStaticOption {
+func (m MultiSelectMenuWithStaticOption) AddConfirmDialog(confirm ConfirmationDialog) MultiSelectMenuWithStaticOption {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -240,7 +235,7 @@ func (m MultiSelectMenuWithStaticOption) UnsetFocusOnLoad() MultiSelectMenuWithS
 // placeholder
 
 func (m *MultiSelectMenuWithStaticOption) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -267,13 +262,13 @@ func (m MultiSelectMenuWithStaticOption) RemovePlaceholder() MultiSelectMenuWith
 type multiSelectMenuWithStaticOptionAbstraction struct {
 	Type             string
 	ActionId         string
-	Options          []composition.Option
-	OptionGroups     []composition.OptionGroup
-	InitialOptions   []composition.Option
-	Confirm          composition.ConfirmationDialog
+	Options          []Option
+	OptionGroups     []OptionGroup
+	InitialOptions   []Option
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	Optionals multiSelectMenuWithStaticOptionOptions
 }
@@ -330,8 +325,8 @@ func (m multiSelectMenuWithStaticOptionAbstraction) Template() string {
 
 // Render returns json string
 func (m MultiSelectMenuWithStaticOption) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 // ElementRender interface implementation

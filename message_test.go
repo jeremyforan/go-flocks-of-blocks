@@ -3,8 +3,6 @@ package flocksofblocks
 import (
 	"fmt"
 	"github.com/jeremyforan/go-flocks-of-blocks/block/divider"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 	"testing"
 )
@@ -18,12 +16,12 @@ func TestMessage(t *testing.T) {
 			t.Error(err)
 		}
 
-		option3 := composition.NewOption("Option 3", "value3")
-		option3 = option3.SetDescription(composition.NewPlainText("Option 3 description"))
+		option3 := NewOption("Option 3", "value3")
+		option3 = option3.SetDescription(NewPlainText("Option 3 description"))
 
-		oGroup := composition.NewOptionGroup("Select an option").AddOption(composition.NewOption("Option 1", "value1")).AddOption(composition.NewOption("Option 2", "value2"))
+		oGroup := NewOptionGroup("Select an option").AddOption(NewOption("Option 1", "value1")).AddOption(NewOption("Option 2", "value2"))
 		fmt.Println(oGroup.Render())
-		fmt.Println(common.Pretty(oGroup.Render()))
+		fmt.Println(Pretty(oGroup.Render()))
 
 		button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
 

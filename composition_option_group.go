@@ -1,8 +1,4 @@
-package composition
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
+package flocksofblocks
 
 type OptionGroup struct {
 	label   CompositionText
@@ -48,7 +44,7 @@ func (o OptionGroup) abstraction() optionGroupAbstraction {
 
 // Render renders the block to a string.
 func (o OptionGroup) Render() string {
-	return common.Render(o.abstraction())
+	return Render(o.abstraction())
 }
 
 // Template returns the template for the block.

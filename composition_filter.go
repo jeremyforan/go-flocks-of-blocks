@@ -1,6 +1,4 @@
-package composition
-
-import "github.com/jeremyforan/go-flocks-of-blocks/common"
+package flocksofblocks
 
 type Filter struct {
 	include                       []string
@@ -121,7 +119,7 @@ func (f Filter) UnsetExcludeBotUsers() Filter {
 // abstraction
 func (f Filter) abstraction() filterAbstraction {
 	return filterAbstraction{
-		Include:                       common.RemoveDuplicateString(f.include),
+		Include:                       RemoveDuplicateString(f.include),
 		ExcludeExternalSharedChannels: f.excludeExternalSharedChannels,
 		ExcludeBotUsers:               f.excludeBotUsers,
 		Optionals:                     f.optionals,
@@ -155,7 +153,7 @@ func (f filterAbstraction) Template() string {
 
 // Render method
 func (f Filter) Render() string {
-	return common.Render(f.abstraction())
+	return Render(f.abstraction())
 }
 
 // im, mpim, private, and public.

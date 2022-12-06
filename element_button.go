@@ -1,8 +1,6 @@
 package flocksofblocks
 
 import (
-	common "github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
@@ -16,14 +14,14 @@ const (
 // Button as defined in slack
 type Button struct {
 	slackType ElementType
-	text      composition.CompositionText
+	text      CompositionText
 	actionId  string
 
 	// optionals
 	url                *url.URL
 	value              string
-	style              common.ColorSchema
-	confirm            composition.ConfirmationDialog
+	style              ColorSchema
+	confirm            ConfirmationDialog
 	accessibilityLabel string
 
 	// optionals help with the template rendering
@@ -34,7 +32,7 @@ type Button struct {
 func NewButton(text string, actionId string) Button {
 	button := Button{
 		slackType: ButtonElement,
-		text:      composition.NewPlainText(text),
+		text:      NewPlainText(text),
 		actionId:  actionId,
 		optionals: buttonOptionals{
 			Url:                false,
@@ -49,15 +47,15 @@ func NewButton(text string, actionId string) Button {
 }
 
 type buttonAbstraction struct {
-	Type     string                      // required
-	Text     composition.CompositionText // required
-	ActionId string                      // required
+	Type     string          // required
+	Text     CompositionText // required
+	ActionId string          // required
 
 	// optionals
 	Url                string
 	Value              string
 	Style              string
-	Confirm            composition.ConfirmationDialog
+	Confirm            ConfirmationDialog
 	AccessibilityLabel string
 
 	// optionals help with the template rendering
@@ -65,7 +63,7 @@ type buttonAbstraction struct {
 }
 
 func (b Button) Render() string {
-	return common.Render(b.abstraction())
+	return Render(b.abstraction())
 }
 
 // setUrl sets the url for the button.
@@ -91,8 +89,8 @@ func (b *Button) removeValue() {
 	b.optionals.Value = true
 }
 
-func (b *Button) setStyle(style common.ColorSchema) {
-	if style == common.StyleDefault {
+func (b *Button) setStyle(style ColorSchema) {
+	if style == StyleDefault {
 		b.optionals.Style = false
 	} else {
 		b.style = style
@@ -101,7 +99,7 @@ func (b *Button) setStyle(style common.ColorSchema) {
 }
 
 // setConfirmationDialog sets the confirmation dialog for the button.
-func (b *Button) setConfirmationDialog(confirm composition.ConfirmationDialog) {
+func (b *Button) setConfirmationDialog(confirm ConfirmationDialog) {
 	b.confirm = confirm
 }
 
@@ -205,31 +203,31 @@ func (b Button) RemoveValue() Button {
 
 // MakeStylePrimary chain method that sets the style of the button to primary.
 func (b Button) MakeStylePrimary() Button {
-	b.setStyle(common.StylePrimary)
+	b.setStyle(StylePrimary)
 	return b
 }
 
 // MakeStyleDanger invoke option sets the style of the button to primary.
 func (b Button) MakeStyleDanger() Button {
-	b.setStyle(common.StyleDanger)
+	b.setStyle(StyleDanger)
 	return b
 }
 
 // MakeStyleDefault invoke option sets the style of the button to primary.
 func (b Button) MakeStyleDefault() Button {
-	b.setStyle(common.StyleDefault)
+	b.setStyle(StyleDefault)
 	return b
 }
 
 // AddConfirmationDialog sets the confirmation dialog for the button.
-func (b Button) AddConfirmationDialog(confirm composition.ConfirmationDialog) Button {
+func (b Button) AddConfirmationDialog(confirm ConfirmationDialog) Button {
 	b.setConfirmationDialog(confirm)
 	return b
 }
 
 // RemoveConfirmationDialog removes the confirmation dialog from the button.
 func (b Button) RemoveConfirmationDialog() Button {
-	b.confirm = composition.ConfirmationDialog{}
+	b.confirm = ConfirmationDialog{}
 	b.optionals.Confirm = false
 	return b
 }

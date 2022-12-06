@@ -1,9 +1,5 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
-
 type Action struct {
 	slackType BlockType
 	elements  []Element
@@ -95,8 +91,8 @@ func (a actionAbstraction) Template() string {
 
 // Render the block
 func (a Action) Render() string {
-	output := common.Render(a.abstraction())
-	return common.Pretty(output)
+	output := Render(a.abstraction())
+	return Pretty(output)
 }
 
 type ActionType interface {

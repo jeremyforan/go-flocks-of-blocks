@@ -1,7 +1,6 @@
-package composition
+package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"net/url"
 )
 
@@ -97,5 +96,5 @@ func (o optionAbstraction) Template() string {
 
 // Render renders the option to a string.
 func (o Option) Render() string {
-	return common.Render(o.abstraction())
+	return Render(o.abstraction())
 }

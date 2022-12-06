@@ -1,21 +1,16 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type MultiSelectMenuWithExternalDataSource struct {
 	slackType ElementType
 	actionID  string
 
-	initialOptions   []composition.Option
-	confirm          composition.ConfirmationDialog
+	initialOptions   []Option
+	confirm          ConfirmationDialog
 	maxSelectedItems int
 	focusOnLoad      bool
-	placeholder      composition.CompositionText
+	placeholder      CompositionText
 
 	// External Options
 	minQueryLength int
@@ -38,7 +33,7 @@ func NewMultiSelectMenuWithExternalDataSource(actionId string) MultiSelectMenuWi
 	return MultiSelectMenuWithExternalDataSource{
 		slackType:      MultiSelectMenuWithExternalDataSourceElement,
 		actionID:       actionId,
-		initialOptions: []composition.Option{},
+		initialOptions: []Option{},
 		optionals: multiSelectMenuWithExternalDataSourceOptions{
 			InitialOptions:   false,
 			Confirm:          false,
@@ -70,7 +65,7 @@ func (m MultiSelectMenuWithExternalDataSource) UpdateActionId(actionId string) M
 //////////////////////////////////////////////////
 // initialOptions
 
-func (m *MultiSelectMenuWithExternalDataSource) addInitialOption(initialOption composition.Option) {
+func (m *MultiSelectMenuWithExternalDataSource) addInitialOption(initialOption Option) {
 	m.initialOptions = append(m.initialOptions, initialOption)
 	m.optionals.InitialOptions = true
 }
@@ -79,7 +74,7 @@ func (m *MultiSelectMenuWithExternalDataSource) removeInitialOptions() {
 	m.optionals.InitialOptions = false
 }
 
-func (m *MultiSelectMenuWithExternalDataSource) setInitialOptions(initialOptions []composition.Option) {
+func (m *MultiSelectMenuWithExternalDataSource) setInitialOptions(initialOptions []Option) {
 	m.initialOptions = initialOptions
 	m.optionals.InitialOptions = true
 }
@@ -91,7 +86,7 @@ func (m MultiSelectMenuWithExternalDataSource) ClearInitialOptions() MultiSelect
 }
 
 // AddInitialOption public add initial option
-func (m MultiSelectMenuWithExternalDataSource) AddInitialOption(initialOption composition.Option) MultiSelectMenuWithExternalDataSource {
+func (m MultiSelectMenuWithExternalDataSource) AddInitialOption(initialOption Option) MultiSelectMenuWithExternalDataSource {
 	m.addInitialOption(initialOption)
 	return m
 }
@@ -99,7 +94,7 @@ func (m MultiSelectMenuWithExternalDataSource) AddInitialOption(initialOption co
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithExternalDataSource) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *MultiSelectMenuWithExternalDataSource) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -109,7 +104,7 @@ func (m *MultiSelectMenuWithExternalDataSource) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithExternalDataSource) AddConfirmDialog(confirm composition.ConfirmationDialog) MultiSelectMenuWithExternalDataSource {
+func (m MultiSelectMenuWithExternalDataSource) AddConfirmDialog(confirm ConfirmationDialog) MultiSelectMenuWithExternalDataSource {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -173,7 +168,7 @@ func (m MultiSelectMenuWithExternalDataSource) UnsetFocusOnLoad() MultiSelectMen
 // placeholder
 
 func (m *MultiSelectMenuWithExternalDataSource) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -223,11 +218,11 @@ type multiSelectMenuWithExternalDataSourceAbstraction struct {
 	Type     string
 	ActionId string
 
-	InitialOptions   []composition.Option
-	Confirm          composition.ConfirmationDialog
+	InitialOptions   []Option
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	// External Options
 	MinQueryLength int
@@ -286,8 +281,8 @@ func (m multiSelectMenuWithExternalDataSourceAbstraction) Template() string {
 func (m MultiSelectMenuWithExternalDataSource) ElementRender() {}
 
 func (m MultiSelectMenuWithExternalDataSource) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m MultiSelectMenuWithExternalDataSource) Section() Section {

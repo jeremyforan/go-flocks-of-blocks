@@ -1,16 +1,11 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type OverflowMenu struct {
 	slackType ElementType
 	actionID  string
 
-	options []composition.Option
-	confirm composition.ConfirmationDialog
+	options []Option
+	confirm ConfirmationDialog
 
 	optionals overflowMenuOptions
 }
@@ -24,7 +19,7 @@ func NewOverflowMenu(actionId string) OverflowMenu {
 	return OverflowMenu{
 		slackType: OverflowMenuElement,
 		actionID:  actionId,
-		options:   []composition.Option{},
+		options:   []Option{},
 		optionals: overflowMenuOptions{
 			Confirm: false,
 		},
@@ -52,12 +47,12 @@ func (o OverflowMenu) UpdateActionId(actionId string) OverflowMenu {
 // options
 
 // AddOption adds an option to the OverflowMenu
-func (o *OverflowMenu) addOption(option composition.Option) {
+func (o *OverflowMenu) addOption(option Option) {
 	o.options = append(o.options, option)
 }
 
 // RemoveOption removes an option from the OverflowMenu
-func (o *OverflowMenu) removeOption(option composition.Option) {
+func (o *OverflowMenu) removeOption(option Option) {
 	for i, v := range o.options {
 		if v == option {
 			o.options = append(o.options[:i], o.options[i+1:]...)
@@ -66,7 +61,7 @@ func (o *OverflowMenu) removeOption(option composition.Option) {
 }
 
 // AddOption public update options
-func (o OverflowMenu) AddOption(options composition.Option) OverflowMenu {
+func (o OverflowMenu) AddOption(options Option) OverflowMenu {
 	o.addOption(options)
 	return o
 }
@@ -74,7 +69,7 @@ func (o OverflowMenu) AddOption(options composition.Option) OverflowMenu {
 //////////////////////////////////////////////////
 // confirm
 
-func (o *OverflowMenu) setConfirm(confirm composition.ConfirmationDialog) {
+func (o *OverflowMenu) setConfirm(confirm ConfirmationDialog) {
 	o.confirm = confirm
 	o.optionals.Confirm = true
 }
@@ -84,7 +79,7 @@ func (o *OverflowMenu) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (o OverflowMenu) AddConfirmDialog(confirm composition.ConfirmationDialog) OverflowMenu {
+func (o OverflowMenu) AddConfirmDialog(confirm ConfirmationDialog) OverflowMenu {
 	o.setConfirm(confirm)
 	o.optionals.Confirm = true
 	return o
@@ -101,8 +96,8 @@ func (o *OverflowMenu) RemoveConfirmDialog() {
 type overflowMenuAbstraction struct {
 	Type     string
 	ActionID string
-	Options  []composition.Option
-	Confirm  composition.ConfirmationDialog
+	Options  []Option
+	Confirm  ConfirmationDialog
 
 	Optionals overflowMenuOptions
 }
@@ -135,6 +130,6 @@ func (o overflowMenuAbstraction) Template() string {
 
 // Render
 func (o OverflowMenu) Render() string {
-	raw := common.Render(o.abstractOverflowMenu())
-	return common.Pretty(raw)
+	raw := Render(o.abstractOverflowMenu())
+	return Pretty(raw)
 }

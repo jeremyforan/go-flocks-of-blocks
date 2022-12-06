@@ -1,20 +1,15 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type MultiSelectMenuWithPublicChannelsSelect struct {
 	slackType ElementType
 	actionID  string
 
-	confirm          composition.ConfirmationDialog
+	confirm          ConfirmationDialog
 	maxSelectedItems int
 	focusOnLoad      bool
-	placeholder      composition.CompositionText
+	placeholder      CompositionText
 
 	// Public Channel
 	initialChannels []string
@@ -37,10 +32,10 @@ type multiSelectMenuWithPublicChannelsSelectAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          composition.ConfirmationDialog
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	// Public Channel
 	InitialChannels []string
@@ -83,7 +78,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) UpdateActionId(actionId string)
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithPublicChannelsSelect) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *MultiSelectMenuWithPublicChannelsSelect) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -93,7 +88,7 @@ func (m *MultiSelectMenuWithPublicChannelsSelect) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm composition.ConfirmationDialog) MultiSelectMenuWithPublicChannelsSelect {
+func (m MultiSelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm ConfirmationDialog) MultiSelectMenuWithPublicChannelsSelect {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -157,7 +152,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) UnsetFocusOnLoad() MultiSelectM
 // placeholder
 
 func (m *MultiSelectMenuWithPublicChannelsSelect) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -229,7 +224,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) abstraction() multiSelectMenuWi
 		Placeholder:      m.placeholder,
 
 		// Public Channel
-		InitialChannels: common.RemoveDuplicateString(m.initialChannels),
+		InitialChannels: RemoveDuplicateString(m.initialChannels),
 
 		Optionals: m.optionals,
 	}
@@ -267,8 +262,8 @@ func (m multiSelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 func (m MultiSelectMenuWithPublicChannelsSelect) ElementRender() {}
 
 func (m MultiSelectMenuWithPublicChannelsSelect) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m MultiSelectMenuWithPublicChannelsSelect) Section() Section {

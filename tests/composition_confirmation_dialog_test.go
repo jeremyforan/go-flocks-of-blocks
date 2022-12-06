@@ -2,7 +2,7 @@ package composition
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"testing"
 )
 
@@ -13,7 +13,7 @@ func TestNewConfirmationDialog(t *testing.T) {
 			t.Error("failed to render")
 		}
 
-		confirm = confirm.SetStyle(common.StylePrimary)
+		confirm = confirm.SetStyle(flocksofblocks.StylePrimary)
 		if confirm.Render() == "" {
 			t.Error("failed to render")
 		}

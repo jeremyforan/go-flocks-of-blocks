@@ -1,15 +1,11 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type EmailInput struct {
 	slackType ElementType
 	actionId  string
 
 	initialEmail         string
-	dispatchActionConfig composition.DispatchActionConfig
+	dispatchActionConfig DispatchActionConfig
 	focusOnLoad          bool
 	placeholder          string
 
@@ -27,7 +23,7 @@ func NewEmailInput(actionId string) EmailInput {
 	return EmailInput{
 		slackType:            EmailInputElement,
 		actionId:             actionId,
-		dispatchActionConfig: composition.NewDispatchActionConfig(),
+		dispatchActionConfig: NewDispatchActionConfig(),
 
 		options: EmailInputOptions{
 			InitialEmail:         false,

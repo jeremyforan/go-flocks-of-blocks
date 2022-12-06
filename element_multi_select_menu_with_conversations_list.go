@@ -1,25 +1,20 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type MultiSelectMenuWithConversationsList struct {
 	slackType ElementType
 	actionID  string
 
-	confirm          composition.ConfirmationDialog
+	confirm          ConfirmationDialog
 	maxSelectedItems int
 	focusOnLoad      bool
-	placeholder      composition.CompositionText
+	placeholder      CompositionText
 
 	// Conversation
 	defaultToCurrentConversation bool
 	initialConversations         []string
-	filter                       composition.Filter
+	filter                       Filter
 
 	optionals multiSelectMenuWithConversationsListOptions
 }
@@ -41,15 +36,15 @@ type multiSelectMenuWithConversationsListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          composition.ConfirmationDialog
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	// Conversation
 	DefaultToCurrentConversation bool
 	InitialConversations         []string
-	Filter                       composition.Filter
+	Filter                       Filter
 
 	Optionals multiSelectMenuWithConversationsListOptions
 }
@@ -90,7 +85,7 @@ func (m MultiSelectMenuWithConversationsList) UpdateActionId(actionId string) Mu
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithConversationsList) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *MultiSelectMenuWithConversationsList) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -100,7 +95,7 @@ func (m *MultiSelectMenuWithConversationsList) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithConversationsList) AddConfirmDialog(confirm composition.ConfirmationDialog) MultiSelectMenuWithConversationsList {
+func (m MultiSelectMenuWithConversationsList) AddConfirmDialog(confirm ConfirmationDialog) MultiSelectMenuWithConversationsList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -164,7 +159,7 @@ func (m MultiSelectMenuWithConversationsList) UnsetFocusOnLoad() MultiSelectMenu
 // placeholder
 
 func (m *MultiSelectMenuWithConversationsList) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -241,7 +236,7 @@ func (m MultiSelectMenuWithConversationsList) ClearInitialConversations() MultiS
 //////////////////////////////////////////////////
 // filter
 
-func (m *MultiSelectMenuWithConversationsList) setFilter(filter composition.Filter) {
+func (m *MultiSelectMenuWithConversationsList) setFilter(filter Filter) {
 	m.filter = filter
 	m.optionals.Filter = true
 }
@@ -251,7 +246,7 @@ func (m *MultiSelectMenuWithConversationsList) removeFilter() {
 }
 
 // AddFilter public set filter
-func (m MultiSelectMenuWithConversationsList) AddFilter(filter composition.Filter) MultiSelectMenuWithConversationsList {
+func (m MultiSelectMenuWithConversationsList) AddFilter(filter Filter) MultiSelectMenuWithConversationsList {
 	m.setFilter(filter)
 	return m
 }
@@ -275,7 +270,7 @@ func (m MultiSelectMenuWithConversationsList) abstraction() multiSelectMenuWithC
 
 		// Conversation
 		DefaultToCurrentConversation: m.defaultToCurrentConversation,
-		InitialConversations:         common.RemoveDuplicateString(m.initialConversations),
+		InitialConversations:         RemoveDuplicateString(m.initialConversations),
 		Filter:                       m.filter,
 
 		Optionals: m.optionals,
@@ -323,8 +318,8 @@ func (m multiSelectMenuWithConversationsListAbstraction) Template() string {
 func (m MultiSelectMenuWithConversationsList) ElementRender() {}
 
 func (m MultiSelectMenuWithConversationsList) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m MultiSelectMenuWithConversationsList) Section() Section {

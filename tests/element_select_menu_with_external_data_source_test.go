@@ -2,7 +2,7 @@ package element
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"testing"
 )
 
@@ -12,7 +12,7 @@ func TestNewSelectMenuWithExternalDataSource(t *testing.T) {
 	t.Run("NewSelectMenuWithExternalDataSource", func(t *testing.T) {
 		menu := NewSelectMenuWithExternalDataSource("actionId")
 
-		opt := composition.NewOption("initial", "value-1")
+		opt := flocksofblocks.NewOption("initial", "value-1")
 		menu = menu.AddInitialOption(opt).AddPlaceholder("placeholder").SetMinQueryLength(6)
 
 		fmt.Println(menu.Section())

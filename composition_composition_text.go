@@ -1,8 +1,4 @@
-package composition
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
+package flocksofblocks
 
 type CompositionText struct {
 	slackType CompositionType
@@ -78,5 +74,5 @@ func (m compositionTextAbstraction) Template() string {
 
 // Render the compositiontext
 func (m CompositionText) Render() string {
-	return common.Render(m.abstraction())
+	return Render(m.abstraction())
 }

@@ -1,14 +1,12 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
 type Video struct {
 	slackType    BlockType
-	title        composition.CompositionText
+	title        CompositionText
 	thumbnailUrl *url.URL
 	videoUrl     *url.URL
 	altText      string
@@ -17,7 +15,7 @@ type Video struct {
 	authorName   string
 	providerName string
 
-	description composition.CompositionText
+	description CompositionText
 
 	providerIconUrl *url.URL
 	titleUrl        *url.URL
@@ -39,7 +37,7 @@ type optionalVideo struct {
 func NewVideo(title string, thumbnailUrl *url.URL, videoUrl *url.URL, altText string) Video {
 	return Video{
 		slackType: VideoBlock,
-		title:     composition.NewPlainText(title),
+		title:     NewPlainText(title),
 
 		thumbnailUrl: thumbnailUrl,
 		videoUrl:     videoUrl,
@@ -80,7 +78,7 @@ func (v *Video) removeProviderName() {
 
 // setDescription
 func (v *Video) setDescription(description string) {
-	v.description = composition.NewPlainText(description).EnableEmoji()
+	v.description = NewPlainText(description).EnableEmoji()
 	v.optional.Description = true
 }
 
@@ -125,14 +123,14 @@ func (v *Video) removeBlockId() {
 // abstraction structure
 type abstractionVideo struct {
 	Type         string
-	Title        composition.CompositionText
+	Title        CompositionText
 	ThumbnailUrl string
 	VideoUrl     string
 	AltText      string
 
 	AuthorName      string
 	ProviderName    string
-	Description     composition.CompositionText
+	Description     CompositionText
 	ProviderIconUrl string
 	TitleUrl        string
 	BlockId         string
@@ -243,7 +241,7 @@ func (v Video) RemoveBlockId() Video {
 
 // Render the block
 func (v Video) Render() string {
-	return common.Render(v.abstraction())
+	return Render(v.abstraction())
 }
 
 // Template for the block

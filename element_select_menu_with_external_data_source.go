@@ -1,20 +1,15 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type SelectMenuWithExternalDataSource struct {
 	slackType ElementType
 	actionID  string
 
-	initialOption composition.Option
-	confirm       composition.ConfirmationDialog
+	initialOption Option
+	confirm       ConfirmationDialog
 	focusOnLoad   bool
-	placeholder   composition.CompositionText
+	placeholder   CompositionText
 
 	// External Options
 	minQueryLength int
@@ -36,7 +31,7 @@ func NewSelectMenuWithExternalDataSource(actionId string) SelectMenuWithExternal
 	return SelectMenuWithExternalDataSource{
 		slackType:     SelectMenuWithExternalDataSourceElement,
 		actionID:      actionId,
-		initialOption: composition.Option{},
+		initialOption: Option{},
 		optionals: selectMenuWithExternalDataSourceOptions{
 			InitialOption:  false,
 			Confirm:        false,
@@ -71,7 +66,7 @@ func (m *SelectMenuWithExternalDataSource) removeInitialOption() {
 	m.optionals.InitialOption = false
 }
 
-func (m *SelectMenuWithExternalDataSource) setInitialOption(initialOption composition.Option) {
+func (m *SelectMenuWithExternalDataSource) setInitialOption(initialOption Option) {
 	m.initialOption = initialOption
 	m.optionals.InitialOption = true
 }
@@ -83,7 +78,7 @@ func (m SelectMenuWithExternalDataSource) ClearInitialOption() SelectMenuWithExt
 }
 
 // AddInitialOption public add initial option
-func (m SelectMenuWithExternalDataSource) AddInitialOption(initialOption composition.Option) SelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) AddInitialOption(initialOption Option) SelectMenuWithExternalDataSource {
 	m.setInitialOption(initialOption)
 	return m
 }
@@ -91,7 +86,7 @@ func (m SelectMenuWithExternalDataSource) AddInitialOption(initialOption composi
 //////////////////////////////////////////////////
 // confirm
 
-func (m *SelectMenuWithExternalDataSource) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *SelectMenuWithExternalDataSource) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -101,7 +96,7 @@ func (m *SelectMenuWithExternalDataSource) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m SelectMenuWithExternalDataSource) AddConfirmDialog(confirm composition.ConfirmationDialog) SelectMenuWithExternalDataSource {
+func (m SelectMenuWithExternalDataSource) AddConfirmDialog(confirm ConfirmationDialog) SelectMenuWithExternalDataSource {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -136,7 +131,7 @@ func (m SelectMenuWithExternalDataSource) UnsetFocusOnLoad() SelectMenuWithExter
 // placeholder
 
 func (m *SelectMenuWithExternalDataSource) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -186,10 +181,10 @@ type selectMenuWithExternalDataSourceAbstraction struct {
 	Type     string
 	ActionId string
 
-	InitialOption composition.Option
-	Confirm       composition.ConfirmationDialog
+	InitialOption Option
+	Confirm       ConfirmationDialog
 	FocusOnLoad   bool
-	Placeholder   composition.CompositionText
+	Placeholder   CompositionText
 
 	// External Options
 	MinQueryLength int
@@ -243,8 +238,8 @@ func (m selectMenuWithExternalDataSourceAbstraction) Template() string {
 func (m SelectMenuWithExternalDataSource) ElementRender() {}
 
 func (m SelectMenuWithExternalDataSource) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m SelectMenuWithExternalDataSource) Section() Section {

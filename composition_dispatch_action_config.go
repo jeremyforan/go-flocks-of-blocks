@@ -1,6 +1,4 @@
-package composition
-
-import "github.com/jeremyforan/go-flocks-of-blocks/common"
+package flocksofblocks
 
 type DispatchActionTypes string
 
@@ -65,8 +63,8 @@ func (d DispatchActionConfig) abstraction() abstractionDispatchActionConfig {
 
 // Render the block
 func (d DispatchActionConfig) Render() string {
-	output := common.Render(d.abstraction())
-	return common.Pretty(output)
+	output := Render(d.abstraction())
+	return Pretty(output)
 }
 
 func removeDuplicateStr(strSlice []DispatchActionTypes) []string {

@@ -2,7 +2,7 @@ package block
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"net/url"
 	"testing"
 )
@@ -33,6 +33,6 @@ func TestVideo(t *testing.T) {
 		video = video.AddDescription("Slack is a new way to communicate with your team. It's faster, better organized and more secure than email.")
 
 		output := video.Render()
-		fmt.Println(common.Pretty(output))
+		fmt.Println(flocksofblocks.Pretty(output))
 	})
 }

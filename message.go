@@ -3,7 +3,6 @@ package flocksofblocks
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"net/url"
 )
 
@@ -29,8 +28,8 @@ func (m Message) Template() string {
 
 // Render the message
 func (m Message) Render() string {
-	raw := common.Render(m)
-	return common.Pretty(raw)
+	raw := Render(m)
+	return Pretty(raw)
 }
 
 // AddBlock add a block to the message

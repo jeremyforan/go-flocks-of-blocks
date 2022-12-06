@@ -1,19 +1,14 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type SelectMenuWithUserList struct {
 	slackType ElementType
 	actionID  string
 
-	confirm     composition.ConfirmationDialog
+	confirm     ConfirmationDialog
 	focusOnLoad bool
-	placeholder composition.CompositionText
+	placeholder CompositionText
 
 	// User List
 	initialUser string
@@ -63,7 +58,7 @@ func (m SelectMenuWithUserList) UpdateActionId(actionId string) SelectMenuWithUs
 //////////////////////////////////////////////////
 // confirm
 
-func (m *SelectMenuWithUserList) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *SelectMenuWithUserList) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -73,7 +68,7 @@ func (m *SelectMenuWithUserList) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m SelectMenuWithUserList) AddConfirmDialog(confirm composition.ConfirmationDialog) SelectMenuWithUserList {
+func (m SelectMenuWithUserList) AddConfirmDialog(confirm ConfirmationDialog) SelectMenuWithUserList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -108,7 +103,7 @@ func (m SelectMenuWithUserList) UnsetFocusOnLoad() SelectMenuWithUserList {
 // placeholder
 
 func (m *SelectMenuWithUserList) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -160,9 +155,9 @@ type selectMenuWithUserListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm     composition.ConfirmationDialog
+	Confirm     ConfirmationDialog
 	FocusOnLoad bool
-	Placeholder composition.CompositionText
+	Placeholder CompositionText
 
 	// User List
 	InitialUser string
@@ -215,8 +210,8 @@ func (m selectMenuWithUserListAbstraction) Template() string {
 func (m SelectMenuWithUserList) ElementRender() {}
 
 func (m SelectMenuWithUserList) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m SelectMenuWithUserList) Section() Section {

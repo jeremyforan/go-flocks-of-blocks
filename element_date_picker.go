@@ -1,8 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"time"
 )
 
@@ -13,8 +11,8 @@ type DatePicker struct {
 	actionId  string
 
 	initialDate time.Time
-	confirm     composition.ConfirmationDialog
-	placeholder composition.CompositionText
+	confirm     ConfirmationDialog
+	placeholder CompositionText
 	focus       bool
 
 	options optionalDatePicker
@@ -53,7 +51,7 @@ func (d *DatePicker) removeInitialDate() {
 }
 
 // SetConfirm sets the confirmation dialog for the date picker.
-func (d *DatePicker) setConfirm(confirm composition.ConfirmationDialog) {
+func (d *DatePicker) setConfirm(confirm ConfirmationDialog) {
 	d.confirm = confirm
 	d.options.Confirm = true
 }
@@ -65,7 +63,7 @@ func (d *DatePicker) removeConfirm() {
 
 // SetPlaceholder sets the placeholder for the date picker.
 func (d *DatePicker) setPlaceholder(placeholder string) {
-	d.placeholder = composition.NewPlainText(placeholder)
+	d.placeholder = NewPlainText(placeholder)
 	d.options.Placeholder = true
 }
 
@@ -89,8 +87,8 @@ type abstractDatePicker struct {
 	Type        string
 	ActionId    string
 	InitalDate  string
-	Confirm     composition.ConfirmationDialog
-	Placeholder composition.CompositionText
+	Confirm     ConfirmationDialog
+	Placeholder CompositionText
 	Focus       bool
 	Optionals   optionalDatePicker
 }
@@ -124,7 +122,7 @@ func (d abstractDatePicker) Template() string {
 
 // Render
 func (d DatePicker) Render() string {
-	return common.Render(d.abstraction())
+	return Render(d.abstraction())
 }
 
 // AddInitialDate chain function to add initial date to an existing date picker
@@ -140,7 +138,7 @@ func (d DatePicker) RemoveInitialDate() DatePicker {
 }
 
 // AddConfirm chain function to add confirm to an existing date picker
-func (d DatePicker) AddConfirm(confirm composition.ConfirmationDialog) DatePicker {
+func (d DatePicker) AddConfirm(confirm ConfirmationDialog) DatePicker {
 	d.setConfirm(confirm)
 	return d
 }

@@ -1,18 +1,13 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type Input struct {
 	slackType BlockType
-	label     composition.CompositionText
+	label     CompositionText
 	element   InputElement
 
 	dispatchAction bool
 	blockID        string
-	hint           composition.CompositionText
+	hint           CompositionText
 	slackOptional  bool
 
 	optionals inputOptional
@@ -28,7 +23,7 @@ type inputOptional struct {
 func NewInput(label string, element InputElement) Input {
 	return Input{
 		slackType: InputBlock,
-		label:     composition.NewPlainText(label),
+		label:     NewPlainText(label),
 		element:   element,
 	}
 }
@@ -52,7 +47,7 @@ func (i *Input) removeBlockID() {
 
 // setHint
 func (i *Input) setHint(s string) {
-	i.hint = composition.NewPlainText(s)
+	i.hint = NewPlainText(s)
 	i.optionals.Hint = true
 }
 
@@ -63,7 +58,7 @@ func (i *Input) removeHint() {
 
 // set label
 func (i *Input) setLabel(label string) {
-	i.label = composition.NewPlainText(label)
+	i.label = NewPlainText(label)
 }
 
 // SetSlackOptional set slack optional
@@ -79,11 +74,11 @@ func (i *Input) removeSlackOptional() {
 
 type abstractionInput struct {
 	Type           string
-	Label          composition.CompositionText
+	Label          CompositionText
 	Element        InputElement
 	DispatchAction bool
 	BlockID        string
-	Hint           composition.CompositionText
+	Hint           CompositionText
 	SlackOptional  bool
 	Optionals      inputOptional
 }
@@ -130,8 +125,8 @@ func (i abstractionInput) Template() string {
 
 // Render render input
 func (i Input) Render() string {
-	raw := common.Render(i.abstraction())
-	return common.Pretty(raw)
+	raw := Render(i.abstraction())
+	return Pretty(raw)
 }
 
 type InputType interface {

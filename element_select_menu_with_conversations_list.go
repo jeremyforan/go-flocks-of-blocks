@@ -1,25 +1,20 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type SelectMenuWithConversationsList struct {
 	slackType ElementType
 	actionID  string
 
-	confirm            composition.ConfirmationDialog
+	confirm            ConfirmationDialog
 	responseUrlEnabled bool
 	focusOnLoad        bool
-	placeholder        composition.CompositionText
+	placeholder        CompositionText
 
 	// Conversation
 	defaultToCurrentConversation bool
 	initialConversation          string
-	filter                       composition.Filter
+	filter                       Filter
 
 	optionals selectMenuWithConversationsListOptions
 }
@@ -42,15 +37,15 @@ type selectMenuWithConversationsListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm composition.ConfirmationDialog
+	Confirm ConfirmationDialog
 
 	FocusOnLoad bool
-	Placeholder composition.CompositionText
+	Placeholder CompositionText
 
 	// Conversation
 	DefaultToCurrentConversation bool
 	InitialConversation          string
-	Filter                       composition.Filter
+	Filter                       Filter
 	ResponseUrlEnabled           bool
 
 	Optionals selectMenuWithConversationsListOptions
@@ -92,7 +87,7 @@ func (m SelectMenuWithConversationsList) UpdateActionId(actionId string) SelectM
 //////////////////////////////////////////////////
 // confirm
 
-func (m *SelectMenuWithConversationsList) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *SelectMenuWithConversationsList) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -102,7 +97,7 @@ func (m *SelectMenuWithConversationsList) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m SelectMenuWithConversationsList) AddConfirmDialog(confirm composition.ConfirmationDialog) SelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) AddConfirmDialog(confirm ConfirmationDialog) SelectMenuWithConversationsList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -159,7 +154,7 @@ func (m SelectMenuWithConversationsList) UnsetFocusOnLoad() SelectMenuWithConver
 // placeholder
 
 func (m *SelectMenuWithConversationsList) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -235,7 +230,7 @@ func (m SelectMenuWithConversationsList) UnsetInitialConversation() SelectMenuWi
 //////////////////////////////////////////////////
 // filter
 
-func (m *SelectMenuWithConversationsList) setFilter(filter composition.Filter) {
+func (m *SelectMenuWithConversationsList) setFilter(filter Filter) {
 	m.filter = filter
 	m.optionals.Filter = true
 }
@@ -245,7 +240,7 @@ func (m *SelectMenuWithConversationsList) removeFilter() {
 }
 
 // AddFilter public set filter
-func (m SelectMenuWithConversationsList) AddFilter(filter composition.Filter) SelectMenuWithConversationsList {
+func (m SelectMenuWithConversationsList) AddFilter(filter Filter) SelectMenuWithConversationsList {
 	m.setFilter(filter)
 	return m
 }
@@ -316,8 +311,8 @@ func (m selectMenuWithConversationsListAbstraction) Template() string {
 func (m SelectMenuWithConversationsList) ElementRender() {}
 
 func (m SelectMenuWithConversationsList) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m SelectMenuWithConversationsList) Section() Section {

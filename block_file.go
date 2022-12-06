@@ -1,9 +1,5 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
-
 type File struct {
 	slackType  BlockType
 	externalId string
@@ -88,5 +84,5 @@ func (f fileAbstraction) Template() string {
 
 // render is a helper function to generate the json for the file.
 func (f File) Render() string {
-	return common.Render(f.abstraction())
+	return Render(f.abstraction())
 }

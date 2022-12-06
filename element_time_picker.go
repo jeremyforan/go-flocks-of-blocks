@@ -1,18 +1,13 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type TimePicker struct {
 	slackType ElementType
 	actionID  string
 
 	initialTime string
-	confirm     composition.ConfirmationDialog
+	confirm     ConfirmationDialog
 	focusOnLoad bool
-	placeholder composition.CompositionText
+	placeholder CompositionText
 
 	optionals timePickerOptions
 }
@@ -75,7 +70,7 @@ func (m TimePicker) UpdateInitialTime(initialTime string) TimePicker {
 //////////////////////////////////////////////////
 // confirm
 
-func (m *TimePicker) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *TimePicker) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -85,7 +80,7 @@ func (m *TimePicker) removeConfirm() {
 }
 
 // UpdateConfirm public update confirm
-func (m TimePicker) UpdateConfirm(confirm composition.ConfirmationDialog) TimePicker {
+func (m TimePicker) UpdateConfirm(confirm ConfirmationDialog) TimePicker {
 	m.setConfirm(confirm)
 	return m
 }
@@ -111,7 +106,7 @@ func (m TimePicker) UpdateFocusOnLoad(focusOnLoad bool) TimePicker {
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *TimePicker) setPlaceholder(placeholder composition.CompositionText) {
+func (m *TimePicker) setPlaceholder(placeholder CompositionText) {
 	m.placeholder = placeholder
 	m.optionals.Placeholder = true
 }
@@ -122,7 +117,7 @@ func (m *TimePicker) removePlaceholder() {
 
 // UpdatePlaceholder public update placeholder
 func (m TimePicker) UpdatePlaceholder(placeholder string) TimePicker {
-	m.setPlaceholder(composition.NewPlainText(placeholder))
+	m.setPlaceholder(NewPlainText(placeholder))
 	return m
 }
 
@@ -133,9 +128,9 @@ type timePickerAbstract struct {
 	Type        string
 	ActionID    string
 	InitialTime string
-	Confirm     composition.ConfirmationDialog
+	Confirm     ConfirmationDialog
 	FocusOnLoad bool
-	Placeholder composition.CompositionText
+	Placeholder CompositionText
 
 	Optionals timePickerOptions
 }
@@ -187,6 +182,6 @@ func (m timePickerAbstract) Template() string {
 
 // Render public method
 func (m TimePicker) Render() string {
-	output := common.Render(m.abstraction())
-	return common.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }

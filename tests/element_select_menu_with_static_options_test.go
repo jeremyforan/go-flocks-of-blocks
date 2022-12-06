@@ -2,7 +2,7 @@ package element
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"testing"
 )
 
@@ -46,10 +46,10 @@ func TestNewSelectMenuWithStaticOptions(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithStaticOptions", func(t *testing.T) {
 		menu := NewSelectMenuWithStaticOptions("text1234")
 
-		opt := composition.NewOption("Wait for it", "value-0")
-		opt2 := composition.NewOption("Initial", "value-1")
+		opt := flocksofblocks.NewOption("Wait for it", "value-0")
+		opt2 := flocksofblocks.NewOption("Initial", "value-1")
 
-		optionGroup := composition.NewOptionGroup("Group 1").AddOption(opt).AddOption(opt2)
+		optionGroup := flocksofblocks.NewOptionGroup("Group 1").AddOption(opt).AddOption(opt2)
 
 		menu = menu.AddOptionGroup(optionGroup)
 

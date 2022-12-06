@@ -1,10 +1,5 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 //Plain TextInput
 // https://api.slack.com/reference/block-kit/block-elements#input
 
@@ -16,9 +11,9 @@ type PlainTextInput struct {
 	multiline            bool
 	minLength            int
 	maxLength            int
-	dispatchActionConfig composition.DispatchActionConfig
+	dispatchActionConfig DispatchActionConfig
 	focusOnLoad          bool
-	placeholder          composition.CompositionText
+	placeholder          CompositionText
 
 	optionals plainTextInputOptions
 }
@@ -153,18 +148,18 @@ func (m PlainTextInput) SetMaxLength(maxLength int) PlainTextInput {
 //////////////////////////////////////////////////
 // dispatchActionConfig
 
-func (m *PlainTextInput) setDispatchActionConfig(dispatchActionConfig composition.DispatchActionConfig) {
+func (m *PlainTextInput) setDispatchActionConfig(dispatchActionConfig DispatchActionConfig) {
 	m.dispatchActionConfig = dispatchActionConfig
 	m.optionals.DispatchActionConfig = true
 }
 
 func (m *PlainTextInput) removeDispatchActionConfig() {
-	m.dispatchActionConfig = composition.DispatchActionConfig{}
+	m.dispatchActionConfig = DispatchActionConfig{}
 	m.optionals.DispatchActionConfig = false
 }
 
 // AddDispatchActionConfig public update dispatch action config
-func (m PlainTextInput) AddDispatchActionConfig(dispatchActionConfig composition.DispatchActionConfig) PlainTextInput {
+func (m PlainTextInput) AddDispatchActionConfig(dispatchActionConfig DispatchActionConfig) PlainTextInput {
 	m.setDispatchActionConfig(dispatchActionConfig)
 	return m
 }
@@ -193,7 +188,7 @@ func (m PlainTextInput) UnsetFocusOnLoad() PlainTextInput {
 // placeholder
 
 func (m *PlainTextInput) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -224,9 +219,9 @@ type plainTextInputAbstraction struct {
 	Multiline            bool
 	MinLength            int
 	MaxLength            int
-	DispatchActionConfig composition.DispatchActionConfig
+	DispatchActionConfig DispatchActionConfig
 	FocusOnLoad          bool
-	Placeholder          composition.CompositionText
+	Placeholder          CompositionText
 
 	Optionals plainTextInputOptions
 }
@@ -289,6 +284,6 @@ func (m plainTextInputAbstraction) Template() string {
 
 // Render
 func (m PlainTextInput) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }

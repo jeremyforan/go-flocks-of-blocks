@@ -1,10 +1,5 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type NumberInput struct {
 	slackType        ElementType
 	actionID         string
@@ -14,10 +9,10 @@ type NumberInput struct {
 	minValue     int
 	maxValue     int
 
-	dispatchActionConfig composition.DispatchActionConfig
+	dispatchActionConfig DispatchActionConfig
 
 	focusOnLoad bool
-	placeholder composition.CompositionText
+	placeholder CompositionText
 
 	optionals numberInputOptions
 }
@@ -145,7 +140,7 @@ func (n NumberInput) MaxValue(maxValue int) NumberInput {
 //////////////////////////////////////////////////
 // dispatchActionConfig
 
-func (n *NumberInput) setDispatchActionConfig(dispatchActionConfig composition.DispatchActionConfig) {
+func (n *NumberInput) setDispatchActionConfig(dispatchActionConfig DispatchActionConfig) {
 	n.dispatchActionConfig = dispatchActionConfig
 	n.optionals.DispatchActionConfig = true
 }
@@ -155,7 +150,7 @@ func (n *NumberInput) removeDispatchActionConfig() {
 }
 
 // DispatchAction public update dispatchActionConfig
-func (n NumberInput) DispatchAction(dispatchActionConfig composition.DispatchActionConfig) NumberInput {
+func (n NumberInput) DispatchAction(dispatchActionConfig DispatchActionConfig) NumberInput {
 	n.setDispatchActionConfig(dispatchActionConfig)
 	return n
 }
@@ -187,7 +182,7 @@ func (n NumberInput) UnsetFocusOnLoad() NumberInput {
 // placeholder
 
 func (n *NumberInput) setPlaceholder(placeholder string) {
-	n.placeholder = composition.NewPlainText(placeholder)
+	n.placeholder = NewPlainText(placeholder)
 	n.optionals.Placeholder = true
 }
 
@@ -211,9 +206,9 @@ type numberInputAbstraction struct {
 	InitialValue         int
 	MinValue             int
 	MaxValue             int
-	DispatchActionConfig composition.DispatchActionConfig
+	DispatchActionConfig DispatchActionConfig
 	FocusOnLoad          bool
-	Placeholder          composition.CompositionText
+	Placeholder          CompositionText
 
 	Optionals numberInputOptions
 }
@@ -271,8 +266,8 @@ func (n numberInputAbstraction) Template() string {
 
 // render public render
 func (n NumberInput) Render() string {
-	raw := common.Render(n.abstraction())
-	return common.Pretty(raw)
+	raw := Render(n.abstraction())
+	return Pretty(raw)
 }
 
 // element interface

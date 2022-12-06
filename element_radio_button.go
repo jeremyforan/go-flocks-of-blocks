@@ -1,17 +1,12 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type RadioButton struct {
 	slackType ElementType
 	actionID  string
 
-	options       []composition.Option
-	initialOption composition.Option
-	composition.ConfirmationDialog
+	options       []Option
+	initialOption Option
+	ConfirmationDialog
 	focusOnLoad bool
 
 	optionals radioButtonOptions
@@ -28,7 +23,7 @@ func NewRadioButton(actionId string) RadioButton {
 	return RadioButton{
 		slackType: RadioButtonElement,
 		actionID:  actionId,
-		options:   []composition.Option{},
+		options:   []Option{},
 		optionals: radioButtonOptions{
 			InitialOption: false,
 			Confirm:       false,
@@ -58,19 +53,19 @@ func (m RadioButton) UpdateActionId(actionId string) RadioButton {
 // options
 
 // AddOption adds an option to the RadioButton
-func (m *RadioButton) addOption(option composition.Option) {
+func (m *RadioButton) addOption(option Option) {
 	m.options = append(m.options, option)
 }
 
 // AddOptions adds multiple options to the RadioButton
-func (m *RadioButton) addOptions(options []composition.Option) {
+func (m *RadioButton) addOptions(options []Option) {
 	for _, option := range options {
 		m.addOption(option)
 	}
 }
 
 // RemoveOption removes an option from the RadioButton
-func (m *RadioButton) removeOption(option composition.Option) {
+func (m *RadioButton) removeOption(option Option) {
 	for i, v := range m.options {
 		if v == option {
 			m.options = append(m.options[:i], m.options[i+1:]...)
@@ -79,32 +74,32 @@ func (m *RadioButton) removeOption(option composition.Option) {
 }
 
 // RemoveOptions removes multiple options from the RadioButton
-func (m *RadioButton) removeOptions(options []composition.Option) {
+func (m *RadioButton) removeOptions(options []Option) {
 	for _, option := range options {
 		m.removeOption(option)
 	}
 }
 
 // AddOption public update options
-func (m RadioButton) AddOption(option composition.Option) RadioButton {
+func (m RadioButton) AddOption(option Option) RadioButton {
 	m.addOption(option)
 	return m
 }
 
 // AddOptions public update options
-func (m RadioButton) AddOptions(options []composition.Option) RadioButton {
+func (m RadioButton) AddOptions(options []Option) RadioButton {
 	m.addOptions(options)
 	return m
 }
 
 // RemoveOption public update options
-func (m RadioButton) RemoveOption(option composition.Option) RadioButton {
+func (m RadioButton) RemoveOption(option Option) RadioButton {
 	m.removeOption(option)
 	return m
 }
 
 // RemoveOptions public update options
-func (m RadioButton) RemoveOptions(options []composition.Option) RadioButton {
+func (m RadioButton) RemoveOptions(options []Option) RadioButton {
 	m.removeOptions(options)
 	return m
 }
@@ -112,18 +107,18 @@ func (m RadioButton) RemoveOptions(options []composition.Option) RadioButton {
 //////////////////////////////////////////////////
 // initialOption
 
-func (m *RadioButton) setInitialOption(option composition.Option) {
+func (m *RadioButton) setInitialOption(option Option) {
 	m.initialOption = option
 	m.optionals.InitialOption = true
 }
 
 func (m *RadioButton) removeInitialOption() {
-	m.initialOption = composition.Option{}
+	m.initialOption = Option{}
 	m.optionals.InitialOption = false
 }
 
 // UpdateInitialOption public update initialOption
-func (m RadioButton) UpdateInitialOption(option composition.Option) RadioButton {
+func (m RadioButton) UpdateInitialOption(option Option) RadioButton {
 	m.setInitialOption(option)
 	return m
 }
@@ -131,18 +126,18 @@ func (m RadioButton) UpdateInitialOption(option composition.Option) RadioButton 
 //////////////////////////////////////////////////
 // confirm
 
-func (m *RadioButton) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *RadioButton) setConfirm(confirm ConfirmationDialog) {
 	m.ConfirmationDialog = confirm
 	m.optionals.Confirm = true
 }
 
 func (m *RadioButton) removeConfirm() {
-	m.ConfirmationDialog = composition.ConfirmationDialog{}
+	m.ConfirmationDialog = ConfirmationDialog{}
 	m.optionals.Confirm = false
 }
 
 // UpdateConfirm public update confirm
-func (m RadioButton) AddConfirmationDialog(confirm composition.ConfirmationDialog) RadioButton {
+func (m RadioButton) AddConfirmationDialog(confirm ConfirmationDialog) RadioButton {
 	m.setConfirm(confirm)
 	return m
 }
@@ -173,9 +168,9 @@ type radioButtonAbstraction struct {
 	Type     string
 	ActionID string
 
-	Options       []composition.Option
-	InitialOption composition.Option
-	Confirm       composition.ConfirmationDialog
+	Options       []Option
+	InitialOption Option
+	Confirm       ConfirmationDialog
 	FocusOnLoad   bool
 
 	Optionals radioButtonOptions
@@ -197,8 +192,8 @@ func (m RadioButton) abstraction() radioButtonAbstraction {
 
 // Render
 func (m RadioButton) Render() string {
-	output := common.Render(m.abstraction())
-	return common.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }
 
 // template

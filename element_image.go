@@ -1,7 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"net/url"
 )
 
@@ -56,5 +55,5 @@ func (i abstractImage) Template() string {
 
 // Render method
 func (i Image) Render() string {
-	return common.Render(i.abstraction())
+	return Render(i.abstraction())
 }

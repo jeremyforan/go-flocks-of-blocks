@@ -1,8 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
@@ -11,9 +9,9 @@ type URLInput struct {
 	actionID  string
 
 	initialValue         *url.URL
-	dispatchActionConfig composition.DispatchActionConfig
+	dispatchActionConfig DispatchActionConfig
 	focusOnLoad          bool
-	placeholder          composition.CompositionText
+	placeholder          CompositionText
 
 	optionals urlInputOptions
 }
@@ -82,7 +80,7 @@ func (m URLInput) RemoveInitialValue() URLInput {
 //////////////////////////////////////////////////
 // dispatchActionConfig
 
-func (m *URLInput) setDispatchActionConfig(dispatchActionConfig composition.DispatchActionConfig) {
+func (m *URLInput) setDispatchActionConfig(dispatchActionConfig DispatchActionConfig) {
 	m.dispatchActionConfig = dispatchActionConfig
 	m.optionals.DispatchActionConfig = true
 }
@@ -92,7 +90,7 @@ func (m *URLInput) removeDispatchActionConfig() {
 }
 
 // UpdateDispatchActionConfig public update dispatch action config
-func (m URLInput) UpdateDispatchActionConfig(dispatchActionConfig composition.DispatchActionConfig) URLInput {
+func (m URLInput) UpdateDispatchActionConfig(dispatchActionConfig DispatchActionConfig) URLInput {
 	m.setDispatchActionConfig(dispatchActionConfig)
 	return m
 }
@@ -130,7 +128,7 @@ func (m URLInput) RemoveFocusOnLoad() URLInput {
 //////////////////////////////////////////////////
 // placeholder
 
-func (m *URLInput) setPlaceholder(placeholder composition.CompositionText) {
+func (m *URLInput) setPlaceholder(placeholder CompositionText) {
 	m.placeholder = placeholder
 	m.optionals.Placeholder = true
 }
@@ -141,7 +139,7 @@ func (m *URLInput) removePlaceholder() {
 
 // UpdatePlaceholder public update placeholder
 func (m URLInput) UpdatePlaceholder(placeholder string) URLInput {
-	m.setPlaceholder(composition.NewPlainText(placeholder))
+	m.setPlaceholder(NewPlainText(placeholder))
 	return m
 }
 
@@ -159,9 +157,9 @@ type urlInputAbstraction struct {
 	ActionID string
 
 	InitialValue         string
-	DispatchActionConfig composition.DispatchActionConfig
+	DispatchActionConfig DispatchActionConfig
 	FocusOnLoad          bool
-	Placeholder          composition.CompositionText
+	Placeholder          CompositionText
 
 	Optionals urlInputOptions
 }
@@ -191,8 +189,8 @@ func (m URLInput) abstraction() urlInputAbstraction {
 
 // Render method
 func (m URLInput) Render() string {
-	output := common.Render(m.abstraction())
-	return common.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }
 
 //////////////////////////////////////////////////

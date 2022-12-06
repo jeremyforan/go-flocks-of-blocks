@@ -1,9 +1,5 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
-
 type Divider struct {
 	slackType BlockType // required
 	blockId   string    // optional
@@ -36,7 +32,7 @@ func (d *Divider) removeBlockId() {
 
 // Render renders the block to a string.
 func (d Divider) Render() string {
-	return common.Render(d.abstraction())
+	return Render(d.abstraction())
 }
 
 // SlackType return slack type

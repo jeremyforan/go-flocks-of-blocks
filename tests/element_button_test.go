@@ -2,7 +2,7 @@ package element
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"net/url"
 	"testing"
 )
@@ -23,6 +23,6 @@ func TestButton(t *testing.T) {
 
 		output := button.Render()
 
-		fmt.Println(common.Pretty(output))
+		fmt.Println(flocksofblocks.Pretty(output))
 	})
 }

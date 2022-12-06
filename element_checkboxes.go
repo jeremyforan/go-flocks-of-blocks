@@ -1,17 +1,12 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type Checkboxes struct {
-	slackType ElementType          // required
-	actionId  string               // required
-	options   []composition.Option // required
+	slackType ElementType // required
+	actionId  string      // required
+	options   []Option    // required
 
-	initialOptions     []composition.Option // optional
-	confirmationDialog composition.ConfirmationDialog
+	initialOptions     []Option // optional
+	confirmationDialog ConfirmationDialog
 	focusOnLoad        bool
 
 	optional checkboxOptional
@@ -29,7 +24,7 @@ func NewCheckboxes(actionId string) Checkboxes {
 	return Checkboxes{
 		slackType: CheckboxesElement,
 		actionId:  actionId,
-		options:   []composition.Option{},
+		options:   []Option{},
 		optional: checkboxOptional{
 			InitialOptions:     false,
 			ConfirmationDialog: false,
@@ -39,17 +34,17 @@ func NewCheckboxes(actionId string) Checkboxes {
 }
 
 // AddOption adds an option to the checkboxes element.
-func (c *Checkboxes) addOption(option composition.Option) {
+func (c *Checkboxes) addOption(option Option) {
 	c.options = append(c.options, option)
 }
 
-func (c *Checkboxes) addInitialOption(option composition.Option) {
+func (c *Checkboxes) addInitialOption(option Option) {
 	c.initialOptions = append(c.initialOptions, option)
 	c.optional.InitialOptions = true
 }
 
 // AddConfirmationDialog adds a confirmation dialog to the checkboxes element.
-func (c *Checkboxes) addConfirmationDialog(confirmationDialog composition.ConfirmationDialog) {
+func (c *Checkboxes) addConfirmationDialog(confirmationDialog ConfirmationDialog) {
 	c.confirmationDialog = confirmationDialog
 	c.optional.ConfirmationDialog = true
 }
@@ -73,9 +68,9 @@ func (c *Checkboxes) removeFocusOnLoad() {
 type abstractCheckboxes struct {
 	Type               string
 	ActionID           string
-	Options            []composition.Option
-	InitialOptions     []composition.Option
-	ConfirmationDialog composition.ConfirmationDialog
+	Options            []Option
+	InitialOptions     []Option
+	ConfirmationDialog ConfirmationDialog
 	FocusOnLoad        bool
 
 	Optional checkboxOptional
@@ -109,24 +104,24 @@ func (c abstractCheckboxes) Template() string {
 
 // Render renders the checkboxes element to JSON.
 func (c Checkboxes) Render() string {
-	return common.Render(c.abstraction())
+	return Render(c.abstraction())
 }
 
 // AddOption add option to checkboxes
-func (c Checkboxes) AddOption(option composition.Option) Checkboxes {
+func (c Checkboxes) AddOption(option Option) Checkboxes {
 	c.addOption(option)
 	return c
 }
 
 // AddInitialOption add initial option to checkboxes
-func (c Checkboxes) AddInitialOption(option composition.Option) Checkboxes {
+func (c Checkboxes) AddInitialOption(option Option) Checkboxes {
 	c.addInitialOption(option)
 	c.addOption(option)
 	return c
 }
 
 // AddConfirmationDialog add confirmation dialog to checkboxes
-func (c Checkboxes) AddConfirmationDialog(confirmationDialog composition.ConfirmationDialog) Checkboxes {
+func (c Checkboxes) AddConfirmationDialog(confirmationDialog ConfirmationDialog) Checkboxes {
 	c.addConfirmationDialog(confirmationDialog)
 	return c
 }

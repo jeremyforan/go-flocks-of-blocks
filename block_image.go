@@ -1,8 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"net/url"
 )
 
@@ -11,7 +9,7 @@ type Image struct {
 	imageUrl  *url.URL
 	altText   string
 
-	title   composition.CompositionText
+	title   CompositionText
 	blockId string
 
 	optional imageOptions
@@ -37,7 +35,7 @@ func NewImage(imageUrl *url.URL, altText string) Image {
 
 // SetTitle sets the title for the image.
 func (i *Image) setTitle(title string) {
-	i.title = composition.NewPlainText(title)
+	i.title = NewPlainText(title)
 	i.optional.Title = true
 }
 
@@ -84,7 +82,7 @@ type imageAbstraction struct {
 	Type     string
 	ImageUrl string
 	AltText  string
-	Title    composition.CompositionText
+	Title    CompositionText
 	BlockId  string
 	Optional imageOptions
 }
@@ -114,5 +112,5 @@ func (i imageAbstraction) Template() string {
 
 // Render renders the image to a string.
 func (i Image) Render() string {
-	return common.Render(i.abstraction())
+	return Render(i.abstraction())
 }

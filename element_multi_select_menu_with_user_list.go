@@ -1,20 +1,15 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type MultiSelectMenuWithUserList struct {
 	slackType ElementType
 	actionID  string
 
-	confirm          composition.ConfirmationDialog
+	confirm          ConfirmationDialog
 	maxSelectedItems int
 	focusOnLoad      bool
-	placeholder      composition.CompositionText
+	placeholder      CompositionText
 
 	// User List
 	initialUsers []string
@@ -66,7 +61,7 @@ func (m MultiSelectMenuWithUserList) UpdateActionId(actionId string) MultiSelect
 //////////////////////////////////////////////////
 // confirm
 
-func (m *MultiSelectMenuWithUserList) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *MultiSelectMenuWithUserList) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -76,7 +71,7 @@ func (m *MultiSelectMenuWithUserList) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m MultiSelectMenuWithUserList) AddConfirmDialog(confirm composition.ConfirmationDialog) MultiSelectMenuWithUserList {
+func (m MultiSelectMenuWithUserList) AddConfirmDialog(confirm ConfirmationDialog) MultiSelectMenuWithUserList {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -140,7 +135,7 @@ func (m MultiSelectMenuWithUserList) UnsetFocusOnLoad() MultiSelectMenuWithUserL
 // placeholder
 
 func (m *MultiSelectMenuWithUserList) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -193,10 +188,10 @@ type multiSelectMenuWithUserListAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm          composition.ConfirmationDialog
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	// User List
 	InitialUsers []string
@@ -216,7 +211,7 @@ func (m MultiSelectMenuWithUserList) abstraction() multiSelectMenuWithUserListAb
 		Placeholder:      m.placeholder,
 
 		// User List
-		InitialUsers: common.RemoveDuplicateString(m.initialUsers),
+		InitialUsers: RemoveDuplicateString(m.initialUsers),
 
 		Optionals: m.optionals,
 	}
@@ -255,8 +250,8 @@ func (m multiSelectMenuWithUserListAbstraction) Template() string {
 func (m MultiSelectMenuWithUserList) ElementRender() {}
 
 func (m MultiSelectMenuWithUserList) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m MultiSelectMenuWithUserList) Section() Section {

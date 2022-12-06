@@ -1,18 +1,13 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type Section struct {
 	slackType BlockType
-	text      composition.CompositionText
+	text      CompositionText
 
 	accessory Element
 	blockId   string
 
-	fields []composition.CompositionText
+	fields []CompositionText
 
 	optional sectionOptions
 }
@@ -27,7 +22,7 @@ type sectionOptions struct {
 func NewSection(text string) Section {
 	return Section{
 		slackType: SectionBlock,
-		text:      composition.NewPlainText(text),
+		text:      NewPlainText(text),
 		optional: sectionOptions{
 			Accessory: false,
 			BlockId:   false,
@@ -64,12 +59,12 @@ func (s *Section) removeBlockId() {
 
 // AddField adds a field to the section.
 func (s *Section) addPlainField(field string) {
-	s.fields = append(s.fields, composition.NewPlainText(field))
+	s.fields = append(s.fields, NewPlainText(field))
 	s.optional.Field = true
 }
 
 func (s *Section) addMarkdownField(field string) {
-	s.fields = append(s.fields, composition.NewMrkdwnText(field))
+	s.fields = append(s.fields, NewMrkdwnText(field))
 	s.optional.Field = true
 }
 
@@ -80,12 +75,12 @@ func (s *Section) removeField() {
 // abstraction for the section block
 type sectionAbstraction struct {
 	Type string
-	Text composition.CompositionText
+	Text CompositionText
 
 	Accessory Element
 	BlockId   string
 
-	Fields []composition.CompositionText
+	Fields []CompositionText
 
 	Optional sectionOptions
 }
@@ -127,8 +122,8 @@ func (s sectionAbstraction) Template() string {
 
 // Render renders the section to a string
 func (s Section) Render() string {
-	output := common.Render(s.abstraction())
-	return common.Pretty(output)
+	output := Render(s.abstraction())
+	return Pretty(output)
 }
 
 type SectionType interface {

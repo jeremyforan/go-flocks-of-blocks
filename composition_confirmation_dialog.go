@@ -1,8 +1,4 @@
-package composition
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-)
+package flocksofblocks
 
 // todo make abstraction for this
 
@@ -14,7 +10,7 @@ type ConfirmationDialog struct {
 	confirm CompositionText
 	deny    CompositionText
 
-	style common.ColorSchema
+	style ColorSchema
 
 	optionals ConfirmationDialogOptions
 }
@@ -40,13 +36,13 @@ func NewConfirmationDialog(title string, text string, confirm string, deny strin
 }
 
 // set the style
-func (c *ConfirmationDialog) setStyle(style common.ColorSchema) {
+func (c *ConfirmationDialog) setStyle(style ColorSchema) {
 	c.style = style
 	c.optionals.Style = true
 }
 
 // set the style public
-func (c ConfirmationDialog) SetStyle(style common.ColorSchema) ConfirmationDialog {
+func (c ConfirmationDialog) SetStyle(style ColorSchema) ConfirmationDialog {
 	c.setStyle(style)
 	return c
 }
@@ -89,6 +85,6 @@ func (c confirmationDialogAbstraction) Template() string {
 
 // Render the template
 func (c ConfirmationDialog) Render() string {
-	raw := common.Render(c.abstraction())
-	return common.Pretty(raw)
+	raw := Render(c.abstraction())
+	return Pretty(raw)
 }

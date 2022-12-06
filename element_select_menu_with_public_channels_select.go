@@ -1,20 +1,15 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type SelectMenuWithPublicChannelsSelect struct {
 	slackType ElementType
 	actionID  string
 
-	confirm            composition.ConfirmationDialog
+	confirm            ConfirmationDialog
 	responseUrlEnabled bool
 	focusOnLoad        bool
-	placeholder        composition.CompositionText
+	placeholder        CompositionText
 
 	// Public Channel
 	initialChannel string
@@ -37,10 +32,10 @@ type SelectMenuWithPublicChannelsSelectAbstraction struct {
 	Type     string
 	ActionId string
 
-	Confirm            composition.ConfirmationDialog
+	Confirm            ConfirmationDialog
 	ResponseUrlEnabled bool
 	FocusOnLoad        bool
-	Placeholder        composition.CompositionText
+	Placeholder        CompositionText
 
 	// Public Channel
 	InitialChannel string
@@ -83,7 +78,7 @@ func (m SelectMenuWithPublicChannelsSelect) UpdateActionId(actionId string) Sele
 //////////////////////////////////////////////////
 // confirm
 
-func (m *SelectMenuWithPublicChannelsSelect) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *SelectMenuWithPublicChannelsSelect) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -93,7 +88,7 @@ func (m *SelectMenuWithPublicChannelsSelect) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m SelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm composition.ConfirmationDialog) SelectMenuWithPublicChannelsSelect {
+func (m SelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm ConfirmationDialog) SelectMenuWithPublicChannelsSelect {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -150,7 +145,7 @@ func (m SelectMenuWithPublicChannelsSelect) UnsetFocusOnLoad() SelectMenuWithPub
 // placeholder
 
 func (m *SelectMenuWithPublicChannelsSelect) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -250,8 +245,8 @@ func (m SelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 func (m SelectMenuWithPublicChannelsSelect) ElementRender() {}
 
 func (m SelectMenuWithPublicChannelsSelect) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 func (m SelectMenuWithPublicChannelsSelect) Section() Section {

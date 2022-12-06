@@ -1,4 +1,4 @@
-package composition
+package flocksofblocks
 
 type Composition interface {
 	compositeRender() string

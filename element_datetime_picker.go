@@ -1,8 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 	"strconv"
 	"time"
 )
@@ -12,7 +10,7 @@ type DateTimePicker struct {
 	actionId  string
 
 	initialDateTime time.Time
-	confirm         composition.ConfirmationDialog
+	confirm         ConfirmationDialog
 	focusOnLoad     bool
 
 	options dateTimePickerOptions
@@ -48,7 +46,7 @@ func (d *DateTimePicker) removeInitialDateTime() {
 }
 
 // SetConfirm sets the confirmation dialog for the date picker.
-func (d *DateTimePicker) setConfirm(confirm composition.ConfirmationDialog) {
+func (d *DateTimePicker) setConfirm(confirm ConfirmationDialog) {
 	d.confirm = confirm
 	d.options.Confirm = true
 }
@@ -80,7 +78,7 @@ func (d DateTimePicker) RemoveInitialDateTime() DateTimePicker {
 }
 
 // AddConfirm chain function to add confirmation dialog to an existing date picker
-func (d DateTimePicker) AddConfirmationDialog(confirm composition.ConfirmationDialog) DateTimePicker {
+func (d DateTimePicker) AddConfirmationDialog(confirm ConfirmationDialog) DateTimePicker {
 	d.setConfirm(confirm)
 	return d
 }
@@ -109,7 +107,7 @@ type abstractDateTimePicker struct {
 	ActionId string
 
 	InitialDateTime string
-	Confirm         composition.ConfirmationDialog
+	Confirm         ConfirmationDialog
 	FocusOnLoad     bool
 
 	Optionals dateTimePickerOptions
@@ -133,7 +131,7 @@ func (d DateTimePicker) abstraction() abstractDateTimePicker {
 
 // Render renders the date picker to a JSON string.
 func (d DateTimePicker) Render() string {
-	return common.Render(d.abstraction())
+	return Render(d.abstraction())
 }
 
 // Template function

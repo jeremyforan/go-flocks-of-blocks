@@ -2,7 +2,7 @@ package element
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
+	"github.com/jeremyforan/go-flocks-of-blocks"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ func TestNewDatePicker(t *testing.T) {
 		datePicker := NewDatePicker("datepicker-action")
 
 		output := datePicker.Render()
-		fmt.Println(common.Pretty(output))
+		fmt.Println(flocksofblocks.Pretty(output))
 
 	})
 }

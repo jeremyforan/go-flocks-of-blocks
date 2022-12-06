@@ -1,23 +1,18 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 // InputElement
 
 type SelectMenuWithStaticOption struct {
 	slackType ElementType
 	actionID  string
-	options   []composition.Option
+	options   []Option
 
-	optionGroups  []composition.OptionGroup
-	initialOption composition.Option
-	confirm       composition.ConfirmationDialog
+	optionGroups  []OptionGroup
+	initialOption Option
+	confirm       ConfirmationDialog
 
 	focusOnLoad bool
-	placeholder composition.CompositionText
+	placeholder CompositionText
 
 	optionals SelectMenuWithStaticOptionOptions
 }
@@ -46,7 +41,7 @@ func NewSelectMenuWithStaticOptions(actionId string) SelectMenuWithStaticOption 
 	return SelectMenuWithStaticOption{
 		slackType: SelectMenuWithStaticOptionsElement,
 		actionID:  actionId,
-		options:   []composition.Option{},
+		options:   []Option{},
 		optionals: SelectMenuWithStaticOptionOptions{
 			OptionGroups:  false,
 			InitialOption: false,
@@ -78,20 +73,20 @@ func (m SelectMenuWithStaticOption) UpdateActionId(actionId string) SelectMenuWi
 //////////////////////////////////////////////////
 // options
 
-func (m *SelectMenuWithStaticOption) setOptions(options []composition.Option) {
+func (m *SelectMenuWithStaticOption) setOptions(options []Option) {
 	m.options = options
 }
 
-func (m *SelectMenuWithStaticOption) addOption(option composition.Option) {
+func (m *SelectMenuWithStaticOption) addOption(option Option) {
 	m.options = append(m.options, option)
 }
 
 func (m *SelectMenuWithStaticOption) removeOptions() {
-	m.options = []composition.Option{}
+	m.options = []Option{}
 }
 
 // AddOption public add option
-func (m SelectMenuWithStaticOption) AddOption(option composition.Option) SelectMenuWithStaticOption {
+func (m SelectMenuWithStaticOption) AddOption(option Option) SelectMenuWithStaticOption {
 	m.addOption(option)
 	return m
 }
@@ -102,7 +97,7 @@ func (m SelectMenuWithStaticOption) ClearOptions() SelectMenuWithStaticOption {
 	return m
 }
 
-func (m *SelectMenuWithStaticOption) setOptionGroups(optionGroups []composition.OptionGroup) {
+func (m *SelectMenuWithStaticOption) setOptionGroups(optionGroups []OptionGroup) {
 	m.optionGroups = optionGroups
 	m.optionals.OptionGroups = true
 }
@@ -118,7 +113,7 @@ func (m SelectMenuWithStaticOption) ClearOptionGroups() SelectMenuWithStaticOpti
 }
 
 // AddOptionGroup public add option group
-func (m SelectMenuWithStaticOption) AddOptionGroup(optionGroup composition.OptionGroup) SelectMenuWithStaticOption {
+func (m SelectMenuWithStaticOption) AddOptionGroup(optionGroup OptionGroup) SelectMenuWithStaticOption {
 	m.setOptionGroups(append(m.optionGroups, optionGroup))
 	return m
 }
@@ -136,7 +131,7 @@ func (m SelectMenuWithStaticOption) ClearAllOptions() SelectMenuWithStaticOption
 //////////////////////////////////////////////////
 // initialOptions
 
-func (m *SelectMenuWithStaticOption) addInitialOption(initialOption composition.Option) {
+func (m *SelectMenuWithStaticOption) addInitialOption(initialOption Option) {
 	m.addOption(initialOption)
 	m.initialOption = initialOption
 	m.optionals.InitialOption = true
@@ -146,7 +141,7 @@ func (m *SelectMenuWithStaticOption) removeInitialOptions() {
 	m.optionals.InitialOption = false
 }
 
-func (m *SelectMenuWithStaticOption) setInitialOptions(initialOption composition.Option) {
+func (m *SelectMenuWithStaticOption) setInitialOptions(initialOption Option) {
 	m.initialOption = initialOption
 	m.optionals.InitialOption = true
 }
@@ -158,7 +153,7 @@ func (m SelectMenuWithStaticOption) ClearInitialOptions() SelectMenuWithStaticOp
 }
 
 // AddInitialOption public add initial option
-func (m SelectMenuWithStaticOption) AddInitialOption(initialOption composition.Option) SelectMenuWithStaticOption {
+func (m SelectMenuWithStaticOption) AddInitialOption(initialOption Option) SelectMenuWithStaticOption {
 	m.addInitialOption(initialOption)
 	return m
 }
@@ -166,7 +161,7 @@ func (m SelectMenuWithStaticOption) AddInitialOption(initialOption composition.O
 //////////////////////////////////////////////////
 // confirm
 
-func (m *SelectMenuWithStaticOption) setConfirm(confirm composition.ConfirmationDialog) {
+func (m *SelectMenuWithStaticOption) setConfirm(confirm ConfirmationDialog) {
 	m.confirm = confirm
 	m.optionals.Confirm = true
 }
@@ -176,7 +171,7 @@ func (m *SelectMenuWithStaticOption) removeConfirm() {
 }
 
 // AddConfirmDialog public set confirm
-func (m SelectMenuWithStaticOption) AddConfirmDialog(confirm composition.ConfirmationDialog) SelectMenuWithStaticOption {
+func (m SelectMenuWithStaticOption) AddConfirmDialog(confirm ConfirmationDialog) SelectMenuWithStaticOption {
 	m.setConfirm(confirm)
 	m.optionals.Confirm = true
 	return m
@@ -211,7 +206,7 @@ func (m SelectMenuWithStaticOption) UnsetFocusOnLoad() SelectMenuWithStaticOptio
 // placeholder
 
 func (m *SelectMenuWithStaticOption) setPlaceholder(placeholder string) {
-	m.placeholder = composition.NewPlainText(placeholder)
+	m.placeholder = NewPlainText(placeholder)
 	m.optionals.Placeholder = true
 }
 
@@ -238,13 +233,13 @@ func (m SelectMenuWithStaticOption) RemovePlaceholder() SelectMenuWithStaticOpti
 type SelectMenuWithStaticOptionAbstraction struct {
 	Type             string
 	ActionId         string
-	Options          []composition.Option
-	OptionGroups     []composition.OptionGroup
-	InitialOption    composition.Option
-	Confirm          composition.ConfirmationDialog
+	Options          []Option
+	OptionGroups     []OptionGroup
+	InitialOption    Option
+	Confirm          ConfirmationDialog
 	MaxSelectedItems int
 	FocusOnLoad      bool
-	Placeholder      composition.CompositionText
+	Placeholder      CompositionText
 
 	Optionals SelectMenuWithStaticOptionOptions
 }
@@ -298,8 +293,8 @@ func (m SelectMenuWithStaticOptionAbstraction) Template() string {
 
 // Render returns json string
 func (m SelectMenuWithStaticOption) Render() string {
-	raw := common.Render(m.abstraction())
-	return common.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 // ElementRender

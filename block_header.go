@@ -1,13 +1,8 @@
 package flocksofblocks
 
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
-	"github.com/jeremyforan/go-flocks-of-blocks/composition"
-)
-
 type Header struct {
 	slackType BlockType
-	text      composition.CompositionText
+	text      CompositionText
 
 	blockId string
 
@@ -22,7 +17,7 @@ type headerOptions struct {
 func NewHeader(text string) Header {
 	return Header{
 		slackType: HeaderBlock,
-		text:      composition.NewPlainText(text),
+		text:      NewPlainText(text),
 		optional: headerOptions{
 			BlockId: false,
 		},
@@ -55,7 +50,7 @@ func (h Header) RemoveBlockId() Header {
 // abstraction is a helper struct to generate the abstraction for the header.
 type headerAbstraction struct {
 	Type     string
-	Text     composition.CompositionText
+	Text     CompositionText
 	BlockId  string
 	Optional headerOptions
 }
@@ -83,5 +78,5 @@ func (f headerAbstraction) Template() string {
 
 // render is a helper function to generate the json for the file.
 func (h Header) Render() string {
-	return common.Render(h.abstraction())
+	return Render(h.abstraction())
 }
