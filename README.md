@@ -8,6 +8,11 @@
 
 Flocks of Blocks is a Go library that helps compose Slack messages using the [Block Framework](https://api.slack.com/block-kit). 
 
+:warning: Warning
+------------------------------------------
+This package is in heavy flux at the moment as I work to incorporate feedback from various sources.
+
+
 # Why
 
 After building Slack bots in Go, I looked for a faster way of composing block messages. I started utilizing the Go templating library to build ad-hoc messages. This package provides an intuitive way of generating Slack messages using templates and a functional approach heavily inspired by the Charm
