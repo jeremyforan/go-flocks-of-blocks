@@ -10,13 +10,13 @@ import (
 func TestButton(t *testing.T) {
 	t.Run("Create Button Element", func(t *testing.T) {
 
-		u, err := url.Parse("http://bing.com/search?q=dotnet")
+		url, err := url.Parse("http://bing.com/search?q=dotnet")
 		if err != nil {
 			t.Error(err)
 		}
 
-		button := NewButton("Click This", "button1")
-		button.AddUrl(u).MakeStyleDanger()
+		button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
+		button.AddUrl(url).MakeStyleDanger()
 		if err != nil {
 			t.Error(err)
 		}

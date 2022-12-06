@@ -6,41 +6,47 @@
 
 <a href="https://pkg.go.dev/github.com/jeremyforan/go-flocks-of-blocks"><img src="https://pkg.go.dev/badge/github.com/jeremyforan/go-flocks-of-blocks.svg" alt="Go Reference"></a>
 
-Flocks of blocks is a Go library that helps build Slack messages using the block framework.
+Flocks of Blocks is a Go library that helps compose Slack messages using the [Block Framework](https://api.slack.com/block-kit). 
+
+# Why
+
+After building Slack bots in Go, I looked for a faster way of composing block messages. I started utilizing the Go templating library to build ad-hoc messages. This package provides an intuitive way of generating Slack messages using templates and a functional approach heavily inspired by the Charm
 
 
+# Philosophy
+Slack messages should be easy and fun to compose. Most Slack messages are simple and, as a result, less likely to violate any of Slack message's restrictions:
+> 	IE: Maximum length for this field is 255 characters.
 
-# philospohy
+Therefore the package should try and minimize the amount of errors the user has to handle.
 
+A functional approach to building the assets will be more concise and intuitive:
 
+```go
+button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
+```
 
-# ToDo's
- - There are elements that are comprised of smaller, composition elements. I suspect I might want to configure interfaces
- - Set docs standard
+# Roadmap
+There are three major phases to this project:
 
+### 1) Version 0.0.x (Develope) 
+* Explore different implementation and design approaches including more composition
+* Gather user feedback
 
-Initial options group need to do some validation to ensure co
+### 2) Version 1.0.x (Productionized)
 
+* Establish a consistant naming convention
+* Decide on the degree of structure composition
+* Complete code coverage
 
-MultiSelectMenuWithStaticOptions 
-	- If option_groups is specified, this field should not be.
+### 3) Version 1.1.x (Maintain)
+* Add component validation
+* Make a really great Logo. Like sticker worthy!
 
-	
-unset instead of delete/remove/erase
+# Documentation
 
-# Naming conventions
+## Installation
 
-set required 
-optional Int
-	min_query_length => MinQueryLenght
-
-add option element to array
-add optional text to element 
-set optional bool
-
-set option bool
-	FocusOnLoad
-	DisableFocusOnLoad
+## Usage
 	
 	
 # Notes
