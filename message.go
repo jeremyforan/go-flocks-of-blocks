@@ -3,8 +3,6 @@ package flocksofblocks
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
-	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"net/url"
 )
 
@@ -14,7 +12,7 @@ const (
 )
 
 type Message struct {
-	Blocks []block.Block
+	Blocks []Block
 }
 
 // NewMessage Create a new message
@@ -30,12 +28,12 @@ func (m Message) Template() string {
 
 // Render the message
 func (m Message) Render() string {
-	raw := common.Render(m)
-	return common.Pretty(raw)
+	raw := Render(m)
+	return Pretty(raw)
 }
 
 // AddBlock add a block to the message
-func (m Message) AddBlock(block block.Block) Message {
+func (m Message) AddBlock(block Block) Message {
 	m.Blocks = append(m.Blocks, block)
 	return m
 }
