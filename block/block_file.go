@@ -1,12 +1,11 @@
-package file
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 )
 
 type File struct {
-	slackType  block.BlockType
+	slackType  BlockType
 	externalId string
 	source     string
 	blockId    string
@@ -21,7 +20,7 @@ type fileOptions struct {
 // NewFile creates a new file.
 func NewFile(externalId string, source string) File {
 	return File{
-		slackType:  block.File,
+		slackType:  FileBlock,
 		externalId: externalId,
 		source:     source,
 		optional: fileOptions{

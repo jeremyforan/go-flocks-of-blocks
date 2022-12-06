@@ -1,7 +1,7 @@
 package numberinput
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block/input"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/dispatchactionconfig"
@@ -282,6 +282,6 @@ func (n NumberInput) Render() string {
 func (n NumberInput) InputElement() {}
 
 // Input
-func (n NumberInput) Input(label string) input.Input {
-	return input.NewInput(label, n)
+func (n NumberInput) Input(label string) block.Input {
+	return block.NewInput(label, n)
 }

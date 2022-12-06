@@ -1,14 +1,13 @@
-package section
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Section struct {
-	slackType block.BlockType
+	slackType BlockType
 	text      compositiontext.CompositionText
 
 	accessory element.Element
@@ -28,7 +27,7 @@ type sectionOptions struct {
 // NewSection creates a new section.
 func NewSection(text string) Section {
 	return Section{
-		slackType: block.Section,
+		slackType: SectionBlock,
 		text:      compositiontext.NewPlainText(text),
 		optional: sectionOptions{
 			Accessory: false,

@@ -1,7 +1,7 @@
 package multiselectmenu
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block/section"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
@@ -262,7 +262,7 @@ func (m MultiSelectMenuWithUserList) Render() string {
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithUserList) Section() section.Section {
-	s := section.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithUserList) Section() block.Section {
+	s := block.NewSection("newSection").AddAccessory(m)
 	return s
 }

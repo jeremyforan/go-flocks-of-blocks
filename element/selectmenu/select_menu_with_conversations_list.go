@@ -1,7 +1,7 @@
 package selectmenu
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block/section"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
@@ -324,7 +324,7 @@ func (m SelectMenuWithConversationsList) Render() string {
 	return common.Pretty(raw)
 }
 
-func (m SelectMenuWithConversationsList) Section() section.Section {
-	s := section.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithConversationsList) Section() block.Section {
+	s := block.NewSection("newSection").AddAccessory(m)
 	return s
 }

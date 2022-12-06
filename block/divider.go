@@ -1,31 +1,25 @@
-package divider
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 )
 
 type Divider struct {
-	slackType block.BlockType // required
-	blockId   string          // optional
+	slackType BlockType // required
+	blockId   string    // optional
 
 	optionals dividerOptionals
 }
 
 func (d Divider) BlockRender() {}
 
-func NewDividerBlock(options ...buttonConstructionOptions) Divider {
+func NewDividerBlock() Divider {
 	divider := Divider{
-		slackType: block.Divider,
+		slackType: DividerBlock,
 		optionals: dividerOptionals{
 			BlockId: false,
 		},
 	}
-
-	for _, option := range options {
-		option(&divider)
-	}
-
 	return divider
 }
 
@@ -55,4 +49,36 @@ func (d dividerAbstraction) Template() string {
 	"type": "{{.Type}}"
 	{{if .Optionals.BlockId}},"block_id": "{{.BlockId}}"{{end}}
 }`
+}
+
+type dividerAbstraction struct {
+	Type      string
+	BlockId   string
+	Optionals dividerOptionals
+}
+
+// create an abstraction of the divider block
+func (d Divider) abstraction() dividerAbstraction {
+	return dividerAbstraction{
+		Type:      d.Type(),
+		BlockId:   d.blockId,
+		Optionals: d.optionals,
+	}
+}
+
+type dividerOptionals struct {
+	BlockId bool
+}
+
+// SetBlockId sets the block id for the block.
+func (d Divider) SetBlockId(blockId string) Divider {
+	d.setBlockId(blockId)
+	return d
+}
+
+// RemoveBlockId removes the block id from the block.
+func (d Divider) RemoveBlockId() Divider {
+	d.blockId = ""
+	d.optionals.BlockId = false
+	return d
 }

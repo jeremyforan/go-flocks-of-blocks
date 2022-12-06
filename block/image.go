@@ -1,14 +1,13 @@
-package image
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"net/url"
 )
 
 type Image struct {
-	slackType block.BlockType
+	slackType BlockType
 	imageUrl  *url.URL
 	altText   string
 
@@ -26,7 +25,7 @@ type imageOptions struct {
 // NewImage creates a new image.
 func NewImage(imageUrl *url.URL, altText string) Image {
 	return Image{
-		slackType: block.Image,
+		slackType: ImageBlock,
 		imageUrl:  imageUrl,
 		altText:   altText,
 		optional: imageOptions{

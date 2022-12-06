@@ -1,12 +1,11 @@
-package context
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Context struct {
-	slackType block.BlockType
+	slackType BlockType
 	elements  []element.Element
 
 	blockId string
@@ -21,7 +20,7 @@ type contextOptions struct {
 // NewContext creates a new context.
 func NewContext() Context {
 	return Context{
-		slackType: block.Context,
+		slackType: ContextBlock,
 		elements:  []element.Element{},
 		optionals: contextOptions{
 			BlockId: false,

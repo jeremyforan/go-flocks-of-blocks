@@ -1,7 +1,7 @@
 package multiselectmenu
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block/section"
+	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/confirmationdialog"
@@ -274,7 +274,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) Render() string {
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithPublicChannelsSelect) Section() section.Section {
-	s := section.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithPublicChannelsSelect) Section() block.Section {
+	s := block.NewSection("newSection").AddAccessory(m)
 	return s
 }

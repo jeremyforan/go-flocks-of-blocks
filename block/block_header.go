@@ -1,13 +1,12 @@
-package header
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition/compositiontext"
 )
 
 type Header struct {
-	slackType block.BlockType
+	slackType BlockType
 	text      compositiontext.CompositionText
 
 	blockId string
@@ -22,7 +21,7 @@ type headerOptions struct {
 // NewHeader creates a new header.
 func NewHeader(text string) Header {
 	return Header{
-		slackType: block.Header,
+		slackType: HeaderBlock,
 		text:      compositiontext.NewPlainText(text),
 		optional: headerOptions{
 			BlockId: false,

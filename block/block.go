@@ -3,15 +3,15 @@ package block
 type BlockType string
 
 const (
-	Actions BlockType = "actions"
-	Context BlockType = "context"
-	Divider BlockType = "divider"
-	File    BlockType = "file"
-	Header  BlockType = "header"
-	Image   BlockType = "image"
-	Input   BlockType = "input"
-	Section BlockType = "section"
-	Video   BlockType = "video"
+	ActionsBlock BlockType = "actions"
+	ContextBlock BlockType = "context"
+	DividerBlock BlockType = "divider"
+	FileBlock    BlockType = "file"
+	HeaderBlock  BlockType = "header"
+	ImageBlock   BlockType = "image"
+	InputBlock   BlockType = "input"
+	SectionBlock BlockType = "section"
+	VideoBlock   BlockType = "video"
 )
 
 // stringer for BlockType

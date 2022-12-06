@@ -1,13 +1,12 @@
-package action
+package block
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/element"
 )
 
 type Action struct {
-	slackType block.BlockType
+	slackType BlockType
 	elements  []element.Element
 	blockId   string
 
@@ -18,7 +17,7 @@ func (a Action) BlockRender() {}
 
 func NewAction(blockId string) Action {
 	return Action{
-		slackType: block.Actions,
+		slackType: ActionsBlock,
 		elements:  []element.Element{},
 		blockId:   blockId,
 		optionals: actionOptions{
