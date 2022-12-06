@@ -2,7 +2,6 @@ package flocksofblocks
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/block/divider"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
@@ -28,9 +27,9 @@ func TestMessage(t *testing.T) {
 
 		button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
 
-		action := block.NewAction("Block").AddElement(button)
+		action := NewAction("Block").AddElement(button)
 
-		div := block.NewDividerBlock(divider.BlockId("divider1"))
+		div := NewDividerBlock(divider.BlockId("divider1"))
 
 		msg = msg.AddBlock(action).AddBlock(div)
 

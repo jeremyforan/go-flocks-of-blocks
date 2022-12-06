@@ -1,7 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 )
@@ -328,7 +327,7 @@ func (m MultiSelectMenuWithConversationsList) Render() string {
 	return common.Pretty(raw)
 }
 
-func (m MultiSelectMenuWithConversationsList) Section() block.Section {
-	s := block.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithConversationsList) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }

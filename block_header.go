@@ -1,4 +1,4 @@
-package block
+package flocksofblocks
 
 import (
 	"github.com/jeremyforan/go-flocks-of-blocks/common"

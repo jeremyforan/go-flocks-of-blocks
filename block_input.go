@@ -1,7 +1,6 @@
-package block
+package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 )
@@ -9,7 +8,7 @@ import (
 type Input struct {
 	slackType BlockType
 	label     composition.CompositionText
-	element   flocksofblocks.InputElement
+	element   InputElement
 
 	dispatchAction bool
 	blockID        string
@@ -26,7 +25,7 @@ type inputOptional struct {
 	SlackOptional  bool
 }
 
-func NewInput(label string, element flocksofblocks.InputElement) Input {
+func NewInput(label string, element InputElement) Input {
 	return Input{
 		slackType: InputBlock,
 		label:     composition.NewPlainText(label),
@@ -81,7 +80,7 @@ func (i *Input) removeSlackOptional() {
 type abstractionInput struct {
 	Type           string
 	Label          composition.CompositionText
-	Element        flocksofblocks.InputElement
+	Element        InputElement
 	DispatchAction bool
 	BlockID        string
 	Hint           composition.CompositionText

@@ -1,7 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/block"
 	"github.com/jeremyforan/go-flocks-of-blocks/common"
 	"github.com/jeremyforan/go-flocks-of-blocks/composition"
 )
@@ -339,7 +338,7 @@ func (m MultiSelectMenuWithStaticOption) Render() string {
 func (m MultiSelectMenuWithStaticOption) ElementRender() {}
 
 // Section public section block
-func (m MultiSelectMenuWithStaticOption) Section() block.Section {
-	s := block.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithStaticOption) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }

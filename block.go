@@ -1,4 +1,4 @@
-package block
+package flocksofblocks
 
 type BlockType string
 

@@ -1,12 +1,8 @@
-package block
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-)
+package flocksofblocks
 
 type Context struct {
 	slackType BlockType
-	elements  []flocksofblocks.Element
+	elements  []Element
 
 	blockId string
 
@@ -21,7 +17,7 @@ type contextOptions struct {
 func NewContext() Context {
 	return Context{
 		slackType: ContextBlock,
-		elements:  []flocksofblocks.Element{},
+		elements:  []Element{},
 		optionals: contextOptions{
 			BlockId: false,
 		},
@@ -52,12 +48,12 @@ func (c Context) RemoveBlockId() Context {
 }
 
 // addElement adds an element to the context.
-func (c *Context) addElement(element flocksofblocks.Element) {
+func (c *Context) addElement(element Element) {
 	c.elements = append(c.elements, element)
 }
 
 // AddElement chain function to add an element to an existing context
-func (c Context) AddElement(element flocksofblocks.Element) Context {
+func (c Context) AddElement(element Element) Context {
 	c.addElement(element)
 	return c
 }
@@ -66,7 +62,7 @@ func (c Context) AddElement(element flocksofblocks.Element) Context {
 type ContextAbstraction struct {
 	Type     string
 	BlockId  string
-	Elements []flocksofblocks.Element
+	Elements []Element
 }
 
 // BlockRender is the implementation of the BlockRender interface.
