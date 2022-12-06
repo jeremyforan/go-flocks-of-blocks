@@ -58,3 +58,5 @@ func (m Message) GenerateKitBuilderUrl() *url.URL {
 	}
 	return url
 }
+
+// todo: add a means of copying an existing message/block/element/
