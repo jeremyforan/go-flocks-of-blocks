@@ -935,8 +935,9 @@ func (m MultiSelectMenuWithConversationsList) AddConfirmDialog(confirm Confirmat
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithConversationsList) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m MultiSelectMenuWithConversationsList) RemoveConfirmDialog() MultiSelectMenuWithConversationsList {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -1271,8 +1272,9 @@ func (m MultiSelectMenuWithExternalDataSource) AddConfirmDialog(confirm Confirma
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithExternalDataSource) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m MultiSelectMenuWithExternalDataSource) RemoveConfirmDialog() MultiSelectMenuWithExternalDataSource {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -1545,8 +1547,9 @@ func (m MultiSelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm Confir
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m MultiSelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() MultiSelectMenuWithPublicChannelsSelect {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -1899,8 +1902,9 @@ func (m MultiSelectMenuWithStaticOption) AddConfirmDialog(confirm ConfirmationDi
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithStaticOption) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m MultiSelectMenuWithStaticOption) RemoveConfirmDialog() MultiSelectMenuWithStaticOption {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -2137,8 +2141,9 @@ func (m MultiSelectMenuWithUserList) AddConfirmDialog(confirm ConfirmationDialog
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *MultiSelectMenuWithUserList) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m MultiSelectMenuWithUserList) RemoveConfirmDialog() MultiSelectMenuWithUserList {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -2682,8 +2687,9 @@ func (o OverflowMenu) AddConfirmDialog(confirm ConfirmationDialog) OverflowMenu 
 }
 
 // RemoveConfirmDialog public remove confirm
-func (o *OverflowMenu) RemoveConfirmDialog() {
-	o.optionals.Confirm = false
+func (o OverflowMenu) RemoveConfirmDialog() OverflowMenu {
+	o.removeConfirm()
+	return o
 }
 
 //////////////////////////////////////////////////
@@ -3340,8 +3346,9 @@ func (m SelectMenuWithConversationsList) AddConfirmDialog(confirm ConfirmationDi
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *SelectMenuWithConversationsList) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m SelectMenuWithConversationsList) RemoveConfirmDialog() SelectMenuWithConversationsList {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -3659,8 +3666,9 @@ func (m SelectMenuWithExternalDataSource) AddConfirmDialog(confirm ConfirmationD
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *SelectMenuWithExternalDataSource) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m SelectMenuWithExternalDataSource) RemoveConfirmDialog() SelectMenuWithExternalDataSource {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -3898,8 +3906,9 @@ func (m SelectMenuWithPublicChannelsSelect) AddConfirmDialog(confirm Confirmatio
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *SelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m SelectMenuWithPublicChannelsSelect) RemoveConfirmDialog() SelectMenuWithPublicChannelsSelect {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -4235,8 +4244,9 @@ func (m SelectMenuWithStaticOption) AddConfirmDialog(confirm ConfirmationDialog)
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *SelectMenuWithStaticOption) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m SelectMenuWithStaticOption) RemoveConfirmDialog() SelectMenuWithStaticOption {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////
@@ -4438,8 +4448,9 @@ func (m SelectMenuWithUserList) AddConfirmDialog(confirm ConfirmationDialog) Sel
 }
 
 // RemoveConfirmDialog public remove confirm
-func (m *SelectMenuWithUserList) RemoveConfirmDialog() {
-	m.optionals.Confirm = false
+func (m SelectMenuWithUserList) RemoveConfirmDialog() SelectMenuWithUserList {
+	m.removeConfirm()
+	return m
 }
 
 //////////////////////////////////////////////////

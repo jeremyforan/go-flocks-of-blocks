@@ -481,12 +481,12 @@ func (o *Option) SetUrl(url url.URL) *Option {
 	return o
 }
 
-func (o *Option) RemoveDescription() *Option {
+func (o Option) RemoveDescription() Option {
 	o.optionals.Description = false
 	return o
 }
 
-func (o *Option) RemoveUrl() *Option {
+func (o Option) RemoveUrl() Option {
 	o.optionals.Url = false
 	return o
 }
@@ -500,7 +500,7 @@ type optionAbstraction struct {
 	Optionals   optional
 }
 
-// create an option obstraction for rendering
+// create an option abstraction for rendering
 func (o Option) abstraction() optionAbstraction {
 	url := ""
 	if o.optionals.Url {
