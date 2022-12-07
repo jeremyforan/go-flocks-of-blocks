@@ -176,8 +176,9 @@ func (b buttonAbstraction) Template() string {
 }`
 }
 
-func (b Button) Section() {}
-func (b Button) Action()  {}
+func (b Button) Section() Section {
+	return NewSection().AddAccessory(b)
+}
 
 func (b Button) ElementRender() {}
 
@@ -1157,7 +1158,7 @@ func (m MultiSelectMenuWithConversationsList) Render() string {
 }
 
 func (m MultiSelectMenuWithConversationsList) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -1448,7 +1449,7 @@ func (m MultiSelectMenuWithExternalDataSource) Render() string {
 }
 
 func (m MultiSelectMenuWithExternalDataSource) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -1720,7 +1721,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) Render() string {
 }
 
 func (m MultiSelectMenuWithPublicChannelsSelect) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -2059,7 +2060,7 @@ func (m MultiSelectMenuWithStaticOption) ElementRender() {}
 
 // Section public section block
 func (m MultiSelectMenuWithStaticOption) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -2319,7 +2320,7 @@ func (m MultiSelectMenuWithUserList) Render() string {
 }
 
 func (m MultiSelectMenuWithUserList) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -3559,7 +3560,7 @@ func (m SelectMenuWithConversationsList) Render() string {
 }
 
 func (m SelectMenuWithConversationsList) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -3807,7 +3808,7 @@ func (m SelectMenuWithExternalDataSource) Render() string {
 }
 
 func (m SelectMenuWithExternalDataSource) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -4062,7 +4063,7 @@ func (m SelectMenuWithPublicChannelsSelect) Render() string {
 }
 
 func (m SelectMenuWithPublicChannelsSelect) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -4369,7 +4370,7 @@ func (m SelectMenuWithStaticOption) ElementRender() {}
 
 // SectionBlock public section block
 func (m SelectMenuWithStaticOption) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 
@@ -4589,7 +4590,7 @@ func (m SelectMenuWithUserList) Render() string {
 }
 
 func (m SelectMenuWithUserList) Section() Section {
-	s := NewSection("newSection").AddAccessory(m)
+	s := NewSection().AddAccessory(m)
 	return s
 }
 

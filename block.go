@@ -27,7 +27,17 @@ type Block interface {
 	BlockRender()
 }
 
-type Action struct {
+func (a Actions) BlockRender() {}
+func (c Context) BlockRender() {}
+func (d Divider) BlockRender() {}
+func (f File) BlockRender()    {}
+func (h Header) BlockRender()  {}
+func (i Image) BlockRender()   {}
+func (i Input) BlockRender()   {}
+func (s Section) BlockRender() {}
+func (v Video) BlockRender()   {}
+
+type Actions struct {
 	slackType BlockType
 	elements  []Element
 	blockId   string
@@ -35,13 +45,14 @@ type Action struct {
 	optionals actionOptions
 }
 
-func (a Action) BlockRender() {}
+func (b Button) Actions() Actions {
+	return NewAction().AddElement(b)
+}
 
-func NewAction(blockId string) Action {
-	return Action{
+func NewAction() Actions {
+	return Actions{
 		slackType: ActionsBlock,
 		elements:  []Element{},
-		blockId:   blockId,
 		optionals: actionOptions{
 			blockId: false,
 		},
@@ -49,17 +60,17 @@ func NewAction(blockId string) Action {
 }
 
 // SetBlockId sets the block id for the block.
-func (a *Action) setBlockId(blockId string) {
+func (a *Actions) setBlockId(blockId string) {
 	a.blockId = blockId
 	a.optionals.blockId = true
 }
 
-func (a *Action) removeBlockId() {
+func (a *Actions) removeBlockId() {
 	a.blockId = ""
 	a.optionals.blockId = false
 }
 
-func (a *Action) addElement(element Element) {
+func (a *Actions) addElement(element Element) {
 	a.elements = append(a.elements, element)
 }
 
@@ -76,25 +87,25 @@ type actionAbstraction struct {
 }
 
 // AddBlockId chain function to add block id to an existing action block
-func (a Action) AddBlockId(blockId string) Action {
+func (a Actions) AddBlockId(blockId string) Actions {
 	a.setBlockId(blockId)
 	return a
 }
 
 // RemoveBlockId remove add block id from action block
-func (a Action) RemoveBlockId() Action {
+func (a Actions) RemoveBlockId() Actions {
 	a.removeBlockId()
 	return a
 }
 
 // AddElement Add element to existing action block.
-func (a Action) AddElement(element Element) Action {
+func (a Actions) AddElement(element Element) Actions {
 	a.addElement(element)
 	return a
 }
 
 // generate abstraction from action
-func (a Action) abstraction() actionAbstraction {
+func (a Actions) abstraction() actionAbstraction {
 	return actionAbstraction{
 		Type:     string(a.slackType),
 		Elements: a.elements,
@@ -106,9 +117,9 @@ func (a Action) abstraction() actionAbstraction {
 
 func (a actionAbstraction) Template() string {
 	return `{
-	"type": "{{.Type}}",
+"type": "{{.Type}}",
 	
-	"elements": [{{range $index, $element := .Elements}}{{if $index}},{{end}}{{$element.Render}}{{end}}]
+"elements": [{{range $index, $element := .Elements}}{{if $index}},{{end}}{{$element.Render}}{{end}}]
 
 {{if .BlockId}},
 	"block_id": "{{.BlockId}}"
@@ -117,9 +128,9 @@ func (a actionAbstraction) Template() string {
 }
 
 // Render the block
-func (a Action) Render() string {
-	output := Render(a.abstraction())
-	return Pretty(output)
+func (a Actions) Render() string {
+	raw := Render(a.abstraction())
+	return Pretty(raw)
 }
 
 type ActionType interface {
@@ -129,9 +140,26 @@ type ActionType interface {
 ///////////////////////////////////////////
 // Context
 
+// ContextElement Context allows for only two type of elements, either Text or Image elements as defined here:
+//
+//	https://api.slack.com/reference/block-kit/blocks#context.
+type ContextElement interface {
+	ContextElement()
+}
+
+func (i ImageElement) ContextElement()    {}
+func (m CompositionText) ContextElement() {}
+
+func (i ImageElement) Context() Context {
+	return NewContext().AddElement(i)
+}
+func (m CompositionText) Context() Context {
+	return NewContext().AddElement(m)
+}
+
 type Context struct {
 	slackType BlockType
-	elements  []Element
+	elements  []ContextElement
 
 	blockId string
 
@@ -146,7 +174,7 @@ type contextOptions struct {
 func NewContext() Context {
 	return Context{
 		slackType: ContextBlock,
-		elements:  []Element{},
+		elements:  []ContextElement{},
 		optionals: contextOptions{
 			BlockId: false,
 		},
@@ -177,29 +205,26 @@ func (c Context) RemoveBlockId() Context {
 }
 
 // addElement adds an element to the context.
-func (c *Context) addElement(element Element) {
+func (c *Context) addElement(element ContextElement) {
 	c.elements = append(c.elements, element)
 }
 
 // AddElement chain function to add an element to an existing context
-func (c Context) AddElement(element Element) Context {
+func (c Context) AddElement(element ContextElement) Context {
 	c.addElement(element)
 	return c
 }
 
-// ContextAbstraction is the abstraction of the context block.
-type ContextAbstraction struct {
+// contextAbstraction is the abstraction of the context block.
+type contextAbstraction struct {
 	Type     string
 	BlockId  string
-	Elements []Element
+	Elements []ContextElement
 }
 
-// BlockRender is the implementation of the BlockRender interface.
-func (c Context) BlockRender() {}
-
 // BlockRenderAbstraction is the implementation of the BlockRenderAbstraction interface.
-func (c Context) abstraction() ContextAbstraction {
-	return ContextAbstraction{
+func (c Context) abstraction() contextAbstraction {
+	return contextAbstraction{
 		Type:     c.slackType.String(),
 		BlockId:  c.blockId,
 		Elements: c.elements,
@@ -207,10 +232,11 @@ func (c Context) abstraction() ContextAbstraction {
 }
 
 // Template is the template for the context block.
-func (c ContextAbstraction) Template() string {
+func (c contextAbstraction) Template() string {
 	return `{
-	"type": "{{.Type}}",
-	"elements": [{{range $index, $element := .Elements}}{{$element.Render}}{{if not $last}},{{end}}{{end}}]
+"type": "{{.Type}}",
+	
+"elements": [{{range $index, $element := .Elements}}{{$element.Render}}{{if not $last}},{{end}}{{end}}]
 
 {{if .Optionals.BlockId}},
 	"block_id": "{{.BlockId}}"
@@ -228,8 +254,6 @@ type Divider struct {
 
 	optionals dividerOptionals
 }
-
-func (d Divider) BlockRender() {}
 
 func NewDividerBlock() Divider {
 	divider := Divider{
@@ -254,7 +278,8 @@ func (d *Divider) removeBlockId() {
 
 // Render renders the block to a string.
 func (d Divider) Render() string {
-	return Render(d.abstraction())
+	raw := Render(d.abstraction())
+	return Pretty(raw)
 }
 
 // SlackType return slack type
@@ -310,7 +335,7 @@ type File struct {
 	source     string
 	blockId    string
 
-	optional fileOptions
+	optionals fileOptions
 }
 
 type fileOptions struct {
@@ -323,7 +348,7 @@ func NewFile(externalId string, source string) File {
 		slackType:  FileBlock,
 		externalId: externalId,
 		source:     source,
-		optional: fileOptions{
+		optionals: fileOptions{
 			BlockId: false,
 		},
 	}
@@ -332,12 +357,12 @@ func NewFile(externalId string, source string) File {
 // SetBlockId sets the block id for the block.
 func (f *File) setBlockId(blockId string) {
 	f.blockId = blockId
-	f.optional.BlockId = true
+	f.optionals.BlockId = true
 }
 
 func (f *File) removeBlockId() {
 	f.blockId = ""
-	f.optional.BlockId = false
+	f.optionals.BlockId = false
 }
 
 // AddBlockId chain function to add block id to an existing file
@@ -351,9 +376,6 @@ func (f File) RemoveBlockId() File {
 	f.removeBlockId()
 	return f
 }
-
-// BlockRender is a dummy function to satisfy the Block interface.
-func (f File) BlockRender() {}
 
 // fileAbstraction is a helper struct to generate the abstraction for the file.
 type fileAbstraction struct {
@@ -372,7 +394,7 @@ func (f File) abstraction() fileAbstraction {
 		Source:     f.source,
 		BlockId:    f.blockId,
 
-		Optional: f.optional,
+		Optional: f.optionals,
 	}
 }
 
@@ -388,7 +410,8 @@ func (f fileAbstraction) Template() string {
 
 // render is a helper function to generate the json for the file.
 func (f File) Render() string {
-	return Render(f.abstraction())
+	raw := Render(f.abstraction())
+	return Pretty(raw)
 }
 
 ///////////////////////////////////////////
@@ -400,7 +423,7 @@ type Header struct {
 
 	blockId string
 
-	optional headerOptions
+	optionals headerOptions
 }
 
 type headerOptions struct {
@@ -412,7 +435,7 @@ func NewHeader(text string) Header {
 	return Header{
 		slackType: HeaderBlock,
 		text:      NewPlainText(text),
-		optional: headerOptions{
+		optionals: headerOptions{
 			BlockId: false,
 		},
 	}
@@ -421,12 +444,12 @@ func NewHeader(text string) Header {
 // SetBlockId sets the block id for the block.
 func (h *Header) setBlockId(blockId string) {
 	h.blockId = blockId
-	h.optional.BlockId = true
+	h.optionals.BlockId = true
 }
 
 func (h *Header) removeBlockId() {
 	h.blockId = ""
-	h.optional.BlockId = false
+	h.optionals.BlockId = false
 }
 
 // AddBlockId chain function to add block id to an existing header
@@ -456,7 +479,7 @@ func (h Header) abstraction() headerAbstraction {
 		Text:    h.text,
 		BlockId: h.blockId,
 
-		Optional: h.optional,
+		Optional: h.optionals,
 	}
 }
 
@@ -472,7 +495,8 @@ func (f headerAbstraction) Template() string {
 
 // render is a helper function to generate the json for the file.
 func (h Header) Render() string {
-	return Render(h.abstraction())
+	raw := Render(h.abstraction())
+	return Pretty(raw)
 }
 
 // BlockRender is a dummy function to satisfy the Block interface.
@@ -485,7 +509,7 @@ type Image struct {
 	title   CompositionText
 	blockId string
 
-	optional imageOptions
+	optionals imageOptions
 }
 
 type imageOptions struct {
@@ -499,7 +523,7 @@ func NewImage(imageUrl *url.URL, altText string) Image {
 		slackType: ImageBlock,
 		imageUrl:  imageUrl,
 		altText:   altText,
-		optional: imageOptions{
+		optionals: imageOptions{
 			Title:   false,
 			BlockId: false,
 		},
@@ -509,11 +533,11 @@ func NewImage(imageUrl *url.URL, altText string) Image {
 // SetTitle sets the title for the image.
 func (i *Image) setTitle(title string) {
 	i.title = NewPlainText(title)
-	i.optional.Title = true
+	i.optionals.Title = true
 }
 
 func (i *Image) removeTitle() {
-	i.optional.Title = false
+	i.optionals.Title = false
 }
 
 // AddTitle chain function to add title to an existing image
@@ -531,11 +555,11 @@ func (i Image) RemoveTitle() Image {
 // SetBlockId sets the block id for the block.
 func (i *Image) setBlockId(blockId string) {
 	i.blockId = blockId
-	i.optional.BlockId = true
+	i.optionals.BlockId = true
 }
 
 func (i *Image) removeBlockId() {
-	i.optional.BlockId = false
+	i.optionals.BlockId = false
 }
 
 // AddBlockId chain function to add block id to an existing image
@@ -568,7 +592,7 @@ func (i Image) abstraction() imageAbstraction {
 		AltText:  i.altText,
 		Title:    i.title,
 		BlockId:  i.blockId,
-		Optional: i.optional,
+		Optional: i.optionals,
 	}
 }
 
@@ -585,7 +609,8 @@ func (i imageAbstraction) Template() string {
 
 // Render renders the image to a string.
 func (i Image) Render() string {
-	return Render(i.abstraction())
+	raw := Render(i.abstraction())
+	return Pretty(raw)
 }
 
 ///////////////////////////////////////////
@@ -709,7 +734,7 @@ func (i abstractionInput) Template() string {
 {{end}}
 
 {{if .Optionals.SlackOptional}},
-	"optional": "{{.SlackOptional}}"
+	"optionals": "{{.SlackOptional}}"
 {{end}}
 	}`
 }
@@ -781,28 +806,29 @@ func (i Input) RemoveOptional() Input {
 
 type Section struct {
 	slackType BlockType
-	text      CompositionText
 
+	text      CompositionText
 	accessory Element
 	blockId   string
 
 	fields []CompositionText
 
-	optional sectionOptions
+	optionals sectionOptions
 }
 
 type sectionOptions struct {
+	Text      bool
 	Accessory bool
 	BlockId   bool
 	Field     bool
 }
 
 // NewSection creates a new section.
-func NewSection(text string) Section {
+func NewSection() Section {
 	return Section{
 		slackType: SectionBlock,
-		text:      NewPlainText(text),
-		optional: sectionOptions{
+		optionals: sectionOptions{
+			Text:      false,
 			Accessory: false,
 			BlockId:   false,
 			Field:     false,
@@ -813,11 +839,11 @@ func NewSection(text string) Section {
 // SetAccessory sets the accessory for the section.
 func (s *Section) setAccessory(accessory Element) {
 	s.accessory = accessory
-	s.optional.Accessory = true
+	s.optionals.Accessory = true
 }
 
 func (s *Section) removeAccessory() {
-	s.optional.Accessory = false
+	s.optionals.Accessory = false
 }
 
 // addAccessory adds an accessory to the section.
@@ -829,26 +855,44 @@ func (s Section) AddAccessory(accessory Element) Section {
 // setBlockId sets the block id for the section.
 func (s *Section) setBlockId(blockId string) {
 	s.blockId = blockId
-	s.optional.BlockId = true
+	s.optionals.BlockId = true
 }
 
 func (s *Section) removeBlockId() {
-	s.optional.BlockId = false
+	s.optionals.BlockId = false
 }
 
 // AddField adds a field to the section.
 func (s *Section) addPlainField(field string) {
 	s.fields = append(s.fields, NewPlainText(field))
-	s.optional.Field = true
+	s.optionals.Field = true
 }
 
 func (s *Section) addMarkdownField(field string) {
 	s.fields = append(s.fields, NewMrkdwnText(field))
-	s.optional.Field = true
+	s.optionals.Field = true
 }
 
 func (s *Section) removeField() {
-	s.optional.Field = false
+	s.optionals.Field = false
+}
+
+// AddPlainField adds a field to the section.
+func (s Section) AddPlainField(field string) Section {
+	s.addPlainField(field)
+	return s
+}
+
+// AddMrkdownField adds a field to the section.
+func (s Section) AddMrkdownField(field string) Section {
+	s.addMarkdownField(field)
+	return s
+}
+
+// setText
+func (s *Section) setText(text string) {
+	s.text = NewPlainText(text)
+	s.optionals.Text = true
 }
 
 // abstraction for the section block
@@ -875,34 +919,38 @@ func (s Section) abstraction() sectionAbstraction {
 
 		Fields: s.fields,
 
-		Optional: s.optional,
+		Optional: s.optionals,
 	}
 }
 
 // Template returns the template for the section.
 func (s sectionAbstraction) Template() string {
 	return `{
-		"type": "{{.Type}}",
-		"text": {{.Text.Render}}
+"type": "{{.Type}}"
+		
+{{if .Optional.Text}},
+	"text": {{.Text.Render}}
+{{end}}
+
 {{if .Optional.Accessory}},
-		"accessory": {{.Accessory.Render}}
+	"accessory": {{.Accessory.Render}}
 {{end}}
 
 {{if .Optional.BlockId}},
-		"block_id": "{{.BlockId}}"
+	"block_id": "{{.BlockId}}"
 {{end}}
 
 {{if .Optional.Field}},
-		"fields": [
-			{{range $index, $field := .Fields}}{{if $index}},{{end}}{{ $field.Render}}{{end}}
-		]{{end}}
+	"fields": [
+		{{range $index, $field := .Fields}}{{if $index}},{{end}}{{ $field.Render}}{{end}}
+	]{{end}}
 	}`
 }
 
 // Render renders the section to a string
 func (s Section) Render() string {
-	output := Render(s.abstraction())
-	return Pretty(output)
+	raw := Render(s.abstraction())
+	return Pretty(raw)
 }
 
 type SectionType interface {
@@ -912,9 +960,6 @@ type SectionType interface {
 func (s Section) String() string {
 	return s.Render()
 }
-
-// BlockRender
-func (s Section) BlockRender() {}
 
 ///////////////////////////////////////////
 // Video
@@ -936,8 +981,7 @@ type Video struct {
 	titleUrl        *url.URL
 	blockId         string
 
-	// optional
-	optional optionalVideo
+	optionals optionalVideo
 }
 
 type optionalVideo struct {
@@ -958,7 +1002,7 @@ func NewVideo(title string, thumbnailUrl *url.URL, videoUrl *url.URL, altText st
 		videoUrl:     videoUrl,
 		altText:      altText,
 
-		optional: optionalVideo{
+		optionals: optionalVideo{
 			AuthorName:      false,
 			ProviderName:    false,
 			Description:     false,
@@ -972,67 +1016,67 @@ func NewVideo(title string, thumbnailUrl *url.URL, videoUrl *url.URL, altText st
 // setAuthorName
 func (v *Video) setAuthorName(authorName string) {
 	v.authorName = authorName
-	v.optional.AuthorName = true
+	v.optionals.AuthorName = true
 }
 
 // RemoveAuthorName
 func (v *Video) removeAuthorName() {
-	v.optional.AuthorName = false
+	v.optionals.AuthorName = false
 }
 
 // setProviderName
 func (v *Video) setProviderName(providerName string) {
 	v.providerName = providerName
-	v.optional.ProviderName = true
+	v.optionals.ProviderName = true
 }
 
 // removeProviderName
 func (v *Video) removeProviderName() {
-	v.optional.ProviderName = false
+	v.optionals.ProviderName = false
 }
 
 // setDescription
 func (v *Video) setDescription(description string) {
 	v.description = NewPlainText(description).EnableEmoji()
-	v.optional.Description = true
+	v.optionals.Description = true
 }
 
 // removeDescription
 func (v *Video) removeDescription() {
-	v.optional.Description = false
+	v.optionals.Description = false
 }
 
 // setProviderIconUrl
 func (v *Video) setProviderIconUrl(providerIconUrl *url.URL) {
 	v.providerIconUrl = providerIconUrl
-	v.optional.ProviderIconUrl = true
+	v.optionals.ProviderIconUrl = true
 }
 
 // removeProviderIconUrl
 func (v *Video) removeProviderIconUrl() {
-	v.optional.ProviderIconUrl = false
+	v.optionals.ProviderIconUrl = false
 }
 
 // setTitleUrl
 func (v *Video) setTitleUrl(titleUrl *url.URL) {
 	v.titleUrl = titleUrl
-	v.optional.TitleUrl = true
+	v.optionals.TitleUrl = true
 }
 
 // removeTitleUrl
 func (v *Video) removeTitleUrl() {
-	v.optional.TitleUrl = false
+	v.optionals.TitleUrl = false
 }
 
 // setBlockId
 func (v *Video) setBlockId(blockId string) {
 	v.blockId = blockId
-	v.optional.BlockId = true
+	v.optionals.BlockId = true
 }
 
 // removeBlockId
 func (v *Video) removeBlockId() {
-	v.optional.BlockId = false
+	v.optionals.BlockId = false
 }
 
 // abstraction structure
@@ -1056,12 +1100,12 @@ type abstractionVideo struct {
 // abstract
 func (v Video) abstraction() abstractionVideo {
 	providerIconUrl := ""
-	if v.optional.ProviderIconUrl {
+	if v.optionals.ProviderIconUrl {
 		providerIconUrl = v.providerIconUrl.String()
 	}
 
 	titleUrl := ""
-	if v.optional.TitleUrl {
+	if v.optionals.TitleUrl {
 		titleUrl = v.titleUrl.String()
 	}
 
@@ -1078,7 +1122,7 @@ func (v Video) abstraction() abstractionVideo {
 		ProviderIconUrl: providerIconUrl,
 		TitleUrl:        titleUrl,
 		BlockId:         v.blockId,
-		Optional:        v.optional,
+		Optional:        v.optionals,
 	}
 }
 
@@ -1156,7 +1200,8 @@ func (v Video) RemoveBlockId() Video {
 
 // Render the block
 func (v Video) Render() string {
-	return Render(v.abstraction())
+	raw := Render(v.abstraction())
+	return Pretty(raw)
 }
 
 // Template for the block
