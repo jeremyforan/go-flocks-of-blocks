@@ -1,7 +1,6 @@
 package flocksofblocks
 
 import (
-	"github.com/jeremyforan/go-flocks-of-blocks/pkg"
 	"net/url"
 )
 
@@ -30,7 +29,7 @@ type Block interface {
 
 type Action struct {
 	slackType BlockType
-	elements  []flocksofblocks.Element
+	elements  []Element
 	blockId   string
 
 	optionals actionOptions
@@ -41,7 +40,7 @@ func (a Action) BlockRender() {}
 func NewAction(blockId string) Action {
 	return Action{
 		slackType: ActionsBlock,
-		elements:  []flocksofblocks.Element{},
+		elements:  []Element{},
 		blockId:   blockId,
 		optionals: actionOptions{
 			blockId: false,
@@ -60,7 +59,7 @@ func (a *Action) removeBlockId() {
 	a.optionals.blockId = false
 }
 
-func (a *Action) addElement(element flocksofblocks.Element) {
+func (a *Action) addElement(element Element) {
 	a.elements = append(a.elements, element)
 }
 
@@ -70,7 +69,7 @@ type actionOptions struct {
 
 type actionAbstraction struct {
 	Type     string
-	Elements []flocksofblocks.Element
+	Elements []Element
 	BlockId  string
 
 	Optional actionOptions
@@ -89,7 +88,7 @@ func (a Action) RemoveBlockId() Action {
 }
 
 // AddElement Add element to existing action block.
-func (a Action) AddElement(element flocksofblocks.Element) Action {
+func (a Action) AddElement(element Element) Action {
 	a.addElement(element)
 	return a
 }
@@ -132,7 +131,7 @@ type ActionType interface {
 
 type Context struct {
 	slackType BlockType
-	elements  []flocksofblocks.Element
+	elements  []Element
 
 	blockId string
 
@@ -147,7 +146,7 @@ type contextOptions struct {
 func NewContext() Context {
 	return Context{
 		slackType: ContextBlock,
-		elements:  []flocksofblocks.Element{},
+		elements:  []Element{},
 		optionals: contextOptions{
 			BlockId: false,
 		},
@@ -178,12 +177,12 @@ func (c Context) RemoveBlockId() Context {
 }
 
 // addElement adds an element to the context.
-func (c *Context) addElement(element flocksofblocks.Element) {
+func (c *Context) addElement(element Element) {
 	c.elements = append(c.elements, element)
 }
 
 // AddElement chain function to add an element to an existing context
-func (c Context) AddElement(element flocksofblocks.Element) Context {
+func (c Context) AddElement(element Element) Context {
 	c.addElement(element)
 	return c
 }
@@ -192,7 +191,7 @@ func (c Context) AddElement(element flocksofblocks.Element) Context {
 type ContextAbstraction struct {
 	Type     string
 	BlockId  string
-	Elements []flocksofblocks.Element
+	Elements []Element
 }
 
 // BlockRender is the implementation of the BlockRender interface.
@@ -397,7 +396,7 @@ func (f File) Render() string {
 
 type Header struct {
 	slackType BlockType
-	text      flocksofblocks.CompositionText
+	text      CompositionText
 
 	blockId string
 
@@ -412,7 +411,7 @@ type headerOptions struct {
 func NewHeader(text string) Header {
 	return Header{
 		slackType: HeaderBlock,
-		text:      flocksofblocks.NewPlainText(text),
+		text:      NewPlainText(text),
 		optional: headerOptions{
 			BlockId: false,
 		},
@@ -445,7 +444,7 @@ func (h Header) RemoveBlockId() Header {
 // abstraction is a helper struct to generate the abstraction for the header.
 type headerAbstraction struct {
 	Type     string
-	Text     flocksofblocks.CompositionText
+	Text     CompositionText
 	BlockId  string
 	Optional headerOptions
 }
@@ -483,7 +482,7 @@ type Image struct {
 	imageUrl  *url.URL // todo: make this a string set using a url
 	altText   string
 
-	title   flocksofblocks.CompositionText
+	title   CompositionText
 	blockId string
 
 	optional imageOptions
@@ -509,7 +508,7 @@ func NewImage(imageUrl *url.URL, altText string) Image {
 
 // SetTitle sets the title for the image.
 func (i *Image) setTitle(title string) {
-	i.title = flocksofblocks.NewPlainText(title)
+	i.title = NewPlainText(title)
 	i.optional.Title = true
 }
 
@@ -556,7 +555,7 @@ type imageAbstraction struct {
 	Type     string
 	ImageUrl string
 	AltText  string
-	Title    flocksofblocks.CompositionText
+	Title    CompositionText
 	BlockId  string
 	Optional imageOptions
 }
@@ -594,12 +593,12 @@ func (i Image) Render() string {
 
 type Input struct {
 	slackType BlockType
-	label     flocksofblocks.CompositionText
-	element   flocksofblocks.InputElement
+	label     CompositionText
+	element   InputElement
 
 	dispatchAction bool
 	blockID        string
-	hint           flocksofblocks.CompositionText
+	hint           CompositionText
 	slackOptional  bool
 
 	optionals inputOptional
@@ -612,10 +611,10 @@ type inputOptional struct {
 	SlackOptional  bool
 }
 
-func NewInput(label string, element flocksofblocks.InputElement) Input {
+func NewInput(label string, element InputElement) Input {
 	return Input{
 		slackType: InputBlock,
-		label:     flocksofblocks.NewPlainText(label),
+		label:     NewPlainText(label),
 		element:   element,
 	}
 }
@@ -639,7 +638,7 @@ func (i *Input) removeBlockID() {
 
 // setHint
 func (i *Input) setHint(s string) {
-	i.hint = flocksofblocks.NewPlainText(s)
+	i.hint = NewPlainText(s)
 	i.optionals.Hint = true
 }
 
@@ -650,7 +649,7 @@ func (i *Input) removeHint() {
 
 // set label
 func (i *Input) setLabel(label string) {
-	i.label = flocksofblocks.NewPlainText(label)
+	i.label = NewPlainText(label)
 }
 
 // SetSlackOptional set slack optional
@@ -666,11 +665,11 @@ func (i *Input) removeSlackOptional() {
 
 type abstractionInput struct {
 	Type           string
-	Label          flocksofblocks.CompositionText
-	Element        flocksofblocks.InputElement
+	Label          CompositionText
+	Element        InputElement
 	DispatchAction bool
 	BlockID        string
-	Hint           flocksofblocks.CompositionText
+	Hint           CompositionText
 	SlackOptional  bool
 	Optionals      inputOptional
 }
@@ -782,12 +781,12 @@ func (i Input) RemoveOptional() Input {
 
 type Section struct {
 	slackType BlockType
-	text      flocksofblocks.CompositionText
+	text      CompositionText
 
-	accessory flocksofblocks.Element
+	accessory Element
 	blockId   string
 
-	fields []flocksofblocks.CompositionText
+	fields []CompositionText
 
 	optional sectionOptions
 }
@@ -802,7 +801,7 @@ type sectionOptions struct {
 func NewSection(text string) Section {
 	return Section{
 		slackType: SectionBlock,
-		text:      flocksofblocks.NewPlainText(text),
+		text:      NewPlainText(text),
 		optional: sectionOptions{
 			Accessory: false,
 			BlockId:   false,
@@ -812,7 +811,7 @@ func NewSection(text string) Section {
 }
 
 // SetAccessory sets the accessory for the section.
-func (s *Section) setAccessory(accessory flocksofblocks.Element) {
+func (s *Section) setAccessory(accessory Element) {
 	s.accessory = accessory
 	s.optional.Accessory = true
 }
@@ -822,7 +821,7 @@ func (s *Section) removeAccessory() {
 }
 
 // addAccessory adds an accessory to the section.
-func (s Section) AddAccessory(accessory flocksofblocks.Element) Section {
+func (s Section) AddAccessory(accessory Element) Section {
 	s.setAccessory(accessory)
 	return s
 }
@@ -839,12 +838,12 @@ func (s *Section) removeBlockId() {
 
 // AddField adds a field to the section.
 func (s *Section) addPlainField(field string) {
-	s.fields = append(s.fields, flocksofblocks.NewPlainText(field))
+	s.fields = append(s.fields, NewPlainText(field))
 	s.optional.Field = true
 }
 
 func (s *Section) addMarkdownField(field string) {
-	s.fields = append(s.fields, flocksofblocks.NewMrkdwnText(field))
+	s.fields = append(s.fields, NewMrkdwnText(field))
 	s.optional.Field = true
 }
 
@@ -855,12 +854,12 @@ func (s *Section) removeField() {
 // abstraction for the section block
 type sectionAbstraction struct {
 	Type string
-	Text flocksofblocks.CompositionText
+	Text CompositionText
 
-	Accessory flocksofblocks.Element
+	Accessory Element
 	BlockId   string
 
-	Fields []flocksofblocks.CompositionText
+	Fields []CompositionText
 
 	Optional sectionOptions
 }
@@ -922,7 +921,7 @@ func (s Section) BlockRender() {}
 
 type Video struct {
 	slackType    BlockType
-	title        flocksofblocks.CompositionText
+	title        CompositionText
 	thumbnailUrl *url.URL
 	videoUrl     *url.URL
 	altText      string
@@ -931,7 +930,7 @@ type Video struct {
 	authorName   string
 	providerName string
 
-	description flocksofblocks.CompositionText
+	description CompositionText
 
 	providerIconUrl *url.URL
 	titleUrl        *url.URL
@@ -953,7 +952,7 @@ type optionalVideo struct {
 func NewVideo(title string, thumbnailUrl *url.URL, videoUrl *url.URL, altText string) Video {
 	return Video{
 		slackType: VideoBlock,
-		title:     flocksofblocks.NewPlainText(title),
+		title:     NewPlainText(title),
 
 		thumbnailUrl: thumbnailUrl,
 		videoUrl:     videoUrl,
@@ -994,7 +993,7 @@ func (v *Video) removeProviderName() {
 
 // setDescription
 func (v *Video) setDescription(description string) {
-	v.description = flocksofblocks.NewPlainText(description).EnableEmoji()
+	v.description = NewPlainText(description).EnableEmoji()
 	v.optional.Description = true
 }
 
@@ -1039,14 +1038,14 @@ func (v *Video) removeBlockId() {
 // abstraction structure
 type abstractionVideo struct {
 	Type         string
-	Title        flocksofblocks.CompositionText
+	Title        CompositionText
 	ThumbnailUrl string
 	VideoUrl     string
 	AltText      string
 
 	AuthorName      string
 	ProviderName    string
-	Description     flocksofblocks.CompositionText
+	Description     CompositionText
 	ProviderIconUrl string
 	TitleUrl        string
 	BlockId         string

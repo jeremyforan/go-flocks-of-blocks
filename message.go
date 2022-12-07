@@ -7,12 +7,11 @@ import (
 )
 
 const (
-	messageBlockLimit     = 50
 	slackKitBuilderApiUrl = "https://app.slack.com/block-kit-builder/"
 )
 
 type Message struct {
-	Blocks []go_flocks_of_blocks.Block
+	Blocks []Block
 }
 
 // NewMessage Create a new message
@@ -33,7 +32,7 @@ func (m Message) Render() string {
 }
 
 // AddBlock add a block to the message
-func (m Message) AddBlock(block go_flocks_of_blocks.Block) Message {
+func (m Message) AddBlock(block Block) Message {
 	m.Blocks = append(m.Blocks, block)
 	return m
 }

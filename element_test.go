@@ -1,8 +1,7 @@
-package element
+package flocksofblocks
 
 import (
 	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
 	"net/url"
 	"testing"
 )
@@ -23,63 +22,35 @@ func TestButton(t *testing.T) {
 
 		output := button.Render()
 
-		fmt.Println(flocksofblocks.Pretty(output))
+		fmt.Println(Pretty(output))
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewCheckboxes(t *testing.T) {
 	t.Run("NewCheckboxes", func(t *testing.T) {
-		checkboxes := NewCheckboxes("that check check boom!!").AddInitialOption(flocksofblocks.NewOption("option1", "option1"))
+		checkboxes := NewCheckboxes("that check check boom!!").AddInitialOption(NewOption("option1", "option1"))
 		output := checkboxes.Render()
-		fmt.Println(flocksofblocks.Pretty(output))
+		fmt.Println(Pretty(output))
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewDatePicker(t *testing.T) {
 	t.Run("NewDatePicker", func(t *testing.T) {
 		datePicker := NewDatePicker("datepicker-action")
 
 		output := datePicker.Render()
-		fmt.Println(flocksofblocks.Pretty(output))
+		fmt.Println(Pretty(output))
 
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestDateTimePicker(t *testing.T) {
 	t.Run("NewDateTimePicker", func(t *testing.T) {
 		dateTimePicker := NewDateTimePicker("datetimepicker-action")
 		output := dateTimePicker.Render()
-		fmt.Println(flocksofblocks.Pretty(output))
+		fmt.Println(Pretty(output))
 	})
 }
-package element
-
-import (
-	"fmt"
-	"net/url"
-	"testing"
-)
 
 func TestNewImage(t *testing.T) {
 	t.Run("NewImage", func(t *testing.T) {
@@ -93,29 +64,15 @@ func TestNewImage(t *testing.T) {
 		fmt.Println(output)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewMultiSelectMenuWithConversationsList(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithConversationsList", func(t *testing.T) {
 		menu := NewMultiSelectMenuWithConversationsList("actionID")
-		confirm := flocksofblocks.NewConfirmationDialog("title", "text", "confirm", "deny")
+		confirm := NewConfirmationDialog("title", "text", "confirm", "deny")
 		menu = menu.AddPlaceholder("placeholder").AddConfirmDialog(confirm)
 		fmt.Println(menu.Section().Render())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 // todo: add massive amount of validation
 
@@ -123,18 +80,12 @@ func TestNewMultiSelectMenuWithExternalDataSource(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithExternalDataSource", func(t *testing.T) {
 		menu := NewMultiSelectMenuWithExternalDataSource("actionId")
 
-		opt := flocksofblocks.NewOption("initial", "value-1")
+		opt := NewOption("initial", "value-1")
 		menu = menu.AddInitialOption(opt).MaxSelectedItems(3).AddPlaceholder("Select items")
 
 		fmt.Println(menu.Section())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewMultiSelectMenuWithPublicChannelsSelect(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithPublicChannelsSelect", func(t *testing.T) {
@@ -142,13 +93,6 @@ func TestNewMultiSelectMenuWithPublicChannelsSelect(t *testing.T) {
 		fmt.Println(menu.Section().Render())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 const (
 	validMenuWithInitialandPlaceholder = `{
@@ -191,8 +135,8 @@ func TestNewMultiSelectMenuWithStaticOptions(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithStaticOptions", func(t *testing.T) {
 		menu := NewMultiSelectMenuWithStaticOptions("text1234")
 
-		opt := flocksofblocks.NewOption("Wait for it", "value-0")
-		opt2 := flocksofblocks.NewOption("Initial", "value-1")
+		opt := NewOption("Wait for it", "value-0")
+		opt2 := NewOption("Initial", "value-1")
 		menu = menu.AddOption(opt).AddInitialOption(opt2).SetPlaceholder("Select items")
 
 		output := menu.Render()
@@ -209,12 +153,6 @@ func TestNewMultiSelectMenuWithStaticOptions(t *testing.T) {
 		fmt.Println(section)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewMultiSelectMenuWithUserList(t *testing.T) {
 	menu := NewMultiSelectMenuWithUserList("actionId")
@@ -226,12 +164,6 @@ func TestNewMultiSelectMenuWithUserList(t *testing.T) {
 	fmt.Println(menu.Section())
 
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewNumberInput(t *testing.T) {
 	t.Run("NewNumberInput", func(t *testing.T) {
@@ -241,20 +173,13 @@ func TestNewNumberInput(t *testing.T) {
 		fmt.Println(output)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewOverflowMenu(t *testing.T) {
 	menu := NewOverflowMenu("actionId")
 
-	opt1 := flocksofblocks.NewOption("option-1", "value-1")
-	opt2 := flocksofblocks.NewOption("option-2", "value-a")
-	opt3 := flocksofblocks.NewOption("option-3", "value-x")
+	opt1 := NewOption("option-1", "value-1")
+	opt2 := NewOption("option-2", "value-a")
+	opt3 := NewOption("option-3", "value-x")
 
 	menu = menu.AddOption(opt1).AddOption(opt2).AddOption(opt3)
 
@@ -263,12 +188,6 @@ func TestNewOverflowMenu(t *testing.T) {
 	fmt.Println(output)
 
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewPlainTextInput(t *testing.T) {
 	t.Run("NewPlainTextInput", func(t *testing.T) {
@@ -277,44 +196,23 @@ func TestNewPlainTextInput(t *testing.T) {
 		fmt.Println(output)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewRadioButton(t *testing.T) {
 	t.Run("NewRadioButton", func(t *testing.T) {
-		rb := NewRadioButton("actionId").AddOption(flocksofblocks.NewOption("option-1", "value-1")).AddOption(flocksofblocks.NewOption("option-2", "value-a")).AddOption(flocksofblocks.NewOption("option-3", "value-x"))
+		rb := NewRadioButton("actionId").AddOption(NewOption("option-1", "value-1")).AddOption(NewOption("option-2", "value-a")).AddOption(NewOption("option-3", "value-x"))
 		output := rb.Render()
 		fmt.Println(output)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestNewSelectMenuWithConversationsList(t *testing.T) {
 	t.Run("NewSelectMenuWithConversationsList", func(t *testing.T) {
 		menu := NewSelectMenuWithConversationsList("actionID")
-		confirm := flocksofblocks.NewConfirmationDialog("title", "text", "confirm", "deny")
+		confirm := NewConfirmationDialog("title", "text", "confirm", "deny")
 		menu = menu.AddPlaceholder("placeholder").AddConfirmDialog(confirm)
 		fmt.Println(menu.Section().Render())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 // todo: add massive amount of validation
 
@@ -322,18 +220,12 @@ func TestNewSelectMenuWithExternalDataSource(t *testing.T) {
 	t.Run("NewSelectMenuWithExternalDataSource", func(t *testing.T) {
 		menu := NewSelectMenuWithExternalDataSource("actionId")
 
-		opt := flocksofblocks.NewOption("initial", "value-1")
+		opt := NewOption("initial", "value-1")
 		menu = menu.AddInitialOption(opt).AddPlaceholder("placeholder").SetMinQueryLength(6)
 
 		fmt.Println(menu.Section())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewMultiSelectMenuWithPublicChannelsSelectone(t *testing.T) {
 	t.Run("NewSelectMenuWithPublicChannelsSelect", func(t *testing.T) {
@@ -341,13 +233,6 @@ func TestNewMultiSelectMenuWithPublicChannelsSelectone(t *testing.T) {
 		fmt.Println(menu.Section().Render())
 	})
 }
-package element
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 const (
 	validMenuWithInitialAndPlaceholder = `{
@@ -389,10 +274,10 @@ func TestNewSelectMenuWithStaticOptions(t *testing.T) {
 	t.Run("NewMultiSelectMenuWithStaticOptions", func(t *testing.T) {
 		menu := NewSelectMenuWithStaticOptions("text1234")
 
-		opt := flocksofblocks.NewOption("Wait for it", "value-0")
-		opt2 := flocksofblocks.NewOption("Initial", "value-1")
+		opt := NewOption("Wait for it", "value-0")
+		opt2 := NewOption("Initial", "value-1")
 
-		optionGroup := flocksofblocks.NewOptionGroup("Group 1").AddOption(opt).AddOption(opt2)
+		optionGroup := NewOptionGroup("Group 1").AddOption(opt).AddOption(opt2)
 
 		menu = menu.AddOptionGroup(optionGroup)
 
@@ -405,12 +290,6 @@ func TestNewSelectMenuWithStaticOptions(t *testing.T) {
 		fmt.Println(section)
 	})
 }
-package element
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestNewSelectMenuWithUserList(t *testing.T) {
 	menu := NewSelectMenuWithUserList("actionId")
@@ -424,9 +303,6 @@ func TestNewSelectMenuWithUserList(t *testing.T) {
 	fmt.Println(output)
 
 }
-package element
-
-import "testing"
 
 func TestNewTimePicker(t *testing.T) {
 	t.Run("NewTimePicker", func(t *testing.T) {
@@ -435,12 +311,6 @@ func TestNewTimePicker(t *testing.T) {
 		t.Log(output)
 	})
 }
-package element
-
-import (
-	"net/url"
-	"testing"
-)
 
 func TestNewURLInput(t *testing.T) {
 	t.Run("NewURLInput", func(t *testing.T) {

@@ -1,6 +1,10 @@
 package flocksofblocks
 
-import "testing"
+import (
+	"fmt"
+	"net/url"
+	"testing"
+)
 
 func TestNewActionBlock(t *testing.T) {
 	t.Run("NewActionBlock", func(t *testing.T) {
@@ -10,29 +14,16 @@ func TestNewActionBlock(t *testing.T) {
 		t.Log(output)
 	})
 }
-package flocksofblocks
-
-import (
-	"fmt"
-	flocksofblocks "github.com/jeremyforan/go-flocks-of-blocks"
-	"testing"
-)
 
 func TestFileRender(t *testing.T) {
 	t.Run("valid file", func(t *testing.T) {
-		file := flocksofblocks.NewFile("externalId", "source")
+		file := NewFile("externalId", "source")
 		file = file.AddBlockId("file1")
 		output := file.Render()
 		fmt.Println("File output: \n\n", output)
 	})
 
 }
-package block
-
-import (
-	"fmt"
-	"testing"
-)
 
 func TestHeader(t *testing.T) {
 	t.Run("valid header", func(t *testing.T) {
@@ -41,48 +32,27 @@ func TestHeader(t *testing.T) {
 		fmt.Println("Header output: \n\n", output)
 	})
 }
-package block
-
-import (
-	"fmt"
-	url2 "net/url"
-	"testing"
-)
 
 func TestImage(t *testing.T) {
 	t.Run("valid image", func(t *testing.T) {
 
-		url, err := url2.Parse("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
+		u, err := url.Parse("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")
 		if err != nil {
 			t.Error(err)
 		}
 
-		img := NewImage(url, "Google Logo")
+		img := NewImage(u, "Google Logo")
 		output := img.Render()
 		fmt.Println("Image output: \n\n", output)
 	})
 
 }
-package flocksofblocks
-
-import "testing"
 
 func TestNewInputTest(t *testing.T) {
 	t.Run("NewInputTest", func(t *testing.T) {
-		input := NewInputTest("Block")
 
-		output := input.Render()
-		t.Log(output)
-	}
+	})
 }
-package block
-
-import (
-	"fmt"
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"net/url"
-	"testing"
-)
 
 func TestVideo(t *testing.T) {
 	t.Run("NewVideo", func(t *testing.T) {
@@ -110,6 +80,6 @@ func TestVideo(t *testing.T) {
 		video = video.AddDescription("Slack is a new way to communicate with your team. It's faster, better organized and more secure than email.")
 
 		output := video.Render()
-		fmt.Println(flocksofblocks.Pretty(output))
+		fmt.Println(Pretty(output))
 	})
 }

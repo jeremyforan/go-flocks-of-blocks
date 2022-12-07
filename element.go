@@ -1,5 +1,11 @@
 package flocksofblocks
 
+import (
+	"net/url"
+	"strconv"
+	"time"
+)
+
 type Element interface {
 	ElementRender()
 }
@@ -39,19 +45,6 @@ func (e ElementType) String() string {
 type InputElement interface {
 	InputElement()
 }
-package flocksofblocks
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"net/url"
-)
-
-const (
-	textLengthLimit               = 75
-	valueLengthLimit              = 2000
-	urlLengthLimit                = 3000
-	AccessibilityLabelLengthLimit = 75
-)
 
 // Button as defined in slack
 type Button struct {
@@ -60,9 +53,9 @@ type Button struct {
 	actionId  string
 
 	// optionals
-	url                *url.URL
+	url                string
 	value              string
-	style              flocksofblocks.ColorSchema
+	style              ColorSchema
 	confirm            ConfirmationDialog
 	accessibilityLabel string
 
@@ -105,18 +98,18 @@ type buttonAbstraction struct {
 }
 
 func (b Button) Render() string {
-	return flocksofblocks.Render(b.abstraction())
+	return Render(b.abstraction())
 }
 
 // setUrl sets the url for the button.
 func (b *Button) setUrl(url *url.URL) {
-	b.url = url
+	b.url = url.String()
 	b.optionals.Url = true
 }
 
 // removeUrl removes the url from the button.
 func (b *Button) removeUrl() {
-	b.url = nil
+	b.url = ""
 	b.optionals.Url = false
 }
 
@@ -131,8 +124,8 @@ func (b *Button) removeValue() {
 	b.optionals.Value = true
 }
 
-func (b *Button) setStyle(style flocksofblocks.ColorSchema) {
-	if style == flocksofblocks.StyleDefault {
+func (b *Button) setStyle(style ColorSchema) {
+	if style == StyleDefault {
 		b.optionals.Style = false
 	} else {
 		b.style = style
@@ -205,7 +198,7 @@ type buttonConstructionOptions func(*Button)
 func (b *Button) abstraction() buttonAbstraction {
 	url := ""
 	if b.optionals.Url {
-		url = b.url.String()
+		url = b.url
 	}
 	return buttonAbstraction{
 		Type:               b.slackType.String(),
@@ -245,19 +238,19 @@ func (b Button) RemoveValue() Button {
 
 // MakeStylePrimary chain method that sets the style of the button to primary.
 func (b Button) MakeStylePrimary() Button {
-	b.setStyle(flocksofblocks.StylePrimary)
+	b.setStyle(StylePrimary)
 	return b
 }
 
 // MakeStyleDanger invoke option sets the style of the button to primary.
 func (b Button) MakeStyleDanger() Button {
-	b.setStyle(flocksofblocks.StyleDanger)
+	b.setStyle(StyleDanger)
 	return b
 }
 
 // MakeStyleDefault invoke option sets the style of the button to primary.
 func (b Button) MakeStyleDefault() Button {
-	b.setStyle(flocksofblocks.StyleDefault)
+	b.setStyle(StyleDefault)
 	return b
 }
 
@@ -285,9 +278,6 @@ func (b Button) RemoveAccessibilityLabel() Button {
 	b.optionals.AccessibilityLabel = false
 	return b
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 type Checkboxes struct {
 	slackType ElementType // required
@@ -393,7 +383,7 @@ func (c abstractCheckboxes) Template() string {
 
 // Render renders the checkboxes element to JSON.
 func (c Checkboxes) Render() string {
-	return flocksofblocks.Render(c.abstraction())
+	return Render(c.abstraction())
 }
 
 // AddOption add option to checkboxes
@@ -432,12 +422,6 @@ func (c Checkboxes) DisableFocusOnLoad() Checkboxes {
 	c.setFocusOnLoad(false)
 	return c
 }
-package flocksofblocks
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"time"
-)
 
 //InputElement
 
@@ -557,7 +541,7 @@ func (d abstractDatePicker) Template() string {
 
 // Render
 func (d DatePicker) Render() string {
-	return flocksofblocks.Render(d.abstraction())
+	return Render(d.abstraction())
 }
 
 // AddInitialDate chain function to add initial date to an existing date picker
@@ -607,13 +591,6 @@ func (d DatePicker) RemoveInitialFocus() DatePicker {
 	d.setFocus(false)
 	return d
 }
-package flocksofblocks
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"strconv"
-	"time"
-)
 
 type DateTimePicker struct {
 	slackType ElementType
@@ -741,7 +718,7 @@ func (d DateTimePicker) abstraction() abstractDateTimePicker {
 
 // Render renders the date picker to a JSON string.
 func (d DateTimePicker) Render() string {
-	return flocksofblocks.Render(d.abstraction())
+	return Render(d.abstraction())
 }
 
 // Template function
@@ -754,7 +731,6 @@ func (d abstractDateTimePicker) Template() string {
 		"focus_on_load": {{.FocusOnLoad}},{{end}}
 	}`
 }
-package flocksofblocks
 
 type EmailInput struct {
 	slackType ElementType
@@ -802,12 +778,6 @@ func (e *EmailInput) removeInitialEmail() {
 }
 
 // todo: email input not implemented yet
-package flocksofblocks
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"net/url"
-)
 
 type ImageElement struct {
 	slackType ElementType
@@ -860,11 +830,8 @@ func (i abstractImage) Template() string {
 
 // Render method
 func (i ImageElement) Render() string {
-	return flocksofblocks.Render(i.abstraction())
+	return Render(i.abstraction())
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -1136,7 +1103,7 @@ func (m MultiSelectMenuWithConversationsList) abstraction() multiSelectMenuWithC
 
 		// Conversation
 		DefaultToCurrentConversation: m.defaultToCurrentConversation,
-		InitialConversations:         flocksofblocks.removeDuplicateString(m.initialConversations),
+		InitialConversations:         removeDuplicateString(m.initialConversations),
 		Filter:                       m.filter,
 
 		Optionals: m.optionals,
@@ -1184,17 +1151,14 @@ func (m multiSelectMenuWithConversationsListAbstraction) Template() string {
 func (m MultiSelectMenuWithConversationsList) ElementRender() {}
 
 func (m MultiSelectMenuWithConversationsList) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m MultiSelectMenuWithConversationsList) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithConversationsList) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -1477,17 +1441,14 @@ func (m multiSelectMenuWithExternalDataSourceAbstraction) Template() string {
 func (m MultiSelectMenuWithExternalDataSource) ElementRender() {}
 
 func (m MultiSelectMenuWithExternalDataSource) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m MultiSelectMenuWithExternalDataSource) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithExternalDataSource) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -1713,7 +1674,7 @@ func (m MultiSelectMenuWithPublicChannelsSelect) abstraction() multiSelectMenuWi
 		Placeholder:      m.placeholder,
 
 		// Public Channel
-		InitialChannels: flocksofblocks.removeDuplicateString(m.initialChannels),
+		InitialChannels: removeDuplicateString(m.initialChannels),
 
 		Optionals: m.optionals,
 	}
@@ -1751,17 +1712,14 @@ func (m multiSelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 func (m MultiSelectMenuWithPublicChannelsSelect) ElementRender() {}
 
 func (m MultiSelectMenuWithPublicChannelsSelect) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m MultiSelectMenuWithPublicChannelsSelect) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithPublicChannelsSelect) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -2088,21 +2046,18 @@ func (m multiSelectMenuWithStaticOptionAbstraction) Template() string {
 
 // Render returns json string
 func (m MultiSelectMenuWithStaticOption) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 // ElementRender interface implementation
 func (m MultiSelectMenuWithStaticOption) ElementRender() {}
 
 // Section public section block
-func (m MultiSelectMenuWithStaticOption) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithStaticOption) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -2315,7 +2270,7 @@ func (m MultiSelectMenuWithUserList) abstraction() multiSelectMenuWithUserListAb
 		Placeholder:      m.placeholder,
 
 		// User List
-		InitialUsers: flocksofblocks.removeDuplicateString(m.initialUsers),
+		InitialUsers: removeDuplicateString(m.initialUsers),
 
 		Optionals: m.optionals,
 	}
@@ -2354,17 +2309,14 @@ func (m multiSelectMenuWithUserListAbstraction) Template() string {
 func (m MultiSelectMenuWithUserList) ElementRender() {}
 
 func (m MultiSelectMenuWithUserList) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m MultiSelectMenuWithUserList) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m MultiSelectMenuWithUserList) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 type NumberInput struct {
 	slackType        ElementType
@@ -2632,20 +2584,17 @@ func (n numberInputAbstraction) Template() string {
 
 // render public render
 func (n NumberInput) Render() string {
-	raw := flocksofblocks.Render(n.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(n.abstraction())
+	return Pretty(raw)
 }
 
 // element interface
 func (n NumberInput) InputElement() {}
 
 // Input
-func (n NumberInput) Input(label string) go_flocks_of_blocks.Input {
-	return go_flocks_of_blocks.NewInput(label, n)
+func (n NumberInput) Input(label string) Input {
+	return NewInput(label, n)
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 type OverflowMenu struct {
 	slackType ElementType
@@ -2777,12 +2726,9 @@ func (o overflowMenuAbstraction) Template() string {
 
 // Render
 func (o OverflowMenu) Render() string {
-	raw := flocksofblocks.Render(o.abstractOverflowMenu())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(o.abstractOverflowMenu())
+	return Pretty(raw)
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 //Plain TextInput
 // https://api.slack.com/reference/block-kit/block-elements#input
@@ -3068,12 +3014,9 @@ func (m plainTextInputAbstraction) Template() string {
 
 // Render
 func (m PlainTextInput) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 type RadioButton struct {
 	slackType ElementType
@@ -3267,8 +3210,8 @@ func (m RadioButton) abstraction() radioButtonAbstraction {
 
 // Render
 func (m RadioButton) Render() string {
-	output := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }
 
 // template
@@ -3292,9 +3235,6 @@ func (m radioButtonAbstraction) Template() string {
 {{end}}
 }`
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -3607,17 +3547,14 @@ func (m selectMenuWithConversationsListAbstraction) Template() string {
 func (m SelectMenuWithConversationsList) ElementRender() {}
 
 func (m SelectMenuWithConversationsList) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m SelectMenuWithConversationsList) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithConversationsList) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -3857,17 +3794,14 @@ func (m selectMenuWithExternalDataSourceAbstraction) Template() string {
 func (m SelectMenuWithExternalDataSource) ElementRender() {}
 
 func (m SelectMenuWithExternalDataSource) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m SelectMenuWithExternalDataSource) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithExternalDataSource) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -4114,17 +4048,14 @@ func (m SelectMenuWithPublicChannelsSelectAbstraction) Template() string {
 func (m SelectMenuWithPublicChannelsSelect) ElementRender() {}
 
 func (m SelectMenuWithPublicChannelsSelect) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m SelectMenuWithPublicChannelsSelect) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithPublicChannelsSelect) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -4419,21 +4350,18 @@ func (m SelectMenuWithStaticOptionAbstraction) Template() string {
 
 // Render returns json string
 func (m SelectMenuWithStaticOption) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
 // ElementRender
 func (m SelectMenuWithStaticOption) ElementRender() {}
 
 // SectionBlock public section block
-func (m SelectMenuWithStaticOption) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithStaticOption) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 // InputElement
 
@@ -4645,17 +4573,14 @@ func (m selectMenuWithUserListAbstraction) Template() string {
 func (m SelectMenuWithUserList) ElementRender() {}
 
 func (m SelectMenuWithUserList) Render() string {
-	raw := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(raw)
+	raw := Render(m.abstraction())
+	return Pretty(raw)
 }
 
-func (m SelectMenuWithUserList) Section() go_flocks_of_blocks.Section {
-	s := go_flocks_of_blocks.NewSection("newSection").AddAccessory(m)
+func (m SelectMenuWithUserList) Section() Section {
+	s := NewSection("newSection").AddAccessory(m)
 	return s
 }
-package flocksofblocks
-
-import "github.com/jeremyforan/go-flocks-of-blocks"
 
 type TimePicker struct {
 	slackType ElementType
@@ -4839,15 +4764,9 @@ func (m timePickerAbstract) Template() string {
 
 // Render public method
 func (m TimePicker) Render() string {
-	output := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }
-package flocksofblocks
-
-import (
-	"github.com/jeremyforan/go-flocks-of-blocks"
-	"net/url"
-)
 
 type URLInput struct {
 	slackType ElementType
@@ -5034,8 +4953,8 @@ func (m URLInput) abstraction() urlInputAbstraction {
 
 // Render method
 func (m URLInput) Render() string {
-	output := flocksofblocks.Render(m.abstraction())
-	return flocksofblocks.Pretty(output)
+	output := Render(m.abstraction())
+	return Pretty(output)
 }
 
 //////////////////////////////////////////////////
