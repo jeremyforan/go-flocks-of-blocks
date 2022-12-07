@@ -57,7 +57,7 @@ func (m Message) GenerateKitBuilderUrl() *url.URL {
 	compact := minify(m.Render())
 
 	//convert bytes to urlencoded string
-	encoded := url.QueryEscape(compact)
+	encoded := url.PathEscape(compact)
 
 	//build the url
 	url, err := url.Parse(slackKitBuilderApiUrl + "#" + encoded)
