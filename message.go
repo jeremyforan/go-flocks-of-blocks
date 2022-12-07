@@ -31,24 +31,35 @@ func (m Message) Render() string {
 	return Pretty(raw)
 }
 
-// AddBlock add a block to the message
+// AddBlock add a block to the message.
 func (m Message) AddBlock(block Block) Message {
 	m.Blocks = append(m.Blocks, block)
 	return m
 }
 
-// Generate Url for slack interactive building site
-func (m Message) GenerateKitBuilderUrl() *url.URL {
-	compact := bytes.NewBuffer([]byte{})
+// Stringer function which also parses the message to a pretty json format.
+func (m Message) String() string {
+	return m.Render()
+}
 
-	err := json.Compact(compact, []byte(m.Render()))
+func minify(s string) string {
+	var buff bytes.Buffer
+	err := json.Compact(&buff, []byte(s))
 	if err != nil {
-		return nil
+		return ""
 	}
+	return buff.String()
+}
+
+// GenerateKitBuilderUrl generates a url to the slack kit builder with the message block encoded in the url.
+// This is useful for testing and validation. The URL is https://app.slack.com/block-kit-builder/#<url-encoded-message>
+func (m Message) GenerateKitBuilderUrl() *url.URL {
+	compact := minify(m.Render())
 
 	//convert bytes to urlencoded string
-	encoded := url.QueryEscape(compact.String())
+	encoded := url.QueryEscape(compact)
 
+	//build the url
 	url, err := url.Parse(slackKitBuilderApiUrl + "#" + encoded)
 	if err != nil {
 		return nil
