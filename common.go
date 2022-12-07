@@ -6,9 +6,7 @@ import (
 	"text/template"
 )
 
-type optionalSetStates map[string]bool
-
-// ButtonStyle these relate to the three
+// ColorSchema is a string that represents a color schema
 type ColorSchema string
 
 // stringer

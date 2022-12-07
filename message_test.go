@@ -24,9 +24,9 @@ func TestMessage(t *testing.T) {
 
 		button := NewButton("Click This", "button1").MakeStyleDanger().AddUrl(url)
 
-		action := NewAction("Block").AddElement(button)
+		action := go_flocks_of_blocks.NewAction("Block").AddElement(button)
 
-		div := NewDividerBlock()
+		div := go_flocks_of_blocks.NewDividerBlock()
 
 		msg = msg.AddBlock(action).AddBlock(div)
 

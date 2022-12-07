@@ -12,7 +12,7 @@ const (
 )
 
 type Message struct {
-	Blocks []Block
+	Blocks []go_flocks_of_blocks.Block
 }
 
 // NewMessage Create a new message
@@ -33,7 +33,7 @@ func (m Message) Render() string {
 }
 
 // AddBlock add a block to the message
-func (m Message) AddBlock(block Block) Message {
+func (m Message) AddBlock(block go_flocks_of_blocks.Block) Message {
 	m.Blocks = append(m.Blocks, block)
 	return m
 }

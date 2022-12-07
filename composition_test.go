@@ -1,9 +1,33 @@
-package composition
+package flocksofblocks
 
 import (
 	"fmt"
 	"testing"
 )
+
+func TestNewConfirmationDialog(t *testing.T) {
+	t.Run("NewConfirmationDialog", func(t *testing.T) {
+		confirm := NewConfirmationDialog("title", "text", "confirm", "deny")
+		if confirm.Render() == "" {
+			t.Error("failed to render")
+		}
+
+		confirm = confirm.SetStyle(StylePrimary)
+		if confirm.Render() == "" {
+			t.Error("failed to render")
+		}
+		fmt.Println(confirm.Render())
+	})
+}
+
+func TestNewDispatchActionConfig(t *testing.T) {
+	t.Run("NewDispatchActionConfig", func(t *testing.T) {
+		dispatchActionConfig := NewDispatchActionConfig().OnEnterPressed().OnCharacterEntered()
+
+		output := dispatchActionConfig.Render()
+		fmt.Println(output)
+	})
+}
 
 const (
 	outputValidFilter = `"filter": {
