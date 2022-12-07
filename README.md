@@ -18,6 +18,50 @@ This package is in heavy flux at the moment as I work to incorporate feedback fr
 After building Slack bots in Go, I looked for a faster way of composing block messages. I started utilizing the Go templating library to build ad-hoc messages. This package provides an intuitive way of generating Slack messages using templates and a functional approach heavily inspired by the Charm
 
 
+# Installation
+
+```bash
+go get github.com/jeremyforan/go-flocks-of-blocks
+```
+
+## Usage
+
+### Basic Usage
+
+Build the [Plain Text](https://app.slack.com/block-kit-builder/#%7B%22blocks%22:%5B%7B%22type%22:%22section%22,%22text%22:%7B%22type%22:%22plain_text%22,%22text%22:%22This%20is%20a%20plain%20text%20section%20block.%22,%22emoji%22:true%7D%7D%5D%7D) example
+
+```go
+package main
+
+import (
+	"fmt"
+	fobs "github.com/jeremyforan/go-flocks-of-blocks"
+)
+
+func main() {
+	text := fobs.NewPlainText("This is a plain text section block.").EnableEmoji()
+	section := fobs.NewSection().SetText(text)
+	basic := fobs.NewMessage().AddBlock(section)
+
+	fmt.Println(basic)
+```
+Outputs:
+
+```bash
+{
+	"blocks": [
+		{
+			"type": "section",
+			"text": {
+				"type": "plain_text",
+				"text": "This is a plain text section block.",
+				"emoji": true
+			}
+		}
+	]
+}
+```
+
 # Philosophy
 Slack messages should be easy and fun to compose. Most Slack messages are simple and, as a result, less likely to violate any of Slack message's restrictions:
 > 	IE: Maximum length for this field is 255 characters.
@@ -46,17 +90,3 @@ There are three major phases to this project:
 ### 3) Version 1.1.x (Maintain)
 * Add component validation
 * Make a really great Logo. Like sticker worthy!
-
-# Documentation
-
-## Installation
-
-## Usage
-	
-	
-# Notes
-the slack reference page is missing a type for the Video block reference https://api.slack.com/reference/block-kit/blocks#video
-
-Extrnal data sources missing field options
-https://api.slack.com/reference/block-kit/block-elements#external_multi_select
-

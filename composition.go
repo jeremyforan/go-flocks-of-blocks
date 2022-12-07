@@ -13,6 +13,10 @@ func (c CompositionType) String() string {
 	return string(c)
 }
 
+func (c CompositionText) Section() Section {
+	return NewSection().SetText(c)
+}
+
 const (
 	PlainText CompositionType = "plain_text"
 	Mrkdwn    CompositionType = "mrkdwn"

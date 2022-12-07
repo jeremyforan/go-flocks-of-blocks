@@ -899,9 +899,14 @@ func (s Section) AddMrkdownField(field string) Section {
 }
 
 // setText
-func (s *Section) setText(text string) {
-	s.text = NewPlainText(text)
+func (s *Section) setText(text CompositionText) {
+	s.text = text
 	s.optionals.Text = true
+}
+
+func (s Section) SetText(text CompositionText) Section {
+	s.setText(text)
+	return s
 }
 
 // abstraction for the section block
