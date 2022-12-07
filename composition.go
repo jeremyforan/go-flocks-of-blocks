@@ -178,7 +178,7 @@ func (c confirmationDialogAbstraction) Template() string {
 	"text": {{.Text.Render}},
 	"confirm": {{.Confirm.Render}},
 	"deny": {{.Deny.Render}}
-{{if .Optional.Style}},	
+{{if .Optionals.Style}},	
 	"style": "{{.Style}}"
 {{end}}
 }`
@@ -439,7 +439,7 @@ type Option struct {
 	text  CompositionText
 	value string
 
-	// Optional
+	// Optionals
 	description CompositionText
 	url         url.URL
 
