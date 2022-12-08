@@ -83,7 +83,11 @@ func main() {
 
 Here is an exmaple 
 
-![real world example](https://github.com/jeremyforan//blob/[branch]/image.jpg?raw=true)
+![real world example](https://github.com/jeremyforan/go-flocks-of-blocks/blob/master/assets/real-world-1.png?raw=true)
+
+To build that you would write
+
+
 
 # Philosophy
 Slack messages should be easy and fun to compose. Most Slack messages are simple and, as a result, less likely to violate any of Slack message's restrictions:
