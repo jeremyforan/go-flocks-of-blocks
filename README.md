@@ -47,7 +47,7 @@ func main() {
 ```
 Outputs:
 
-```bash
+```json
 {
 	"blocks": [
 		{
