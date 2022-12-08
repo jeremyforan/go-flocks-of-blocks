@@ -83,9 +83,9 @@ func main() {
 
 Here is an Example 
 
-![real world example](https://github.com/jeremyforan/go-flocks-of-blocks/blob/master/assets/real-world-1.png?raw=true)
+![real world example](https://github.com/jeremyforan/go-flocks-of-blocks/blob/master/assets/real-world-1.png?raw=true | width=200)
 
-To build that you would write
+Composing the exmaple message:
 
 ```go
 package main
