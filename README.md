@@ -62,6 +62,29 @@ Outputs:
 }
 ```
 
+This can be condensed
+
+```go
+
+package main
+
+import (
+	"fmt"
+	fobs "github.com/jeremyforan/go-flocks-of-blocks"
+)
+
+func main() {
+	text := fobs.NewPlainText("This is a plain text section block.").EnableEmoji()
+	fmt.Println(fobs.NewMessage().AddBlock(text.Section()))
+}
+```
+
+### Real World Example
+
+Here is an exmaple 
+
+![real world example](https://github.com/jeremyforan//blob/[branch]/image.jpg?raw=true)
+
 # Philosophy
 Slack messages should be easy and fun to compose. Most Slack messages are simple and, as a result, less likely to violate any of Slack message's restrictions:
 > 	IE: Maximum length for this field is 255 characters.
