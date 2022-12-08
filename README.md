@@ -81,13 +81,60 @@ func main() {
 
 ### Real World Example
 
-Here is an exmaple 
+Here is an Example 
 
 ![real world example](https://github.com/jeremyforan/go-flocks-of-blocks/blob/master/assets/real-world-1.png?raw=true)
 
 To build that you would write
 
+```go
+package main
 
+import (
+	"fmt"
+	fobs "github.com/jeremyforan/go-flocks-of-blocks"
+)
+
+func main() {
+
+	// create a new message
+	msg := fobs.NewMessage()
+
+	// Add a header
+	header := fobs.NewHeader("Device Summary")
+	msg = msg.AddBlock(header)
+
+	// Add some info
+	info := fobs.NewSection().AddMrkdownField("*IP:* 192.168.0.1").AddMrkdownField("*Area:* basement")
+	msg = msg.AddBlock(info)
+
+	// Add some more info but in a single line
+	msg = msg.AddBlock(fobs.NewSection().AddMrkdownField("*Hardware:* Linksys WRT-54G").AddMrkdownField("*Uptime:* 7 Days, 3 Months"))
+
+	// Add the info message to
+	ssid := fobs.NewSection().AddMrkdownField("*SSID:* FreshPrinceOfDonair")
+	msg = msg.AddBlock(ssid)
+
+	// make a "reset" button
+	resetButton := fobs.NewButton("Reboot Device", "actionId-0").SetValue("click_me_123")
+
+	// Let's assume we want to add a note based on some arbitrary bool value
+	rfIssue := true
+	if rfIssue {
+		note := fobs.NewPlainText("*high levels of RF interference detected consider scan")
+		msg = msg.AddBlock(note.Context())
+
+		// We want to add the Danger styleing to the button due to the 'issue'
+		resetButton = resetButton.MakeStyleDanger()
+	}
+
+	// Add the reset button to the message
+	msg = msg.AddBlock(resetButton.Actions())
+
+	// Generate a link that paste the body into the Slack interactive Block Kit Builder for validation
+	fmt.Println(msg.GenerateKitBuilderUrl())
+}
+```
 
 # Philosophy
 Slack messages should be easy and fun to compose. Most Slack messages are simple and, as a result, less likely to violate any of Slack message's restrictions:
