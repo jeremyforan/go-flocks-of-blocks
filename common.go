@@ -24,7 +24,6 @@ func removeDuplicateString(strSlice []string) []string {
 	allKeys := make(map[string]bool)
 	var list []string
 	for _, item := range strSlice {
-		item := string(item)
 		if _, value := allKeys[item]; !value {
 			allKeys[item] = true
 			list = append(list, item)
