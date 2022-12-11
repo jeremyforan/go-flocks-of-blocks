@@ -8,7 +8,7 @@ import (
 
 func TestNewActionBlock(t *testing.T) {
 	t.Run("NewActionBlock", func(t *testing.T) {
-		action := NewAction("Block")
+		action := NewAction()
 
 		output := action.Render()
 		t.Log(output)

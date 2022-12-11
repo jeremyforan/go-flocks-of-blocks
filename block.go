@@ -37,106 +37,6 @@ func (i Input) BlockRender()   {}
 func (s Section) BlockRender() {}
 func (v Video) BlockRender()   {}
 
-type Actions struct {
-	slackType BlockType
-	elements  []Element
-	blockId   string
-
-	optionals actionOptions
-}
-
-func (b Button) Actions() Actions {
-	return NewAction().AddElement(b)
-}
-
-func NewAction() Actions {
-	return Actions{
-		slackType: ActionsBlock,
-		elements:  []Element{},
-		optionals: actionOptions{
-			blockId: false,
-		},
-	}
-}
-
-// SetBlockId sets the block id for the block.
-func (a *Actions) setBlockId(blockId string) {
-	a.blockId = blockId
-	a.optionals.blockId = true
-}
-
-func (a *Actions) removeBlockId() {
-	a.blockId = ""
-	a.optionals.blockId = false
-}
-
-func (a *Actions) addElement(element Element) {
-	a.elements = append(a.elements, element)
-}
-
-type actionOptions struct {
-	blockId bool
-}
-
-type actionAbstraction struct {
-	Type     string
-	Elements []Element
-	BlockId  string
-
-	Optionals actionOptions
-}
-
-// AddBlockId chain function to add block id to an existing action block
-func (a Actions) AddBlockId(blockId string) Actions {
-	a.setBlockId(blockId)
-	return a
-}
-
-// RemoveBlockId remove add block id from action block
-func (a Actions) RemoveBlockId() Actions {
-	a.removeBlockId()
-	return a
-}
-
-// AddElement Add element to existing action block.
-func (a Actions) AddElement(element Element) Actions {
-	a.addElement(element)
-	return a
-}
-
-// generate abstraction from action
-func (a Actions) abstraction() actionAbstraction {
-	return actionAbstraction{
-		Type:     string(a.slackType),
-		Elements: a.elements,
-		BlockId:  a.blockId,
-
-		Optionals: a.optionals,
-	}
-}
-
-func (a actionAbstraction) Template() string {
-	return `{
-"type": "{{.Type}}",
-	
-"elements": [{{range $index, $element := .Elements}}{{if $index}},{{end}}{{$element.Render}}{{end}}]
-
-{{if .BlockId}},
-	"block_id": "{{.BlockId}}"
-{{end}}
-}`
-}
-
-// Render the block
-func (a Actions) Render() string {
-	raw := Render(a.abstraction())
-	return Pretty(raw)
-}
-
-type ActionType interface {
-	Action()
-}
-
 ///////////////////////////////////////////
 // Context
 
@@ -1253,3 +1153,36 @@ func (v abstractionVideo) Template() string {
 {{end}}
 	}`
 }
+
+type Foo struct {
+	blockId
+	ActionId
+}
+
+// NewFoo
+func NewFoo() Foo {
+	return Foo{}
+}
+
+func (f Foo) SetBlockId(blockId string) Foo {
+	f.blockId.SetValue(blockId)
+	return f
+}
+
+func (f Foo) SetActionId(ActionId string) Foo {
+	f.ActionId.SetValue(ActionId)
+	return f
+}
+
+func (f Foo) Template() string {
+
+	return `{
+		{{range $index, $field := .FieldsNames}}{{if $index}},{{end}}{{ .$field}}{{end}}
+	}`
+}
+
+// {{define "stringField"}}
+// 		{{ if .set}}
+//			".name":".value"
+// 		{{end}}
+//{{end}}
