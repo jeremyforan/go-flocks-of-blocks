@@ -1154,33 +1154,6 @@ func (v abstractionVideo) Template() string {
 	}`
 }
 
-type Foo struct {
-	blockId
-	ActionId
-}
-
-// NewFoo
-func NewFoo() Foo {
-	return Foo{}
-}
-
-func (f Foo) SetBlockId(blockId string) Foo {
-	f.blockId.SetValue(blockId)
-	return f
-}
-
-func (f Foo) SetActionId(ActionId string) Foo {
-	f.ActionId.SetValue(ActionId)
-	return f
-}
-
-func (f Foo) Template() string {
-
-	return `{
-		{{range $index, $field := .FieldsNames}}{{if $index}},{{end}}{{ .$field}}{{end}}
-	}`
-}
-
 // {{define "stringField"}}
 // 		{{ if .set}}
 //			".name":".value"

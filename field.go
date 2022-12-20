@@ -16,7 +16,6 @@ import "fmt"
 //action_id
 //alt_text
 //author_name
-//block_id
 //external_id
 //initial_channel
 //initial_conversation
@@ -42,8 +41,22 @@ import "fmt"
 type fieldKey string
 
 const (
-	fieldBlockId  fieldKey = "block_id"
-	fieldActionId fieldKey = "action_id"
+	fieldBlockId             fieldKey = "block_id"
+	fieldActionId            fieldKey = "action_id"
+	fieldAccessibilityLabel  fieldKey = "accessibility_label"
+	fieldAltText             fieldKey = "alt_text"
+	fieldAuthorName          fieldKey = "author_name"
+	fieldExternalId          fieldKey = "external_id"
+	fieldInitialChannel      fieldKey = "initial_channel"
+	fieldInitialConversation fieldKey = "initial_conversation"
+	fieldInitialDate         fieldKey = "initial_date"
+	fieldInitialTime         fieldKey = "initial_time"
+	fieldInitialUser         fieldKey = "initial_user"
+	fieldInitialValue        fieldKey = "initial_value"
+	fieldProviderName        fieldKey = "provider_name"
+	fieldSource              fieldKey = "source"
+	fieldStyle               fieldKey = "style"
+	fieldText                fieldKey = "text"
 )
 
 type stringField struct {
@@ -75,23 +88,133 @@ func (s stringField) String() string {
 	return s.render()
 }
 
+func (s stringField) isSet() bool {
+	return s.set
+}
+
 // /////////////////////////////
 // BlockId sets the block id of the block
 
 type blockId struct {
 	stringField
 }
-
-func (f blockId) String() string {
-	f.stringField.SetName(fieldBlockId)
-	return f.stringField.String()
+type accessibilityLabel struct {
+	stringField
 }
-
-type ActionId struct {
+type actionId struct {
+	stringField
+}
+type altText struct {
+	stringField
+}
+type authorName struct {
+	stringField
+}
+type externalId struct {
+	stringField
+}
+type initialChannel struct {
+	stringField
+}
+type initialConversation struct {
+	stringField
+}
+type initialDate struct {
+	stringField
+}
+type initialTime struct {
+	stringField
+}
+type initialUser struct {
+	stringField
+}
+type initialValue struct {
+	stringField
+}
+type providerName struct {
+	stringField
+}
+type source struct {
+	stringField
+}
+type style struct {
+	stringField
+}
+type text struct {
 	stringField
 }
 
-func (f ActionId) String() string {
+func (f accessibilityLabel) String() string {
+	f.stringField.SetName(fieldAccessibilityLabel)
+	return f.stringField.String()
+}
+
+func (f actionId) String() string {
 	f.stringField.SetName(fieldActionId)
+	return f.stringField.String()
+}
+
+func (f altText) String() string {
+	f.stringField.SetName(fieldAltText)
+	return f.stringField.String()
+}
+
+func (f authorName) String() string {
+	f.stringField.SetName(fieldAuthorName)
+	return f.stringField.String()
+}
+
+func (f externalId) String() string {
+	f.stringField.SetName(fieldExternalId)
+	return f.stringField.String()
+}
+
+func (f initialChannel) String() string {
+	f.stringField.SetName(fieldInitialChannel)
+	return f.stringField.String()
+}
+
+func (f initialConversation) String() string {
+	f.stringField.SetName(fieldInitialConversation)
+	return f.stringField.String()
+}
+
+func (f initialDate) String() string {
+	f.stringField.SetName(fieldInitialDate)
+	return f.stringField.String()
+}
+
+func (f initialTime) String() string {
+	f.stringField.SetName(fieldInitialTime)
+	return f.stringField.String()
+}
+
+func (f initialUser) String() string {
+	f.stringField.SetName(fieldInitialUser)
+	return f.stringField.String()
+}
+
+func (f initialValue) String() string {
+	f.stringField.SetName(fieldInitialValue)
+	return f.stringField.String()
+}
+
+func (f providerName) String() string {
+	f.stringField.SetName(fieldProviderName)
+	return f.stringField.String()
+}
+
+func (f source) String() string {
+	f.stringField.SetName(fieldSource)
+	return f.stringField.String()
+}
+
+func (f style) String() string {
+	f.stringField.SetName(fieldStyle)
+	return f.stringField.String()
+}
+
+func (f text) String() string {
+	f.stringField.SetName(fieldText)
 	return f.stringField.String()
 }
