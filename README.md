@@ -6,6 +6,8 @@
 
 <a href="https://pkg.go.dev/github.com/jeremyforan/go-flocks-of-blocks"><img src="https://pkg.go.dev/badge/github.com/jeremyforan/go-flocks-of-blocks.svg" alt="Go Reference"></a>
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/jeremyforan/go-flocks-of-blocks)](https://goreportcard.com/report/github.com/jeremyforan/go-flocks-of-blocks)
+
 Flocks of Blocks is a Go library that helps compose Slack messages using the [Block Framework](https://api.slack.com/block-kit). 
 
 :warning: Warning
